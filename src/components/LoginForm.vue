@@ -30,16 +30,16 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
-body {
+* {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+}
+.container{
   width: 100vw;
-  font-family: "Rubik";
+  height: 100vh;
+  background-color: #baddf1;
+
+
 }
 .img{
   margin-top: 10rem;
@@ -47,8 +47,7 @@ body {
   flex-direction: column;
   width: 18rem;
   height: 18rem;
-  padding-left: 50px;
-  padding-top: 75px;
+
 }
 .center {
   margin-top: 10rem;
@@ -62,7 +61,7 @@ body {
   letter-spacing: 5px;
   margin-bottom: 60px;
   font-weight: bold;
- 
+
 }
 .center .inputbox {
   position: relative;
@@ -109,12 +108,7 @@ body {
 }
 
 
-.container{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #DFEDFA;
-}
+
 .block{
   position: absolute;
   display: flex;
