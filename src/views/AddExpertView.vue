@@ -1,142 +1,96 @@
 <template>
-  <small-button>ghjgggghjghjgghj</small-button>
-  <div class="container">
-    <img class="img" src="../assets/logo.jpg">
-    <div class="block">
-      <div class="bar"><h1>Добавьте эксперта</h1></div>
-      <img class="image" src="../assets/add_expert.jpg">
-      <button class="back">Назад</button>
-      <div class="center">
-        <form>
-          <div class="inputbox">
-            <input type="text" required="required">
-            <span>Имя</span>
-          </div>
-          <div class="inputbox">
-            <input type="text" required="required">
-            <span>Email</span>
-          </div>
-          <div class="inputbox">
-            <input type="password" required="required">
-            <span>Password</span>
-          </div>
-          <button>Добавить</button>
-        </form>
+
+  <modal-container show-header="true" header-title="Добавьте эксперта">
+    <div class="content">
+      <div class="mainBlock">
+      <img class="img" src="../assets/add_expert.jpg">
+      <div class="inputs">
+        <span class="defaultText">Имя</span>
+        <input type="text" required="required" class="default">
+        <span class="defaultText">Email</span>
+        <input type="text" required="required" class="default">
+        <span class="defaultText">Пароль</span>
+        <input type="password" required="required" class="default">
+      </div>
+      </div>
+      <div class="buttons">
+        <small-button>Назад</small-button>
+        <small-button>Добавить</small-button>
       </div>
     </div>
-  </div>
+
+
+  </modal-container>
+<!--    <div class="block">-->
+<!--      <div class="bar"><h1>Добавьте эксперта</h1></div>-->
+<!--      <img class="image" src="../assets/add_expert.jpg">-->
+<!--      <button class="back">Назад</button>-->
+<!--      <div class="center">-->
+<!--        <form>-->
+<!--          <div class="inputbox">-->
+<!--            <input type="text" required="required">-->
+<!--            <span>Имя</span>-->
+<!--          </div>-->
+<!--          <div class="inputbox">-->
+<!--            <input type="text" required="required">-->
+<!--            <span>Email</span>-->
+<!--          </div>-->
+<!--          <div class="inputbox">-->
+<!--            <input type="password" required="required">-->
+<!--            <span>Password</span>-->
+<!--          </div>-->
+<!--          <button>Добавить</button>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
 
 </template>
 
 <script>
 import SmallButton from "@/components/SmallButton.vue";
+import ModalContainer from "@/components/Modal.vue";
 
 export default {
   name: "AddExpert",
-  components: {SmallButton}
+  components: {ModalContainer, SmallButton}
 }
 </script>
 
 <style scoped>
-
-.container{
-  width: 100vw;
-  height: 100vh;
-  background: #DFEDFA;
-}
-.block{
-  position: absolute;
-
-
-  width: 930px;
-  height: 530px;
-  left: 420px;
-  top: 15%;
-
-  background: #FFFFFF;
-  border-radius: 20px;
-}
-.img {
-  position: absolute;
-  width: 245px;
-  height: 268px;
-  border-radius: 15px;
-  margin: 15px;
-}
-.image{
-  position: absolute;
-  width: 321px;
-  height: 369px;
-  top: 108px;
-  left: 60px;
-  border-radius: 100px;
-}
-.bar {
-  position: absolute;
-  width: 100%;
-  height: 10vh;
-  background: #3F55B1;
-  border-radius: 20px 20px 0px 0px;
-}
-
-h1{
-  text-align: center;
-  color: white;
-  font-size: 2.7rem;
-  font-weight: 300;
-  font-family: Rubik;
+.buttons{
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-
-.center h1 {
-  color: #000;
-  letter-spacing: 5px;
-  margin-bottom: 60px;
-  font-weight: bold;
-  padding-left: 10px;
+.img{
+  width: 30rem;
+  height: 30rem;
 }
-.center .inputbox {
-  position: relative;
-  width: 300px;
-  height: 50px;
-  margin-bottom: 50px;
+.inputs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
 }
-.center .inputbox input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  outline: none;
-  background: #D3D3D3;
-  padding: 10px;
+.default{
+  width: 30rem;
+  height: 2rem;
   border-radius: 100px;
-  font-size: 1.2em;
-}
-.center .inputbox:last-child {
-  margin-bottom: 0;
-}
-.center .inputbox span {
-  position: absolute;
-  top: 14px;
-  left: 20px;
-  font-size: 1em;
-  transition: 0.6s;
-  font-family: sans-serif;
-}
-.center .inputbox input:focus ~ span,
-.center .inputbox input:valid ~ span {
-  transform: translateX(-13px) translateY(-35px);
-  font-size: 1em;
-}
-.center .inputbox [type="button"] {
-  width: 50%;
-  color: #fff;
-  border: #fff;
-}
-.center .inputbox:hover [type="button"] {
-  background: linear-gradient(45deg, #3F55B1, blue);
-}
+  font-family: Rubik;
+  font-size: 1.2rem;
+  background-color: #f1e9e9;
+  padding: 0.5rem;
 
-
-
+}
+.defaultText{
+  font-family: Rubik;
+  font-size: 1.2rem;
+  margin: 0.3rem;
+}
+.mainBlock{
+  display: flex;
+  flex-direction: row;
+  gap: 10rem;
+}
 </style>

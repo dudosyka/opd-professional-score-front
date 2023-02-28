@@ -21,6 +21,6 @@ export default {
   border-radius: 10px;
   border: #3F55B1 solid 3px;
   margin: 1rem;
-
+  cursor: pointer;
 }
 </style>

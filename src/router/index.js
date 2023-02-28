@@ -4,6 +4,8 @@ import LoginView from "@/views/LoginView.vue";
 import ProfessionView from "@/views/ProfessionListView.vue";
 import MainView from "@/views/MainView.vue";
 import AddExpertView from "@/views/AddExpertView.vue";
+import ExpertListView from "@/views/ExpertListView.vue";
+import ChoiseView from "@/views/ChoiseView.vue";
 
 const routes = [
   {
@@ -28,6 +30,18 @@ const routes = [
     path: '/expert',
     name: 'expert',
     component: AddExpertView,
+    meta: {needAuth: true}
+  },
+  {
+    path: '/expertlist',
+    name: 'expertlist',
+    component: ExpertListView,
+    meta: {needAuth: true}
+  },
+  {
+    path: '/choise',
+    name: 'choise',
+    component: ChoiseView,
     meta: {needAuth: true}
   }
 ]

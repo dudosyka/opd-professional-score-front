@@ -32,6 +32,9 @@ export default {
     background: #FFFFFF;
     border-radius: 20px;
     align-self: center;
+    display: flex;
+    flex-direction: column;
+
   }
   .header {
     background: #3F55B1;
@@ -41,8 +44,11 @@ export default {
     padding: 2rem;
   }
   .modal-content {
+    overflow-y:auto;
     display: flex;
     align-self: center;
     justify-content: center;
+    width: 100%;
+
   }
 </style>
