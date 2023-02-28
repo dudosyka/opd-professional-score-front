@@ -53,7 +53,7 @@ export default {
   margin-bottom: 60px;
   font-weight: bold;
   font-family: Rubik;
-  
+
 
 }
 .center .inputbox {

@@ -1,20 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import LoginForm from "@/components/LoginForm.vue";
+import LoginView from "@/views/LoginView.vue";
 import ProfessionView from "@/views/ProfessionListView.vue";
-import MainPage from "@/components/MainPage.vue";
+import MainView from "@/views/MainView.vue";
+import AddExpertView from "@/views/AddExpertView.vue";
 
 const routes = [
   {
     path: '/',
     name: 'Main',
-    component: MainPage,
+    component: MainView,
     meta: { needAuth: true }
   },
   {
     path: '/auth',
     name: 'Login',
-    component: LoginForm,
+    component: LoginView,
     meta: { needAuth: false }
   },
   {
@@ -22,6 +23,12 @@ const routes = [
     name: 'profession',
     component: ProfessionView,
     meta: { needAuth: true }
+  },
+  {
+    path: '/expert',
+    name: 'expert',
+    component: AddExpertView,
+    meta: {needAuth: true}
   }
 ]
 
