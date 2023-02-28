@@ -14,12 +14,13 @@ export default {
 .cool{
   background-color: #3F55B1;
   width: 10vw;
-  height: 3vh;
+  height: 4vh;
   font-size: 1rem;
   color: #FFFFFF;
   font-family: Rubik;
-  border-radius: 20px;
+  border-radius: 10px;
   border: #3F55B1 solid 3px;
+  margin: 1rem;
 
 }
 </style>
