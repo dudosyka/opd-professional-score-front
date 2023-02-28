@@ -3,15 +3,15 @@
     <div class="center">
       <form>
         <div class="inputbox">
-          <input type="text" required="required">
+          <input v-model="credentials.login" type="text" required="required">
           <span>Email</span>
         </div>
         <div class="inputbox">
-          <input type="password" required="required">
+          <input v-model="credentials.password" type="password" required="required">
           <span>Password</span>
         </div>
         <div class="inputbox">
-          <input type="button" value="Войти">
+          <input @click="auth" type="button" value="Войти">
         </div>
       </form>
     </div>
@@ -20,10 +20,31 @@
 
 <script>
 import ModalContainer from '@/components/Modal.vue'
+import {AuthorizationModel} from "@/api/models/authorization.model";
 export default {
   name: "LoginForm",
   components: {
     ModalContainer
+  },
+  data() {
+    return {
+      credentials: {
+        login: "",
+        password: ""
+      }
+    }
+  },
+  methods: {
+    auth() {
+      const authModel = new AuthorizationModel();
+      authModel.auth(this.credentials).then(res => {
+        localStorage.setItem("token", res.token);
+        this.$router.push('/');
+      }).catch(err => {
+        console.log(err);
+        this.$store.dispatch('showPopUp', { text: "Ошибка! Неверный логин или пароль!", success: false })
+      })
+    }
   }
 }
 </script>
@@ -61,6 +82,7 @@ export default {
   width: 19rem;
   height: 3rem;
   margin-bottom: 3rem;
+  transition-duration: .3s;
 }
 .center .inputbox input {
   position: absolute;
@@ -73,6 +95,8 @@ export default {
   padding: 10px;
   border-radius: 100px;
   font-size: 1.2em;
+  transition-duration: .3s;
+  cursor: pointer;
 }
 .center .inputbox:last-child {
   margin-bottom: 0;

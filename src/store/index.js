@@ -6,6 +6,11 @@ export default createStore({
     selectedProfession: null,
     selectedPvk: [],
     selectedExpert: null,
+    popUp: {
+      show: false,
+      success: true,
+      text: 'string'
+    }
   },
   getters: {
     getSelectedProfession(state) {
@@ -16,6 +21,9 @@ export default createStore({
     },
     getSelectedExpert(state) {
       return state.selectedExpert;
+    },
+    popUp(state) {
+      return state.popUp;
     }
   },
   mutations: {
@@ -27,6 +35,16 @@ export default createStore({
     },
     setSelectedExpert(state, selectedExpert) {
       state.selectedExpert = selectedExpert;
+    },
+    showPopUp(state, { success, text }) {
+      state.popUp = {
+        show: true,
+        success,
+        text
+      }
+    },
+    closePopUp(state) {
+      state.popUp.show = false;
     }
   },
   actions: {
@@ -34,6 +52,12 @@ export default createStore({
       const professionModel = new ProfessionModel();
       commit('setSelectedProfession', await professionModel.getOne(professionId));
     },
+    async showPopUp({commit}, popUpData) {
+      commit('showPopUp', popUpData);
+      setTimeout(() => {
+        commit('closePopUp');
+      }, 1500);
+    }
   },
   modules: {
   }
