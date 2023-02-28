@@ -1,10 +1,17 @@
 <template>
+  <small-button>ghjgggghjghjgghj</small-button>
   <div class="container">
+    <img class="img" src="../assets/logo.jpg">
     <div class="block">
-      <img class="img" src="../assets/logo.jpg">
+      <div class="bar"><h1>Добавьте эксперта</h1></div>
+      <img class="image" src="../assets/add_expert.jpg">
+      <button class="back">Назад</button>
       <div class="center">
-        <h1>Вход</h1>
         <form>
+          <div class="inputbox">
+            <input type="text" required="required">
+            <span>Имя</span>
+          </div>
           <div class="inputbox">
             <input type="text" required="required">
             <span>Email</span>
@@ -13,70 +20,92 @@
             <input type="password" required="required">
             <span>Password</span>
           </div>
-          <div class="inputbox">
-            <input type="button" value="Войти">
-          </div>
+          <button>Добавить</button>
         </form>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
+import SmallButton from "@/components/SmallButton.vue";
+
 export default {
-  name: "LoginForm"
+  name: "AddExpert",
+  components: {SmallButton}
 }
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
-* {
-  margin: 0;
-  padding: 0;
-}
+
 .container{
   width: 100vw;
   height: 100vh;
-  background-color: #baddf1;
-
-
+  background: #DFEDFA;
 }
-.img{
-  margin-top: 10rem;
+.block{
+  position: absolute;
+
+
+  width: 930px;
+  height: 530px;
+  left: 420px;
+  top: 15%;
+
+  background: #FFFFFF;
+  border-radius: 20px;
+}
+.img {
+  position: absolute;
+  width: 245px;
+  height: 268px;
+  border-radius: 15px;
+  margin: 15px;
+}
+.image{
+  position: absolute;
+  width: 321px;
+  height: 369px;
+  top: 108px;
+  left: 60px;
+  border-radius: 100px;
+}
+.bar {
+  position: absolute;
+  width: 100%;
+  height: 10vh;
+  background: #3F55B1;
+  border-radius: 20px 20px 0px 0px;
+}
+
+h1{
+  text-align: center;
+  color: white;
+  font-size: 2.7rem;
+  font-weight: 300;
+  font-family: Rubik;
   display: flex;
-  flex-direction: column;
-  width: 18rem;
-  height: 18rem;
+}
 
-}
-.center {
-  margin-top: 10rem;
-  display: flex;
-  height: 25rem;
-  width: 25rem;
-  flex-direction: column;
-}
 .center h1 {
   color: #000;
   letter-spacing: 5px;
   margin-bottom: 60px;
   font-weight: bold;
-  font-family: Rubik;
-  
-
+  padding-left: 10px;
 }
 .center .inputbox {
   position: relative;
-  width: 19rem;
-  height: 3rem;
-  margin-bottom: 3rem;
+  width: 300px;
+  height: 50px;
+  margin-bottom: 50px;
 }
 .center .inputbox input {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  border: 2px solid #000;
   outline: none;
   background: #D3D3D3;
   padding: 10px;
@@ -101,26 +130,13 @@ export default {
 }
 .center .inputbox [type="button"] {
   width: 50%;
-  background: #3F55B1;
   color: #fff;
   border: #fff;
 }
 .center .inputbox:hover [type="button"] {
-  background: linear-gradient(45deg, greenyellow, dodgerblue);
+  background: linear-gradient(45deg, #3F55B1, blue);
 }
 
 
 
-.block{
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  width: 75%;
-  height: 75%;
-  top: 12.5%;
-  left: 12.5%;
-  background: #FFFFFF;
-  border-radius: 20px;
-  gap: 20rem;
-}
 </style>
