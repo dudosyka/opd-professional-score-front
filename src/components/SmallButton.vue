@@ -13,7 +13,9 @@ export default {
 <style scoped>
 .cool{
   background-color: #3F55B1;
-  width: 10vw;
+  min-width: 8vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
   height: 4vh;
   font-size: 1rem;
   color: #FFFFFF;

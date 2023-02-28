@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import LoginView from "@/views/LoginView.vue";
 import ProfessionView from "@/views/ProfessionListView.vue";
+import LoginView from "@/views/LoginView.vue";
 import MainView from "@/views/MainView.vue";
 import AddExpertView from "@/views/AddExpertView.vue";
 import ExpertListView from "@/views/ExpertListView.vue";
 import ChoiseView from "@/views/ChoiseView.vue";
+import ProfessionCreateView from "@/views/ProfessionCreateView.vue";
+import AssessmentList from "@/views/AssessmentResult.vue";
+import AssessmentResult from "@/views/AssessmentResult.vue";
 
 const routes = [
   {
@@ -24,6 +27,18 @@ const routes = [
     path: '/profession',
     name: 'profession',
     component: ProfessionView,
+    meta: { needAuth: true }
+  },
+  {
+    path: '/profession/add',
+    name: 'profession create',
+    component: ProfessionCreateView,
+    meta: { needAuth: true }
+  },
+  {
+    path: '/assessment/results',
+    name: 'Assessment result',
+    component: AssessmentResult,
     meta: { needAuth: true }
   },
   {

@@ -27,8 +27,8 @@ export default {
 
 <style scoped>
   .modal {
-    width: 75%;
-    height: 75%;
+    width: 75vw;
+    height: 75vh;
     background: #FFFFFF;
     border-radius: 20px;
     align-self: center;
@@ -44,11 +44,10 @@ export default {
     padding: 2rem;
   }
   .modal-content {
-    overflow-y:auto;
     display: flex;
     align-self: center;
     justify-content: center;
     width: 100%;
-
+    overflow-y: auto;
   }
 </style>

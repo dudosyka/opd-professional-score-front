@@ -1,57 +1,44 @@
 <template>
-  <div class="container">
-  <div class="block">
-    <img class="img" src="../assets/main.png">
-    <div class="center">
-      <button class="cool">Добавить профессию</button>
-      <button class="cool">Посмотреть результат</button>
-      <button class="cool">Редактировать список экспертов</button>
+  <ModalContainer>
+    <div class="content">
+      <img class="img" src="../assets/main.png">
+      <div class="center">
+        <button class="cool">Добавить профессию</button>
+        <button class="cool">Посмотреть результат</button>
+        <button class="cool">Редактировать список экспертов</button>
+      </div>
     </div>
-  </div>
-  </div>
+  </ModalContainer>
 </template>
 
 <script>
+import ModalContainer from "@/components/Modal.vue";
+
 export default {
-  name: "MainPage"
+  name: "MainPage",
+  components: {ModalContainer}
 }
 </script>
 
 <style scoped>
-.container{
-  width: 100vw;
-  height: 100vh;
-  background: #DFEDFA;
-  display: flex;
+.img{
+  height: 25rem;
+  width: 25rem;
 }
-.block{
-  position: fixed;
+.content {
   display: flex;
   flex-direction: row;
-  width: 75%;
-  height: 75%;
-  top: 12.5%;
-  left: 12.5%;
-  background: #FFFFFF;
-  border-radius: 20px;
   justify-content: space-around;
+  margin-top: 8rem;
+  gap: 12rem;
+  width: 100%;
 }
-.img{
-  height: 35rem;
-  width: 35rem;
-  justify-content: center;
-  justify-items: center;
-  justify-self: center;
-}
-
 .center {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: center;
-  height: 50vh;
-  width: 50vw;
 }
 
 .cool{
