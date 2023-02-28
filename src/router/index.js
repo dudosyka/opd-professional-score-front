@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import LoginForm from "@/components/LoginForm.vue";
-import ProfessionView from "@/views/ProfessionView.vue";
+import ProfessionView from "@/views/ProfessionListView.vue";
 import MainPage from "@/components/MainPage.vue";
 
 const routes = [

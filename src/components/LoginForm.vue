@@ -1,30 +1,30 @@
 <template>
-  <div class="container">
-    <div class="block">
-      <img class="img" src="../assets/logo.jpg">
-      <div class="center">
-        <h1>Вход</h1>
-        <form>
-          <div class="inputbox">
-            <input type="text" required="required">
-            <span>Email</span>
-          </div>
-          <div class="inputbox">
-            <input type="password" required="required">
-            <span>Password</span>
-          </div>
-          <div class="inputbox">
-            <input type="button" value="Войти">
-          </div>
-        </form>
-      </div>
+  <ModalContainer :show-header="true" header-title="Авторизация">
+    <div class="center">
+      <form>
+        <div class="inputbox">
+          <input type="text" required="required">
+          <span>Email</span>
+        </div>
+        <div class="inputbox">
+          <input type="password" required="required">
+          <span>Password</span>
+        </div>
+        <div class="inputbox">
+          <input type="button" value="Войти">
+        </div>
+      </form>
     </div>
-  </div>
+  </ModalContainer>
 </template>
 
 <script>
+import ModalContainer from '@/components/Modal.vue'
 export default {
-  name: "LoginForm"
+  name: "LoginForm",
+  components: {
+    ModalContainer
+  }
 }
 </script>
 
@@ -33,13 +33,6 @@ export default {
 * {
   margin: 0;
   padding: 0;
-}
-.container{
-  width: 100vw;
-  height: 100vh;
-  background-color: #baddf1;
-
-
 }
 .img{
   margin-top: 10rem;
@@ -52,8 +45,6 @@ export default {
 .center {
   margin-top: 10rem;
   display: flex;
-  height: 25rem;
-  width: 25rem;
   flex-direction: column;
 }
 .center h1 {
@@ -108,9 +99,6 @@ export default {
 .center .inputbox:hover [type="button"] {
   background: linear-gradient(45deg, greenyellow, dodgerblue);
 }
-
-
-
 .block{
   position: absolute;
   display: flex;
