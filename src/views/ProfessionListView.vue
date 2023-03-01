@@ -1,5 +1,5 @@
 <template>
-  <ModalContainer :show-header="true" header-title="Выбор профессии">
+  <ModalContainer :show-header="true" header-title="Список профессий">
     <div class="content">
       <main>
         <table>
@@ -20,6 +20,7 @@
         <SmallButton>Посмотреть общие результаты</SmallButton>
         <SmallButton @click="edit">Изменить</SmallButton>
         <SmallButton @click="remove">Удалить</SmallButton>
+        <SmallButton @click="add">Добавить профессию</SmallButton>
       </aside>
     </div>
   </ModalContainer>
@@ -51,6 +52,10 @@ export default {
     },
     select(key) {
       this.selectedProfessionKey = key;
+    },
+    add() {
+      this.$store.commit('setSelectedProfession', null);
+      this.$router.push('/profession/add')
     },
     edit() {
       this.$store.commit('setSelectedProfession', this.professions[this.selectedProfessionKey]);

@@ -28,7 +28,7 @@
   </table>
   <div class="buttons">
     <small-button>Назад</small-button>
-    <small-button>Добавить</small-button>
+    <small-button>Добавить эксперта</small-button>
   </div>
 </div>
 </modal-container>

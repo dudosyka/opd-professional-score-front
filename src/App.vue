@@ -6,8 +6,7 @@
         <summary></summary>
         <nav class="menu">
           <router-link to="/">Главная</router-link>
-          <router-link to="/profession/add">Добавить профессию</router-link>
-          <router-link to="/profession">Выбор профессии</router-link>
+          <router-link to="/profession">Список профессий</router-link>
           <router-link to="/expert">Список экспертов</router-link>
         </nav>
       </details>
@@ -24,6 +23,11 @@ export default {
   name: "App",
   components: {
     PopUp
+  },
+  methods: {
+    selectProf() {
+      this.$store.commit('setSelectedProfession', null);
+    }
   }
 }
 </script>
