@@ -3,17 +3,12 @@
   <div class="maincont">
   <p class="smallText">Установите характеристики в порядке важности</p>
   <table><tb><td><tr>
-    <th class="th-left">Характеристика</th>
-    <th class="th-right">Порядок</th>
+    <th class="th-left th-header">Характеристика</th>
+    <th class="th-right th-header">Порядок</th>
   </tr>
-    <tr><th class="th-left"></th><th class="th-right"><ArrowUpDown></ArrowUpDown></th></tr>
-    <tr><th class="th-left"></th><th class="th-right"><ArrowUpDown></ArrowUpDown></th></tr>
-    <tr><th class="th-left"></th><th class="th-right"><ArrowUpDown></ArrowUpDown></th></tr>
-    <tr><th class="th-left"></th><th class="th-right"><ArrowUpDown></ArrowUpDown></th></tr>
-    <tr><th class="th-left"></th><th class="th-right"><ArrowUpDown></ArrowUpDown></th></tr>
-    <tr><th class="th-left"></th><th class="th-right"><ArrowUpDown></ArrowUpDown></th></tr>
-    <tr><th class="th-left"></th><th class="th-right"><ArrowUpDown></ArrowUpDown></th></tr>
-    <tr><th class="th-last-left"></th><th class="th-right-last"><ArrowUpDown></ArrowUpDown></th></tr></td></tb>
+    <tr v-for="(p, k) in pvk"><th class="th-left">{{ p.name }}</th><th class="th-right"><ArrowUpDown @up="moveUp(k)" @down="moveDown(k)" /></th></tr>
+  </td>
+  </tb>
   </table>
     <div class="buttons">
       <small-button>Назад</small-button>
@@ -30,7 +25,68 @@ import SmallButton from "@/components/SmallButton.vue";
 
 export default {
   name: "ChoiseView",
-  components: {SmallButton, ArrowUpDown, ModalContainer}
+  components: {SmallButton, ArrowUpDown, ModalContainer},
+  data() {
+    return {
+      pvkList: [
+
+      ]
+    }
+  },
+  created() {
+    // this.pvkList = this.$store.getters.getSelectedPvk;
+    this.pvkList = [
+      {name: "first1", id: 1},
+      {name: "first2", id: 2},
+      {name: "first3", id: 3},
+      {name: "first4", id: 4},
+      {name: "first5", id: 5},
+      {name: "first6", id: 6},
+    ];
+
+    let serial = 0;
+    this.pvkList = this.pvkList.map(el => {
+      serial++;
+      return {
+        ...el,
+        serial
+      }
+    });
+  },
+  methods: {
+    find(serial) {
+      for (let i = 0; i < this.pvkList.length; i++) {
+        if (this.pvkList[i].serial == serial)
+          return i;
+      }
+      return false;
+    },
+    moveUp(key) {
+      const target = this.pvkList[key];
+      if (target.serial == 1)
+        return;
+      const newSerial = target.serial - 1;
+      const oldItem = this.find(newSerial);
+      this.pvkList[oldItem].serial++;
+      this.pvkList[key].serial--;
+    },
+    moveDown(key) {
+      const target = this.pvkList[key];
+      if (target.serial == this.pvkList.length)
+        return;
+      const newSerial = target.serial + 1;
+      const oldItem = this.find(newSerial);
+      this.pvkList[oldItem].serial--;
+      this.pvkList[key].serial++;
+    }
+  },
+  computed: {
+    pvk() {
+      return this.pvkList.sort((a, b) => {
+        return a.serial > b.serial;
+      })
+    }
+  }
 }
 </script>
 
@@ -49,30 +105,19 @@ table{
   border: 2px gray solid;
   border-radius: 25px;
 }
-.th-last{
-  width: 30rem;
-  height: 1.9rem;
-
-}
-.th-last-left{
-  width: 30rem;
-  height: 1.9rem;
-  border-right: 2px gray solid;
+.th-header {
+  font-size: 1.4rem !important;
 }
 .th-left{
   width: 30rem;
   height: 1.9rem;
+  font-size: 1.2rem;
   border-bottom: 2px gray solid;
   border-right: 2px gray solid;
 }
 .th-right{
   border-bottom: 2px gray solid;
-
   width: 8rem;
-  height: 1.9rem;
-}
-.th-right-last{
-  width: 7.5rem;
   height: 1.9rem;
 }
 .maincont{

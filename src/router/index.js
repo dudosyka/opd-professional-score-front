@@ -55,8 +55,8 @@ const routes = [
     meta: {needAuth: true}
   },
   {
-    path: '/choose',
-    name: 'choose',
+    path: '/assessment/ranking',
+    name: 'Assessment ranking',
     component: ChoiseView,
     meta: {needAuth: true}
   },
