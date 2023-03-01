@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import {ProfessionModel} from "@/api/models/profession.model";
+import {UserModel} from "@/api/models/user.model";
 
 export default createStore({
   state: {
@@ -10,9 +11,13 @@ export default createStore({
       show: false,
       success: true,
       text: 'string'
-    }
+    },
+    user: null
   },
   getters: {
+    getUserSt(state){
+      return state.user
+    },
     getSelectedProfession(state) {
       return state.selectedProfession;
     },
@@ -27,6 +32,9 @@ export default createStore({
     }
   },
   mutations: {
+    setUser(state,user){
+      state.user = user
+    },
     setSelectedProfession(state, profession) {
       state.selectedProfession = profession;
     },
@@ -57,6 +65,11 @@ export default createStore({
       setTimeout(() => {
         commit('closePopUp');
       }, 1500);
+    },
+    async getUser({commit}){
+      const curUser = await (new UserModel()).getCurrent()
+      curUser.role
+      commit('setUser', curUser.role)
     }
   },
   modules: {

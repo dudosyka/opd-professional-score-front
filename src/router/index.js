@@ -9,6 +9,7 @@ import ChoiseView from "@/views/ChoiseView.vue";
 import ProfessionCreateView from "@/views/ProfessionCreateView.vue";
 import AssessmentList from "@/views/AssessmentResult.vue";
 import AssessmentResult from "@/views/AssessmentResult.vue";
+import AllPvkView from "@/views/AllPvkView.vue";
 
 const routes = [
   {
@@ -57,6 +58,12 @@ const routes = [
     path: '/choise',
     name: 'choise',
     component: ChoiseView,
+    meta: {needAuth: true}
+  },
+  {
+    path: '/allpvk',
+    name: 'allpvk',
+    component: AllPvkView,
     meta: {needAuth: true}
   }
 ]

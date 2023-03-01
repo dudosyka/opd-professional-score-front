@@ -28,7 +28,7 @@ export class ApiResolverUtil {
     }
 
     request(method, path, data) {
-        const url = `${apiConf.url}/${this.endpoint}/path`;
+        const url = `${apiConf.url}/${this.endpoint}/${path}`;
         return axios({
             method,
             url,

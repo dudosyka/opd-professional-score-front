@@ -115,7 +115,7 @@ export default {
   font-size: 1em;
 }
 .center .inputbox [type="button"] {
-  width: 50%;
+  width: 20.5rem;
   background: #3F55B1;
   color: #fff;
   border: #fff;

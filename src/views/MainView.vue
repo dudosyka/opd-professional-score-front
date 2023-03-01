@@ -5,7 +5,8 @@
       <div class="center">
         <button class="cool">Добавить профессию</button>
         <button class="cool">Посмотреть результат</button>
-        <button class="cool">Редактировать список экспертов</button>
+        <button class="cool" v-if="this.role == 2">Редактировать список экспертов</button>
+        <button class="cool" @click="exit">Выход</button>
       </div>
     </div>
   </ModalContainer>
@@ -14,9 +15,27 @@
 <script>
 import ModalContainer from "@/components/Modal.vue";
 
+
 export default {
   name: "MainPage",
-  components: {ModalContainer}
+  components: {ModalContainer},
+  data(){
+    return{
+      role: null
+    }
+  },
+  async created() {
+
+    this.$store.dispatch('getUser').then(()=>this.role = this.$store.getters.getUserSt)
+  },
+  computed:{
+  },
+  methods:{
+    exit(){
+      localStorage.removeItem('token')
+      this.$router.push('/auth')
+    }
+  }
 }
 </script>
 

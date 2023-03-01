@@ -67,12 +67,11 @@ table{
 }
 .th-right{
   border-bottom: 2px gray solid;
-  border-left: 2px gray solid;
+
   width: 8rem;
   height: 1.9rem;
 }
 .th-right-last{
-  border-left: 2px gray solid;
   width: 7.5rem;
   height: 1.9rem;
 }
