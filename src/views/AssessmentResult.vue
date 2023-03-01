@@ -7,14 +7,9 @@
           <table class="table-experts"><tb><td><tr>
             <th class="th-left-experts">Эксперт</th>
             <th class="th-experts">Выбранные качества</th></tr>
-            <tr><th class="th-left-experts"></th><th class="th-experts"></th></tr>
-            <tr><th class="th-left-experts"></th><th class="th-experts"></th></tr>
-            <tr><th class="th-left-experts"></th><th class="th-experts"></th></tr>
-            <tr><th class="th-left-experts"></th><th class="th-experts"></th></tr>
-            <tr><th class="th-left-experts"></th><th class="th-experts"></th></tr>
-            <tr><th class="th-left-experts"></th><th class="th-experts"></th></tr>
-            <tr><th class="th-left-experts"></th><th class="th-experts"></th></tr>
-            <tr><th class="th-last-left-experts"></th><th class="th-last-experts"></th></tr></td></tb>
+            <tr v-for="(assessment, key) in fullList"><th class="th-left-experts">{{ assessment.expert }}</th><th class="th-experts">{{ assessment.value }}</th></tr>
+          </td>
+          </tb>
           </table>
         </aside>
         <aside class="right-side">
@@ -40,10 +35,40 @@
 <script>
 import ModalContainer from "@/components/Modal.vue";
 import SmallButton from "@/components/SmallButton.vue";
+import {AssessmentModel} from "@/api/models/assessment.model";
+import {UserModel} from "@/api/models/user.model";
 
 export default {
   name: "AssessmentList",
-  components: {SmallButton, ModalContainer}
+  components: {SmallButton, ModalContainer},
+  data() {
+    return {
+      assessments: [],
+      fullList: []
+    };
+  },
+  async created() {
+    const assessmentModel = new AssessmentModel();
+    const profession = this.$store.getters.getSelectedProfession;
+    console.log(profession.id);
+    this.assessments = await assessmentModel.getByProfession(profession.id)
+    this.assessments.map(async el => {
+      const userModel = new UserModel();
+      const user = await userModel.getOne(el.assessment.user_id);
+      console.log(user)
+      this.fullList.push({
+        expert: user.name,
+        value: ""
+      });
+      el.pvk.forEach(el => {
+        this.fullList.push({
+          expert: "",
+          value: el.name
+        })
+      })
+      console.log(el);
+    })
+  }
 }
 </script>
 
