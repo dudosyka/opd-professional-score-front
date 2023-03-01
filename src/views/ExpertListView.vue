@@ -84,16 +84,6 @@ table{
   border: 2px gray solid;
   border-radius: 25px;
 }
-.th-last{
-  width: 30rem;
-  height: 1.9rem;
-
-}
-.th-last-left{
-  width: 15rem;
-  height: 1.9rem;
-  border-right: 2px gray solid;
-}
 .th-left{
   width: 15rem;
   height: 1.9rem;
@@ -104,11 +94,6 @@ table{
   border-bottom: 2px gray solid;
   border-left: 2px gray solid;
   width: 8rem;
-  height: 1.9rem;
-}
-.th-right-last{
-  border-left: 2px gray solid;
-  width: 7.5rem;
   height: 1.9rem;
 }
 .th{
