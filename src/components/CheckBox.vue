@@ -1,13 +1,33 @@
 <template>
   <label class="container">
-    <input type="checkbox">
+    <input v-model="checkboxValue" @change="changed($event)" type="checkbox">
     <span class="checkmark"></span>
   </label>
 </template>
 
 <script>
 export default {
-  name: "CheckBox"
+  name: "CheckBox",
+  props: {
+    value: {
+      type: Boolean,
+      default: false,
+    }
+  },
+  data() {
+    return {
+      checkboxValue: false,
+    }
+  },
+  created() {
+    this.checkboxValue = this.value;
+  },
+  methods: {
+    changed(event) {
+      // this.$emit('change', event.target.value);
+      this.$emit('update:modelValue', event.target.value);
+    }
+  }
 }
 </script>
 
@@ -32,6 +52,7 @@ export default {
   cursor: pointer;
   height: 0;
   width: 0;
+
 }
 
 .checkmark {
@@ -41,6 +62,8 @@ export default {
   height: 25px;
   width: 25px;
   background-color: rgba(223, 237, 250, 0.94);
+  transition-duration: .2s;
+  border-radius: 5px;
 }
 
 .container:hover input ~ .checkmark {
