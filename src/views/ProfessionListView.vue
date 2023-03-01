@@ -16,8 +16,8 @@
         </table>
       </main>
       <aside class="right-side">
-        <SmallButton>Посмотреть свои ответы</SmallButton>
-        <SmallButton>Посмотреть общие результаты</SmallButton>
+        <SmallButton @click="$router.push('/assessment/choose')">Провести оценку</SmallButton>
+        <SmallButton @click="$router.push('/assessment/results')">Посмотреть результаты</SmallButton>
         <SmallButton @click="edit">Изменить</SmallButton>
         <SmallButton @click="remove">Удалить</SmallButton>
         <SmallButton @click="add">Добавить профессию</SmallButton>
@@ -51,17 +51,23 @@ export default {
       this.professions = await this.professionModel.getAll();
     },
     select(key) {
+      this.$store.commit('setSelectedProfession', this.professions[this.selectedProfessionKey]);
       this.selectedProfessionKey = key;
+    },
+    edit() {
+      if (this.selectedProfessionKey)
+        this.$router.push('/profession/add')
+      else
+        this.$store.dispatch('showPopUp', { success: false, text: 'Выберите профессию для изменения!' });
     },
     add() {
       this.$store.commit('setSelectedProfession', null);
       this.$router.push('/profession/add')
     },
-    edit() {
-      this.$store.commit('setSelectedProfession', this.professions[this.selectedProfessionKey]);
-      this.$router.push('/profession/add');
-    },
     remove() {
+      if (this.selectedProfessionKey == null)
+        return this.$store.dispatch('showPopUp', { success: false, text: 'Выберите профессию для удаления!' });
+
       this.professionModel.delete(this.professions[this.selectedProfessionKey].id).then(() => {
         this.$store.dispatch('showPopUp', { success: true, text: "Профессия успешно удалена!" });
         this.syncProfessionsList();

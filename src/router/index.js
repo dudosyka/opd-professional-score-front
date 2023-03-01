@@ -61,8 +61,8 @@ const routes = [
     meta: {needAuth: true}
   },
   {
-    path: '/allpvk',
-    name: 'allpvk',
+    path: '/assessment/choose',
+    name: 'Choose pvk',
     component: AllPvkView,
     meta: {needAuth: true}
   }

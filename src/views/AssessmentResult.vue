@@ -32,7 +32,7 @@
             <tr><th class="th-last-prof"></th></tr></td></tb></table>
         </aside>
       </div>
-      <SmallButton class="btn">Назад</SmallButton>
+      <SmallButton @click="$router.go(-1)" class="btn">Назад</SmallButton>
     </div>
   </ModalContainer>
 </template>

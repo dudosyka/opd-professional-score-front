@@ -15,8 +15,8 @@
         <tr><th class="th-last-left"></th><th class="th-right-last"><CheckBox></CheckBox></th></tr></td></tb>
       </table>
       <div class="buttons">
-        <small-button>Назад</small-button>
-        <small-button>Сохранить</small-button>
+        <small-button @click="$router.go(-1)">Назад</small-button>
+        <small-button>Далее</small-button>
       </div>
     </div>
   </modal-container>

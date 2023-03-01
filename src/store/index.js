@@ -68,7 +68,6 @@ export default createStore({
     },
     async getUser({commit}){
       const curUser = await (new UserModel()).getCurrent()
-      curUser.role
       commit('setUser', curUser.role)
     }
   },
