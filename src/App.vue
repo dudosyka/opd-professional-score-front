@@ -2,11 +2,11 @@
   <PopUp></PopUp>
   <main class="main">
     <div class="sidebar">
-      <Menu v-if="this.checkLocation">
+      <Menu v-if="this.$route.meta.needAuth">
         <template v-slot:first>
                     <router-link to="/" class="standart">Главная</router-link>
-                    <router-link to="/profession">Список профессий</router-link>
-                    <router-link to="/expert" v-if="role == 2">Список экспертов</router-link>
+                    <router-link to="/profession" class="standartFl">Список профессий</router-link>
+                    <router-link to="/expert" v-if="role == 2" class="standartFl">Список экспертов</router-link>
         </template>
       </Menu>
 <!--      <details>-->
@@ -17,6 +17,7 @@
 <!--          <router-link to="/expert">Список экспертов</router-link>-->
 <!--        </nav>-->
 <!--      </details>-->
+      <div></div>
       <img class="logo" alt="logo" src="./assets/logo.jpg">
     </div>
     <router-view />
@@ -77,7 +78,18 @@ export default {
   --cornerRad: 15px;
 }
 .standart{
-  margin-top: 3rem;
+  margin-top: 4rem;
+  color: #3F55B1;
+  font-family: Rubik;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+.standartFl{
+  margin-top: 1rem;
+  color: #3F55B1;
+  font-family: Rubik;
+  font-size: 1.2rem;
+  text-decoration: none;
 }
 body {
   background-color: #DFEDFA;
@@ -108,7 +120,6 @@ body {
   transition: filter 200ms linear 0s;
 }
 .logo {
-  /*margin-top: 40rem;*/
   max-width: 200px;
   border-radius: 10px;
 }
