@@ -6,7 +6,7 @@ import MainView from "@/views/MainView.vue";
 import AddExpertView from "@/views/ManageExpertView.vue";
 import ExpertListView from "@/views/ExpertListView.vue";
 import ChoiseView from "@/views/ChoiseView.vue";
-import ProfessionCreateView from "@/views/ProfessionCreateView.vue";
+import ProfessionCreateView from "@/views/ManageProfessionView.vue";
 import AssessmentList from "@/views/AssessmentResult.vue";
 import AssessmentResult from "@/views/AssessmentResult.vue";
 

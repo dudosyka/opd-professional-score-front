@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="buttons">
-        <small-button>Назад</small-button>
+        <small-button @click="back">Назад</small-button>
         <small-button @click="save">{{ expertOnEdit ? 'Сохранить' : 'Добавить' }}</small-button>
       </div>
     </div>
@@ -75,6 +75,11 @@ export default {
             this.$store.dispatch('showPopUp', { success: false, text: "Ошибка! Данные не сохранены!" })
         });;
       }
+      this.$store.commit('setSelectedExpert', null);
+    },
+    back() {
+      this.$store.commit('setSelectedProfession', null)
+      this.$router.go(-1);
     }
   }
 }

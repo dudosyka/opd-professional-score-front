@@ -61,8 +61,10 @@ export default {
           this.$store.dispatch('showPopUp', { success: false, text: "Ошибка! Данные не сохранены!" })
         });
       }
+      this.$store.commit('setSelectedProfession', null);
     },
     back() {
+      this.$store.commit('setSelectedProfession', null);
       this.$router.go(-1);
     }
   }
