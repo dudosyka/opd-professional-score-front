@@ -37,12 +37,6 @@ const routes = [
     meta: { needAuth: true }
   },
   {
-    path: '/assessment/results',
-    name: 'Assessment result',
-    component: AssessmentResult,
-    meta: { needAuth: true }
-  },
-  {
     path: '/expert/add',
     name: 'expert create',
     component: AddExpertView,
@@ -65,7 +59,13 @@ const routes = [
     name: 'Choose pvk',
     component: AllPvkView,
     meta: {needAuth: true}
-  }
+  },
+  {
+    path: '/assessment/results',
+    name: 'Assessment result',
+    component: AssessmentResult,
+    meta: { needAuth: true }
+  },
 ]
 
 const router = createRouter({

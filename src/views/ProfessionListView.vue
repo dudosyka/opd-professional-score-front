@@ -52,7 +52,7 @@ export default {
       this.professions = await this.professionModel.getAll();
     },
     select(key) {
-      this.$store.commit('setSelectedProfession', this.professions[this.selectedProfessionKey]);
+      this.$store.commit('setSelectedProfession', this.professions[key]);
       this.selectedProfessionKey = key;
     },
     edit() {
