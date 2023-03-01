@@ -18,8 +18,8 @@
           </th>
           <th class="th-right">
             <div class="table-cell">
-              <small-button @click="edit(key)">Изменить</small-button>
               <small-button @click="remove(key)">Удалить</small-button>
+              <small-button @click="edit(key)">Изменить</small-button>
             </div>
           </th>
         </tr>
