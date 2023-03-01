@@ -52,11 +52,14 @@ export default createStore({
       const professionModel = new ProfessionModel();
       commit('setSelectedProfession', await professionModel.getOne(professionId));
     },
-    async showPopUp({commit}, popUpData) {
-      commit('showPopUp', popUpData);
-      setTimeout(() => {
-        commit('closePopUp');
-      }, 1500);
+    showPopUp({commit}, popUpData) {
+      return new Promise(resolve => {
+        commit('showPopUp', popUpData);
+        setTimeout(() => {
+          commit('closePopUp');
+          resolve(true)
+        }, 1500);
+      });
     }
   },
   modules: {

@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ProfessionView from "@/views/ProfessionListView.vue";
 import LoginView from "@/views/LoginView.vue";
 import MainView from "@/views/MainView.vue";
-import AddExpertView from "@/views/AddExpertView.vue";
+import AddExpertView from "@/views/ManageExpertView.vue";
 import ExpertListView from "@/views/ExpertListView.vue";
 import ChoiseView from "@/views/ChoiseView.vue";
 import ProfessionCreateView from "@/views/ProfessionCreateView.vue";
@@ -42,20 +42,20 @@ const routes = [
     meta: { needAuth: true }
   },
   {
-    path: '/expert',
-    name: 'expert',
+    path: '/expert/add',
+    name: 'expert create',
     component: AddExpertView,
     meta: {needAuth: true}
   },
   {
-    path: '/expertlist',
-    name: 'expertlist',
+    path: '/expert',
+    name: 'expert list',
     component: ExpertListView,
     meta: {needAuth: true}
   },
   {
-    path: '/choise',
-    name: 'choise',
+    path: '/choose',
+    name: 'choose',
     component: ChoiseView,
     meta: {needAuth: true}
   }
