@@ -3,9 +3,9 @@
     <div class="content">
       <img class="img" src="../assets/main.png">
       <div class="center">
-        <button class="cool">Добавить профессию</button>
-        <button class="cool">Посмотреть результат</button>
-        <button class="cool">Редактировать список экспертов</button>
+        <button class="cool" @click="$router.push('/profession')">Результаты опросов</button>
+        <button class="cool" @click="$router.push('/expert')">Список экспертов</button>
+        <button class="cool">Выйти из аккаунта</button>
       </div>
     </div>
   </ModalContainer>
@@ -30,7 +30,7 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   margin-top: 8rem;
-  gap: 12rem;
+  gap: 5rem;
   width: 100%;
 }
 .center {

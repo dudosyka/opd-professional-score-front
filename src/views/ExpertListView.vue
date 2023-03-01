@@ -27,8 +27,8 @@
     </tb>
   </table>
   <div class="buttons">
-    <small-button>Назад</small-button>
-    <small-button>Добавить эксперта</small-button>
+    <small-button @click="back">Назад</small-button>
+    <small-button @click="add">Добавить эксперта</small-button>
   </div>
 </div>
 </modal-container>
@@ -67,6 +67,12 @@ export default {
         console.error({...err});
         this.$store.dispatch('showPopUp', { success: false, text: "Ошибка!" });
       });
+    },
+    add() {
+      this.$router.push('/expert/add');
+    },
+    back() {
+      this.$router.go(-1);
     }
   }
 }
