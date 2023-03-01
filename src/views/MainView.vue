@@ -4,7 +4,7 @@
       <img class="img" src="../assets/main.png">
       <div class="center">
         <button class="cool" @click="$router.push('/profession')">Результаты опросов</button>
-        <button class="cool" @click="$router.push('/expert')">Список экспертов</button>
+        <button class="cool" @click="$router.push('/expert')" v-if="role == 2">Список экспертов</button>
         <button class="cool" @click="exit">Выйти из аккаунта</button>
       </div>
     </div>
@@ -24,7 +24,6 @@ export default {
     }
   },
   async created() {
-
     this.$store.dispatch('getUser').then(()=>this.role = this.$store.getters.getUserSt)
   },
   computed:{

@@ -7,7 +7,7 @@
         <tr>
           <th class="th-left">Эксперт</th>
           <th class="th">Email</th>
-          <th class="th-right"></th>
+          <th class="th-right" v-if="this.role == 2"></th>
         </tr>
         <tr v-for="(expert, key) in experts">
           <th class="th-left">
@@ -45,11 +45,13 @@ export default {
     return {
       experts: [],
       userModel: null,
+      role: null
     }
   },
   created() {
     this.userModel = new UserModel();
     this.syncExpertList();
+    this.$store.dispatch('getUser').then(()=>this.role = this.$store.getters.getUserSt)
   },
   methods: {
     async syncExpertList() {

@@ -2,14 +2,21 @@
   <PopUp></PopUp>
   <main class="main">
     <div class="sidebar">
-      <details>
-        <summary></summary>
-        <nav class="menu">
-          <router-link to="/">Главная</router-link>
-          <router-link to="/profession">Список профессий</router-link>
-          <router-link to="/expert">Список экспертов</router-link>
-        </nav>
-      </details>
+      <Menu v-if="this.checkLocation">
+        <template v-slot:first>
+                    <router-link to="/" class="standart">Главная</router-link>
+                    <router-link to="/profession">Список профессий</router-link>
+                    <router-link to="/expert" v-if="role == 2">Список экспертов</router-link>
+        </template>
+      </Menu>
+<!--      <details>-->
+<!--        <summary></summary>-->
+<!--        <nav class="menu">-->
+<!--          <router-link to="/">Главная</router-link>-->
+<!--          <router-link to="/profession">Список профессий</router-link>-->
+<!--          <router-link to="/expert">Список экспертов</router-link>-->
+<!--        </nav>-->
+<!--      </details>-->
       <img class="logo" alt="logo" src="./assets/logo.jpg">
     </div>
     <router-view />
@@ -19,15 +26,35 @@
 
 <script>
 import PopUp from "@/components/PopUp.vue";
+import Menu from "@/components/Menu.vue";
 export default {
   name: "App",
   components: {
+    Menu,
     PopUp
+  },
+  data(){
+    return{
+      checkLocation: true,
+      role:null
+    }
   },
   methods: {
     selectProf() {
       this.$store.commit('setSelectedProfession', null);
     }
+  },
+  async created() {
+    this.$store.dispatch('getUser').then(()=>this.role = this.$store.getters.getUserSt)
+    this.$watch(
+        () => this.$route.params,
+        (toParams, previousParams) => {
+          if (toParams.after === '/auth')
+            this.checkLocation = false
+        }
+    )
+  },
+  computed:{
   }
 }
 </script>
@@ -38,11 +65,19 @@ export default {
   margin: 0;
   padding: 0;
   font-family: Rubik,serif;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 :root {
   --primColor: #3F55B1;
   --secoColor: #FFFFFF;
   --cornerRad: 15px;
+}
+.standart{
+  margin-top: 3rem;
 }
 body {
   background-color: #DFEDFA;
@@ -73,6 +108,7 @@ body {
   transition: filter 200ms linear 0s;
 }
 .logo {
+  /*margin-top: 40rem;*/
   max-width: 200px;
   border-radius: 10px;
 }

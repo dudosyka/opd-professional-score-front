@@ -21,6 +21,7 @@
         <SmallButton @click="edit">Изменить</SmallButton>
         <SmallButton @click="remove">Удалить</SmallButton>
         <SmallButton @click="add">Добавить профессию</SmallButton>
+<!--        <small-button @click="back">Назад</small-button>-->
       </aside>
     </div>
   </ModalContainer>
@@ -74,7 +75,10 @@ export default {
       }).catch(() => {
         this.$store.dispatch('showPopUp', { success: false, text: "Профессия успешно удалена!" });
       })
-    }
+    },
+    // back() {
+    //   this.$router.go(-1);
+    // }
   }
 }
 </script>
