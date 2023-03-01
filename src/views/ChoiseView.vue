@@ -11,8 +11,8 @@
   </tb>
   </table>
     <div class="buttons">
-      <small-button>Назад</small-button>
-      <small-button>Сохранить</small-button>
+      <small-button @click="$router.go(-1)">Назад</small-button>
+      <small-button @click="save">Сохранить</small-button>
     </div>
   </div>
 </modal-container>
@@ -22,27 +22,18 @@
 import ModalContainer from "@/components/Modal.vue";
 import ArrowUpDown from "@/components/ArrowUpDown.vue";
 import SmallButton from "@/components/SmallButton.vue";
+import {AssessmentModel} from "@/api/models/assessment.model";
 
 export default {
   name: "ChoiseView",
   components: {SmallButton, ArrowUpDown, ModalContainer},
   data() {
     return {
-      pvkList: [
-
-      ]
+      pvkList: []
     }
   },
   created() {
-    // this.pvkList = this.$store.getters.getSelectedPvk;
-    this.pvkList = [
-      {name: "first1", id: 1},
-      {name: "first2", id: 2},
-      {name: "first3", id: 3},
-      {name: "first4", id: 4},
-      {name: "first5", id: 5},
-      {name: "first6", id: 6},
-    ];
+    this.pvkList = this.$store.getters.getSelectedPvk;
 
     let serial = 0;
     this.pvkList = this.pvkList.map(el => {
@@ -78,6 +69,26 @@ export default {
       const oldItem = this.find(newSerial);
       this.pvkList[oldItem].serial--;
       this.pvkList[key].serial++;
+    },
+    save() {
+      const profession_id = this.$store.getters.getSelectedProfession.id;
+      const pvk = this.pvk.map(el => {
+        return {
+          pvk_id: el.id,
+          grade: el.serial
+        }
+      });
+      const assessmentModel = new AssessmentModel();
+      assessmentModel.create({
+        profession_id: parseInt(profession_id),
+        pvk
+      }).then(() => {
+        this.$store.dispatch('showPopUp', { success: true, text: "Данные вашей оценки сохранены!" })
+      }).catch(err => {
+        console.log(err.method);
+        console.log(err.data); //{"profession_id":3,"pvk":[{"pvk_id":1,"grade":1},{"pvk_id":2,"grade":2},{"pvk_id":3,"grade":3},{"pvk_id":4,"grade":4},{"pvk_id":5,"grade":5}]}
+        console.log(...err);
+      });
     }
   },
   computed: {

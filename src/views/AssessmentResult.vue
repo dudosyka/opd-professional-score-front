@@ -40,10 +40,23 @@
 <script>
 import ModalContainer from "@/components/Modal.vue";
 import SmallButton from "@/components/SmallButton.vue";
+import {AssessmentModel} from "@/api/models/assessment.model";
 
 export default {
   name: "AssessmentList",
-  components: {SmallButton, ModalContainer}
+  components: {SmallButton, ModalContainer},
+  data() {
+    return {
+      assessment: []
+    };
+  },
+  async created() {
+    const assessmentModel = new AssessmentModel();
+    const profession = this.$store.getters.getSelectedProfession;
+    console.log(profession.id)
+    this.assessment = await assessmentModel.getByProfession(profession.id)
+    console.log(this.assessment)
+  }
 }
 </script>
 

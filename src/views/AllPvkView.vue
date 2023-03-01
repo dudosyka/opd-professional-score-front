@@ -14,7 +14,7 @@
       </tb>
       </table>
       <div class="buttons">
-        <small-button @click="$router.go(-1)">Назад</small-button>
+        <small-button @click="back">Назад</small-button>
         <small-button @click="next">Далее</small-button>
       </div>
     </div>
@@ -40,6 +40,10 @@ export default {
     this.pvkList = await (new PvkModel()).getAll();
   },
   methods: {
+    back() {
+      this.$store.commit('setSelectedPvk', []);
+      this.$router.go(-1)
+    },
     next() {
       console.log(this.selected);
       if (this.selected.length < 5) {
