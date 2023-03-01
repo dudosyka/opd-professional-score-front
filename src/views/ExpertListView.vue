@@ -1,23 +1,34 @@
 <template>
 <modal-container header-title="Список экспертов" show-header="true">
 <div class="content">
-  <table><tb><td><tr>
-    <th class="th-left">Эксперт</th>
-    <th class="th">Email</th>
-    <th class="th-right">подтверждение</th>
-  </tr>
-    <tr><th class="th-left"></th><th class="th"></th><th class="th-right"><small-button>Изменить</small-button></th></tr>
-    <tr><th class="th-left"></th><th class="th"></th><th class="th-right"><small-button>Изменить</small-button></th></tr>
-    <tr><th class="th-left"></th><th class="th"></th><th class="th-right"><small-button>Изменить</small-button></th></tr>
-    <tr><th class="th-left"></th><th class="th"></th><th class="th-right"><small-button>Изменить</small-button></th></tr>
-    <tr><th class="th-left"></th><th class="th"></th><th class="th-right"><small-button>Изменить</small-button></th></tr>
-    <tr><th class="th-left"></th><th class="th"></th><th class="th-right"><small-button>Изменить</small-button></th></tr>
-    <tr><th class="th-left"></th><th class="th"></th><th class="th-right"><small-button>Изменить</small-button></th></tr>
-    <tr><th class="th-last-left"></th><th class="th-last"></th><th class="th-right-last"></th></tr></td></tb>
+  <table>
+    <tb>
+      <td>
+        <tr>
+          <th class="th-left">Эксперт</th>
+          <th class="th">Email</th>
+          <th class="th-right"></th>
+        </tr>
+        <tr v-for="(expert, key) in experts">
+          <th class="th-left">
+            {{ expert.name }}
+          </th>
+          <th class="th">
+            {{ expert.login }}
+          </th>
+          <th class="th-right">
+            <div class="table-cell">
+              <small-button @click="edit(key)">Изменить</small-button>
+              <small-button @click="remove(key)">Удалить</small-button>
+            </div>
+          </th>
+        </tr>
+      </td>
+    </tb>
   </table>
   <div class="buttons">
-    <small-button>Назад</small-button>
-    <small-button>Добавить</small-button>
+    <small-button @click="back">Назад</small-button>
+    <small-button @click="add">Добавить эксперта</small-button>
   </div>
 </div>
 </modal-container>
@@ -26,9 +37,44 @@
 <script>
 import ModalContainer from "@/components/Modal.vue";
 import SmallButton from "@/components/SmallButton.vue";
+import {UserModel} from "@/api/models/user.model";
 export default {
   name: "ExpertListView",
-  components: {ModalContainer,SmallButton}
+  components: {ModalContainer,SmallButton},
+  data() {
+    return {
+      experts: [],
+      userModel: null,
+    }
+  },
+  created() {
+    this.userModel = new UserModel();
+    this.syncExpertList();
+  },
+  methods: {
+    async syncExpertList() {
+      this.experts = await this.userModel.getAll();
+    },
+    edit(key) {
+      this.$store.commit('setSelectedExpert', this.experts[key])
+      this.$router.push('/expert/add');
+    },
+    remove(key) {
+      this.userModel.delete(this.experts[key].id).then(() => {
+        this.$store.dispatch('showPopUp', { success: true, text: 'Эксперт успешно удален!' });
+        this.syncExpertList()
+      }).catch(err => {
+        console.error({...err});
+        this.$store.dispatch('showPopUp', { success: false, text: "Ошибка!" });
+      });
+    },
+    add() {
+      this.$router.push('/expert/add');
+    },
+    back() {
+      this.$router.go(-1);
+    }
+  }
 }
 </script>
 
@@ -44,16 +90,6 @@ table{
   border: 2px gray solid;
   border-radius: 25px;
 }
-.th-last{
-  width: 30rem;
-  height: 1.9rem;
-
-}
-.th-last-left{
-  width: 15rem;
-  height: 1.9rem;
-  border-right: 2px gray solid;
-}
 .th-left{
   width: 15rem;
   height: 1.9rem;
@@ -66,11 +102,6 @@ table{
   width: 8rem;
   height: 1.9rem;
 }
-.th-right-last{
-  border-left: 2px gray solid;
-  width: 7.5rem;
-  height: 1.9rem;
-}
 .th{
   font-family: Rubik;
   font-size: 1rem;
@@ -81,5 +112,8 @@ table{
   height: 1.9rem;
   border-bottom: 2px gray solid;
 }
-
+.table-cell {
+  display: flex;
+  flex-direction: row;
+}
 </style>

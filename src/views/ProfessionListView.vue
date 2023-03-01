@@ -1,24 +1,26 @@
 <template>
-  <ModalContainer :show-header="true" header-title="Выбор профессии">
+  <ModalContainer :show-header="true" header-title="Список профессий">
     <div class="content">
-      <aside class="left-side">
-        <SmallButton>Посмотреть общие результаты</SmallButton>
-        <SmallButton>Назад</SmallButton>
-      </aside>
       <main>
-        <table><tb><td><tr><th class="th-first"></th></tr>
-          <tr><th class="th"></th></tr>
-          <tr><th class="th"></th></tr>
-          <tr><th class="th"></th></tr>
-          <tr><th class="th"></th></tr>
-          <tr><th class="th"></th></tr>
-          <tr><th class="th"></th></tr>
-          <tr><th class="th"></th></tr>
-          <tr><th class="th-last"></th></tr></td></tb></table>
+        <table>
+          <tb>
+            <td>
+              <tr>
+                <th class="th-first">Название</th>
+              </tr>
+              <tr @click="select(key)" :class="{'active': key == selectedProfessionKey}" v-for="(profession, key) in professions">
+                <th class="th">{{ profession.name }}</th>
+              </tr>
+            </td>
+          </tb>
+        </table>
       </main>
       <aside class="right-side">
         <SmallButton>Посмотреть свои ответы</SmallButton>
-        <SmallButton>Изменить</SmallButton>
+        <SmallButton>Посмотреть общие результаты</SmallButton>
+        <SmallButton @click="edit">Изменить</SmallButton>
+        <SmallButton @click="remove">Удалить</SmallButton>
+        <SmallButton @click="add">Добавить профессию</SmallButton>
       </aside>
     </div>
   </ModalContainer>
@@ -27,10 +29,47 @@
 <script>
 import ModalContainer from "@/components/Modal.vue";
 import SmallButton from "@/components/SmallButton.vue";
+import {ProfessionModel} from "@/api/models/profession.model";
 
 export default {
   name: "ProfessionView",
-  components: {SmallButton, ModalContainer}
+  components: {SmallButton, ModalContainer},
+  data() {
+    return {
+      professionModel: null,
+      professions: [],
+      selectedProfession: null,
+      selectedProfessionKey: null
+    };
+  },
+  created() {
+    this.professionModel = new ProfessionModel();
+    this.syncProfessionsList();
+  },
+  methods: {
+    async syncProfessionsList() {
+      this.professions = await this.professionModel.getAll();
+    },
+    select(key) {
+      this.selectedProfessionKey = key;
+    },
+    add() {
+      this.$store.commit('setSelectedProfession', null);
+      this.$router.push('/profession/add')
+    },
+    edit() {
+      this.$store.commit('setSelectedProfession', this.professions[this.selectedProfessionKey]);
+      this.$router.push('/profession/add');
+    },
+    remove() {
+      this.professionModel.delete(this.professions[this.selectedProfessionKey].id).then(() => {
+        this.$store.dispatch('showPopUp', { success: true, text: "Профессия успешно удалена!" });
+        this.syncProfessionsList();
+      }).catch(() => {
+        this.$store.dispatch('showPopUp', { success: false, text: "Профессия успешно удалена!" });
+      })
+    }
+  }
 }
 </script>
 
@@ -46,10 +85,6 @@ export default {
   aside {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    align-content: center;
-    align-self: center;
-    justify-content: space-between;
     height: 50vh;
   }
 
@@ -58,18 +93,22 @@ export default {
     border: 2px gray solid;
     border-radius: 25px;
   }
-  .th-last{
+  .th-first{
     width: 400px;
     height: 30px;
-
+    font-size: 1.5rem;
+    border-bottom: 2px gray solid;
+    padding-bottom: .5rem;
   }
   .th{
     width: 400px;
     height: 30px;
     border-bottom: 2px gray solid;
-
+    cursor: pointer;
   }
-
+  .active {
+    background: #a2a2a2;
+  }
 
 
 </style>

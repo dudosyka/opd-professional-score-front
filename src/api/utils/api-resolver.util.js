@@ -22,23 +22,25 @@ export class ApiResolverUtil {
             }
        }).then(res => {
            return res.data;
-       }).catch(() => {
-           throw new FailedRequestException(url, this.endpoint, method, data, null);
+       }).catch(err => {
+           throw new FailedRequestException(url, this.endpoint, method, data, null, err.response.status);
        })
     }
 
     request(method, path, data) {
         const url = `${apiConf.url}/${this.endpoint}/${path}`;
-        return axios({
+        const options = {
             method,
             url,
-            data,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.bearer}`
             }
-        }).then(res => res.data).catch(() => {
-            throw new FailedRequestException(url, this.endpoint, method, data, this.bearer);
+        };
+        if (data)
+            options.data = data;
+        return axios(options).then(res => res.data).catch(err => {
+            throw new FailedRequestException(url, this.endpoint, method, data, this.bearer, err.response.status);
         })
     }
 }
