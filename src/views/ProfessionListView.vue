@@ -56,7 +56,7 @@ export default {
       this.selectedProfessionKey = key;
     },
     edit() {
-      if (this.selectedProfessionKey)
+      if (this.selectedProfessionKey !== null)
         this.$router.push('/profession/add')
       else
         this.$store.dispatch('showPopUp', { success: false, text: 'Выберите профессию для изменения!' });
@@ -66,7 +66,7 @@ export default {
       this.$router.push('/profession/add')
     },
     remove() {
-      if (this.selectedProfessionKey == null)
+      if (this.selectedProfessionKey !== null)
         return this.$store.dispatch('showPopUp', { success: false, text: 'Выберите профессию для удаления!' });
 
       this.professionModel.delete(this.professions[this.selectedProfessionKey].id).then(() => {
