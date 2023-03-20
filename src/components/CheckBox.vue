@@ -1,6 +1,6 @@
 <template>
   <label class="container">
-    <input v-model="checkboxValue" @change="changed($event)" type="checkbox">
+    <input v-model="checkboxValue" type="checkbox">
     <span class="checkmark"></span>
   </label>
 </template>
@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     changed(event) {
-      // this.$emit('change', event.target.value);
       this.$emit('update:modelValue', event.target.value);
     }
   }
@@ -34,10 +33,6 @@ export default {
 <style scoped>
 .container {
   display: block;
-  position: fixed;
-  padding-left: 35px;
-  margin-left: 50px;
-  margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
   -webkit-user-select: none;
@@ -47,20 +42,15 @@ export default {
 }
 
 .container input {
-  position: absolute;
-  opacity: 0;
   cursor: pointer;
-  height: 0;
-  width: 0;
+  width: 2rem;
+  height: 2rem;
 
 }
 
 .checkmark {
-  position: absolute;
   top: 0;
   left: 0;
-  height: 25px;
-  width: 25px;
   background-color: rgba(223, 237, 250, 0.94);
   transition-duration: .2s;
   border-radius: 5px;

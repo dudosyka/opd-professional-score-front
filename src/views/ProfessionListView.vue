@@ -16,8 +16,8 @@
         </table>
       </main>
       <aside class="right-side">
-        <SmallButton @click="$router.push('/assessment/choose')">Провести оценку</SmallButton>
-        <SmallButton @click="$router.push('/assessment/results')">Посмотреть результаты</SmallButton>
+        <SmallButton @click="rank">Провести оценку</SmallButton>
+        <SmallButton @click="results">Посмотреть результаты</SmallButton>
         <SmallButton @click="edit">Изменить</SmallButton>
         <SmallButton @click="remove">Удалить</SmallButton>
         <SmallButton @click="add">Добавить профессию</SmallButton>
@@ -64,6 +64,21 @@ export default {
     add() {
       this.$store.commit('setSelectedProfession', null);
       this.$router.push('/profession/add')
+    },
+    rank() {
+      if (this.selectedProfessionKey !== null) {
+        this.$store.commit('setSelectedPvk', [])
+        this.$router.push('/assessment/choose');
+      }
+      else {
+        this.$store.dispatch('showPopUp', { success: false, text: 'Выберите профессию для оценки!' });
+      }
+    },
+    results() {
+      if (this.selectedProfessionKey !== null)
+        this.$router.push('/assessment/results')
+      else
+        this.$store.dispatch('showPopUp', { success: false, text: 'Выберите профессию для просмотра результатов!' });
     },
     remove() {
       if (this.selectedProfessionKey !== null)

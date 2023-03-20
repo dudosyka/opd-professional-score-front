@@ -84,6 +84,9 @@ export default {
         pvk
       }).then(() => {
         this.$store.dispatch('showPopUp', { success: true, text: "Данные вашей оценки сохранены!" })
+        this.$store.commit('setSelectedProfession', null)
+        this.$store.commit('setSelectedPvk', [])
+        this.$router.push('/profession')
       }).catch(err => {
         console.log(err.method);
         console.log(err.data); //{"profession_id":3,"pvk":[{"pvk_id":1,"grade":1},{"pvk_id":2,"grade":2},{"pvk_id":3,"grade":3},{"pvk_id":4,"grade":4},{"pvk_id":5,"grade":5}]}
@@ -103,7 +106,7 @@ export default {
 
 <style scoped>
 .smallText{
-  margin: 1rem;
+  margin: 1rem !important;
   font-family: Rubik;
   font-size: 1.5rem;
   justify-items: center;
