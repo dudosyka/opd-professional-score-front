@@ -9,7 +9,7 @@
               <th class="th-left">ПВК</th>
               <th class="th-right">Выбрано</th>
             </tr>
-            <tr v-for="(p, k) in pvk" @click="check(k)" :class="{'active': p.selected}"><th class="th-left">{{ p.name }}</th><th class="th-right"><CheckBox :value="p.selected" @change="check(k)" /></th></tr>
+            <tr v-for="(p, k) in pvk" :class="{'active': p.selected}"><th @click='check(k)' class="th-left">{{ p.name }}</th><th class="th-right">{{ p.selected ? '+' : '' }}</th></tr>
       </td>
       </tb>
       </table>
@@ -54,6 +54,7 @@ export default {
       this.$router.push('/assessment/ranking');
     },
     check(key) {
+      console.log(key);
       const id = this.pvk[key].id;
       if (this.selected.length === 10 && !this.selected.includes(id)) {
         this.$store.dispatch('showPopUp', { success: false, text: "Ошибка! Вы можете выбрать не более 10 ПВК!" })
@@ -79,6 +80,9 @@ export default {
 </script>
 
 <style scoped>
+.active {
+  background-color: #a2a2a2;
+}
 .smallText{
   margin: 3rem;
   font-family: Rubik;

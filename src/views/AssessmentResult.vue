@@ -15,16 +15,8 @@
         <aside class="right-side">
           <h2>Согласованные критерии</h2>
           <table class="table_prof"><tb><td><tr><th class="th-prof">Выбранные качества</th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-prof"></th></tr>
-            <tr><th class="th-last-prof"></th></tr></td></tb></table>
+            <tr v-for="(item, k) in average"><th class="th-prof">{{ item.name }}</th></tr>
+          </td></tb></table>
         </aside>
       </div>
       <SmallButton @click="$router.go(-1)" class="btn">Назад</SmallButton>
@@ -44,8 +36,62 @@ export default {
   data() {
     return {
       assessments: [],
-      fullList: []
+      fullList: [],
+      average: [],
     };
+  },
+  methods: {
+    getMaxGrade() {
+      let max = 0;
+      this.assessments.map(el => {
+        max = el.pvk.length;
+      })
+      return max;
+    },
+    getByGrade() {
+      console.log(this.assessments);
+      const maxLength = this.getMaxGrade();
+      console.log(maxLength);
+      const assessmentsByGrade = {};
+      for (let i = 0; i < maxLength; i++) {
+        assessmentsByGrade[i] = this.assessments.map(el => {
+          return el.pvk[i];
+        })
+      }
+      this.average = [];
+      const added = [];
+      Object.keys(assessmentsByGrade).map(key => {
+        const el = assessmentsByGrade[key]
+        const pvkToCount = {}
+        el.map(pvk => {
+          if (pvkToCount[pvk.pvk_id]) {
+            pvkToCount[pvk.pvk_id].count++;
+          } else {
+            console.log(pvk)
+            pvkToCount[pvk.pvk_id] = {
+              count: 1,
+              name: pvk.name
+            };
+          }
+        })
+
+        let max = {count: 0, id: null, name: null};
+        Object.keys(pvkToCount).map(el => {
+          if (pvkToCount[el].count > max.count && !added.includes(el)) {
+            max.count = pvkToCount[el].count;
+            max.id = el;
+            max.name = pvkToCount[el].name;
+          }
+        })
+
+        added.push(max.id);
+
+        this.average.push({
+          name: max.name,
+          percents: Math.round(max.count / Object.keys(pvkToCount).length * 100)
+        })
+      })
+    }
   },
   async created() {
     const assessmentModel = new AssessmentModel();
@@ -66,8 +112,8 @@ export default {
           value: el.name
         })
       })
-      console.log(el);
     })
+    this.getByGrade();
   }
 }
 </script>
@@ -81,7 +127,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 50vh;
+  height: 60vh;
 }
 
 .tables {
