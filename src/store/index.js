@@ -7,6 +7,9 @@ export default createStore({
     selectedProfession: null,
     selectedPvk: [],
     selectedExpert: null,
+    selectedUser: null,
+    selectedTest: null,
+    selectedPassedTest: null,
     popUp: {
       show: false,
       success: true,
@@ -27,6 +30,15 @@ export default createStore({
     getSelectedExpert(state) {
       return state.selectedExpert;
     },
+    getSelectedUser(state) {
+      return state.selectedUser;
+    },
+    getSelectedTest(state) {
+      return state.selectedTest;
+    },
+    getSelectedPassedTest(state) {
+      return state.selectedPassedTest;
+    },
     popUp(state) {
       return state.popUp;
     }
@@ -43,6 +55,15 @@ export default createStore({
     },
     setSelectedExpert(state, selectedExpert) {
       state.selectedExpert = selectedExpert;
+    },
+    setSelectedUser(state, userModel) {
+      state.selectedUser = userModel;
+    },
+    setSelectedTest(state, testModel) {
+      state.selectedTest = testModel;
+    },
+    setSelectedPassedTest(state, testModel) {
+      state.selectedPassedTest = testModel;
     },
     showPopUp(state, { success, text }) {
       state.popUp = {

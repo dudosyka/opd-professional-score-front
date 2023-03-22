@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-  <i class="fa-sharp fa-solid fa-arrow-up" @click="$emit('Up')"></i>
-  <i class="fa-sharp fa-solid fa-arrow-down" @click="$emit('Down')"></i>
+  <i class="fa-sharp fa-solid fa-arrow-up" @click.stop="$emit('Up')"></i>
+  <i class="fa-sharp fa-solid fa-arrow-down" @click.stop="$emit('Down')"></i>
   </div>
 </template>
 

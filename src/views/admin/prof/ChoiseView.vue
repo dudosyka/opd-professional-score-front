@@ -1,20 +1,23 @@
 <template>
-<modal-container header-title="Порядок характеристик" show-header="true">
-  <div class="maincont">
-  <p class="smallText">Установите характеристики в порядке важности</p>
-  <table><tb><td><tr>
-    <th class="th-left th-header">Характеристика</th>
-    <th class="th-right th-header">Порядок</th>
-  </tr>
-    <tr v-for="(p, k) in pvk"><th class="th-left">{{ p.name }}</th><th class="th-right"><ArrowUpDown @up="moveUp(k)" @down="moveDown(k)" /></th></tr>
-  </td>
-  </tb>
-  </table>
-    <div class="buttons">
-      <small-button @click="$router.go(-1)">Назад</small-button>
-      <small-button @click="save">Сохранить</small-button>
-    </div>
-  </div>
+<modal-container
+    show-header="true"
+    header-title="Порядок характеристик"
+    :show-btn-back="true"
+    :btn-back="() => $router.go(-1)"
+    :show-btn-next="true"
+    :btn-next="save"
+>
+  <PaginationTable
+    table_title="Установите характеристики в порядке важности"
+    :need-pagination="false"
+    :labels="['Название']"
+    :moveable="true"
+    :elements="pvk"
+    :keys="['name']"
+    :selectable="false"
+  >
+
+  </PaginationTable>
 </modal-container>
 </template>
 
@@ -23,13 +26,20 @@ import ModalContainer from "@/components/Modal.vue";
 import ArrowUpDown from "@/components/ArrowUpDown.vue";
 import SmallButton from "@/components/SmallButton.vue";
 import {AssessmentModel} from "@/api/models/assessment.model";
+import PaginationTable from "@/components/PaginationTable.vue";
 
 export default {
   name: "ChoiseView",
-  components: {SmallButton, ArrowUpDown, ModalContainer},
+  components: {PaginationTable, SmallButton, ArrowUpDown, ModalContainer},
   data() {
     return {
-      pvkList: []
+      pvkList: [],
+      btns: [
+        {
+          title: "Сохарнить",
+          click: this.save
+        }
+      ]
     }
   },
   created() {
@@ -45,31 +55,6 @@ export default {
     });
   },
   methods: {
-    find(serial) {
-      for (let i = 0; i < this.pvkList.length; i++) {
-        if (this.pvkList[i].serial == serial)
-          return i;
-      }
-      return false;
-    },
-    moveUp(key) {
-      const target = this.pvkList[key];
-      if (target.serial == 1)
-        return;
-      const newSerial = target.serial - 1;
-      const oldItem = this.find(newSerial);
-      this.pvkList[oldItem].serial++;
-      this.pvkList[key].serial--;
-    },
-    moveDown(key) {
-      const target = this.pvkList[key];
-      if (target.serial == this.pvkList.length)
-        return;
-      const newSerial = target.serial + 1;
-      const oldItem = this.find(newSerial);
-      this.pvkList[oldItem].serial--;
-      this.pvkList[key].serial++;
-    },
     save() {
       const profession_id = this.$store.getters.getSelectedProfession.id;
       const pvk = this.pvk.map(el => {
@@ -98,6 +83,11 @@ export default {
     pvk() {
       return this.pvkList.sort((a, b) => {
         return a.serial > b.serial;
+      }).map(el => {
+        return {
+          ...el,
+          selected: false,
+        }
       })
     }
   }

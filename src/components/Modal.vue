@@ -1,9 +1,17 @@
 <template>
-  <div class="modal">
-    <header class="header" v-if="showHeader">
-      <h1>{{ headerTitle }}</h1>
+  <div class="row d-flex w-100">
+    <header class="row" v-if="showHeader">
+      <div class="col-1">
+        <button v-if="showBtnBack" class="btn btn-outline-dark" @click="btnBack"> Назад </button>
+      </div>
+      <div class="d-flex col align-self-center justify-content-center mb-5">
+        <h1>{{ headerTitle }}</h1>
+      </div>
+      <div class="col-1">
+        <button v-if="showBtnNext" class="btn btn-outline-dark" @click="btnNext"> Далее </button>
+      </div>
     </header>
-    <div class="modal-content">
+    <div class="row justify-content-center">
       <slot></slot>
     </div>
   </div>
@@ -20,34 +28,23 @@ export default {
     headerTitle: {
       type: String,
       default: "Заголовок"
+    },
+    showBtnBack: {
+      type: Boolean,
+      default: false,
+    },
+    btnBack: {
+      type: Function,
+      default: () => {}
+    },
+    showBtnNext: {
+      type: Boolean,
+      default: false,
+    },
+    btnNext: {
+      type: Function,
+      default: () => {}
     }
   }
 }
 </script>
-
-<style scoped>
-  .modal {
-    width: 75vw;
-    height: 75vh;
-    background: #FFFFFF;
-    border-radius: 20px;
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-
-  }
-  .header {
-    background: #3F55B1;
-    border-radius: 20px 20px 0px 0px;
-    color: white;
-    text-align: center;
-    padding: 2rem;
-  }
-  .modal-content {
-    display: flex;
-    align-self: center;
-    justify-content: center;
-    width: 100%;
-    overflow-y: auto;
-  }
-</style>

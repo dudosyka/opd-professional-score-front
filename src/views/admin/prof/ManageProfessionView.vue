@@ -1,18 +1,21 @@
 <template>
-  <ModalContainer :show-header="true" :header-title="professionOnEdit ? 'Редактирование профессии' : 'Создание профессии'">
+  <ModalContainer
+      :show-header="true"
+      :header-title="professionOnEdit ? 'Редактирование профессии' : 'Создание профессии'"
+      :show-btn-next="true"
+      :show-btn-back="true"
+      :btn-next="save"
+      :btn-back="back"
+  >
     <div class="content">
-      <aside class="left-side">
-        <p>Название профессии</p>
-        <input v-model="profession.name" class="name" type="text" required="required">
+      <aside class="left-side form">
+        <p class="col-form-label">Название профессии</p>
+        <input placeholder="Название" v-model="profession.name" class="form-control form-control-lg" type="text" required="required">
         <img class="image" alt="Add prof img" src="@/assets/add_prof.jpg">
-        <div class="btns-container">
-          <SmallButton @click="save">Сохранить</SmallButton>
-          <SmallButton @click="back">Назад</SmallButton>
-        </div>
       </aside>
       <aside class="right-side">
         <p>Описание</p>
-        <textarea v-model="profession.description" cols="35" rows="50" name="comment"></textarea>
+        <textarea class="form-control form-control-lg" placeholder="Описание" v-model="profession.description" cols="40" rows="50" name="comment"></textarea>
       </aside>
     </div>
   </ModalContainer>
@@ -88,14 +91,6 @@ export default {
   }
   p {
     font-size: 1.5rem;
-  }
-  textarea, input {
-    padding: 1rem;
-    font-size: 1.5rem;
-    border: 2px solid #000;
-    outline: none;
-    background: #D3D3D3;
-    border-radius: 1rem;
   }
   .btns-container {
     display: flex;

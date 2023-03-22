@@ -8,4 +8,8 @@ export class AuthorizationModel extends ApiResolverUtil {
     auth(credentials) {
         return this.unauthorizedRequest("POST", "login", credentials)
     }
+
+    signUp(data) {
+        return this.unauthorizedRequest("POST", "sign-up", data);
+    }
 }

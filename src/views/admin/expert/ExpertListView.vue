@@ -1,36 +1,25 @@
 <template>
-<modal-container header-title="Список экспертов" show-header="true">
-<div class="content">
-  <table>
-    <tb>
-      <td>
-        <tr>
-          <th class="th-left">Эксперт</th>
-          <th class="th">Email</th>
-          <th class="th-right" v-if="this.role == 2"></th>
-        </tr>
-        <tr v-for="(expert, key) in experts">
-          <th class="th-left">
-            {{ expert.name }}
-          </th>
-          <th class="th">
-            {{ expert.login }}
-          </th>
-          <th class="th-right">
-            <div class="table-cell">
-              <small-button @click="remove(key)">Удалить</small-button>
-              <small-button @click="edit(key)">Изменить</small-button>
-            </div>
-          </th>
-        </tr>
-      </td>
-    </tb>
-  </table>
-  <div class="buttons">
-    <small-button @click="back">Назад</small-button>
-    <small-button @click="add">Добавить эксперта</small-button>
-  </div>
-</div>
+  <modal-container
+    header-title="Список экспертов"
+    show-header="true"
+    :show-btn-back="true"
+    :btn-back="back"
+  >
+  <template
+    v-if="experts.length">
+    <PaginationTable
+      :labels="['Имя', 'Email']"
+      :keys="['name', 'login']"
+      :elements="experts"
+      :need-pagination="true"
+      :items-on-page="5"
+      :selectable="false"
+      :numeration="true"
+      :inline-btns="role == 2 ? btns : []"
+      :btns="[ { click: add, title: 'Добавить эксперта' } ]"
+    >
+    </PaginationTable>
+  </template>
 </modal-container>
 </template>
 
@@ -38,14 +27,25 @@
 import ModalContainer from "@/components/Modal.vue";
 import SmallButton from "@/components/SmallButton.vue";
 import {UserModel} from "@/api/models/user.model";
+import PaginationTable from "@/components/PaginationTable.vue";
 export default {
   name: "ExpertListView",
-  components: {ModalContainer,SmallButton},
+  components: {PaginationTable, ModalContainer,SmallButton},
   data() {
     return {
       experts: [],
       userModel: null,
-      role: null
+      role: null,
+      btns: [
+        {
+          click: (key) => this.remove(key),
+          title: "Удалить"
+        },
+        {
+          click: (key) => this.edit(key),
+          title: "Изменить"
+        }
+      ]
     }
   },
   created() {
@@ -55,6 +55,7 @@ export default {
   },
   methods: {
     async syncExpertList() {
+      this.experts = [];
       this.experts = await this.userModel.getAll();
     },
     edit(key) {
@@ -74,7 +75,7 @@ export default {
       this.$router.push('/expert/add');
     },
     back() {
-      this.$router.go(-1);
+      this.$router.push('/');
     }
   }
 }

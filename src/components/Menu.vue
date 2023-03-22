@@ -2,12 +2,6 @@
   <nav>
     <div class="navbar">
       <div class="container nav-container">
-        <input class="checkbox" type="checkbox" name="" id="" />
-        <div class="hamburger-lines">
-          <span class="line line1"></span>
-          <span class="line line2"></span>
-          <span class="line line3"></span>
-        </div>
         <div class="menu-items">
           <slot name="first"></slot>
         </div>
@@ -118,7 +112,6 @@ export default {
   box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
   height: 70vh;
   width: 100%;
-  transform: translate(-150%);
   display: flex;
   flex-direction: column;
   margin-left: -40px;

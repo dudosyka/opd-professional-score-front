@@ -1,19 +1,23 @@
 <template>
-  <ModalContainer :show-header="true" header-title="Авторизация">
-    <div class="center">
-      <form>
-        <div class="inputbox">
-          <input v-model="credentials.login" type="text" required="required">
-          <span>Email</span>
-        </div>
-        <div class="inputbox">
-          <input v-model="credentials.password" type="password" required="required">
-          <span>Password</span>
-        </div>
-        <div class="inputbox">
-          <input @click="auth" type="button" value="Войти">
-        </div>
-      </form>
+  <ModalContainer
+      :show-header="true"
+      header-title="Авторизация"
+  >
+    <div class="form w-25">
+      <div class="form-group">
+        <label class="col-form-label-lg">Email</label>
+        <input placeholder="Email" class="form-control" v-model="credentials.login" type="text" required="required">
+      </div>
+      <div class="form-group">
+        <label class="col-form-label-lg mt-4">Password</label>
+        <input placeholder="Password" class="form-control" v-model="credentials.password" type="password" required="required">
+      </div>
+      <div class="d-flex row justify-content-center mt-4">
+        <input class="form-control btn btn-outline-primary w-50" @click="auth" type="button" value="Войти">
+      </div>
+      <div class="d-flex row justify-content-center mt-3">
+        <p class="text-center">Ещё нет аккаунта? <a href="/sign-up" class="link-primary">Зарегестрироваться</a></p>
+      </div>
     </div>
   </ModalContainer>
 </template>
@@ -38,6 +42,7 @@ export default {
     auth() {
       const authModel = new AuthorizationModel();
       authModel.auth(this.credentials).then(res => {
+        localStorage.setItem("role", res.role);
         localStorage.setItem("token", res.token);
         this.$router.push('/');
       }).catch(err => {

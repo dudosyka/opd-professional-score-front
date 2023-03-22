@@ -1,25 +1,33 @@
 <template>
-  <ModalContainer :show-header="true" header-title="Результаты опроса экспертов">
+  <ModalContainer :show-btn-back="true" :btn-back="() => $router.go(-1)" :show-header="true" header-title="Результаты опроса экспертов">
     <div class="content">
-      <div class="tables">
-        <aside class="left-side">
-          <h2>Несогласованные критерии</h2>
-          <table class="table-experts"><tb><td><tr>
-            <th class="th-left-experts">Эксперт</th>
-            <th class="th-experts">Выбранные качества</th></tr>
-            <tr v-for="(assessment, key) in fullList"><th class="th-left-experts">{{ assessment.expert }}</th><th class="th-experts">{{ assessment.value }}</th></tr>
-          </td>
-          </tb>
-          </table>
-        </aside>
-        <aside class="right-side">
-          <h2>Согласованные критерии</h2>
-          <table class="table_prof"><tb><td><tr><th class="th-prof">Выбранные качества</th></tr>
-            <tr v-for="(item, k) in average"><th class="th-prof">{{ item.name }}</th></tr>
-          </td></tb></table>
-        </aside>
+      <div class="row">
+        <template
+          v-if="loaded"
+        >
+          <PaginationTable
+              class="col"
+              :need-pagination="false"
+              :keys="['expert', 'value']"
+              :elements="fullList"
+              :labels="['Эксперт', 'Выбранные качества']"
+              table_title="Несогласованные критерии"
+              :selectable="false"
+              :numeration="false"
+          >
+          </PaginationTable>
+          <PaginationTable
+              class="col"
+              :need-pagination="false"
+              :keys="['name', 'percents']"
+              :elements="average"
+              :labels="['Выбранные качества', 'Процент']"
+              table_title="Согласованные критерии"
+              :selectable="false"
+          >
+          </PaginationTable>
+        </template>
       </div>
-      <SmallButton @click="$router.go(-1)" class="btn">Назад</SmallButton>
     </div>
   </ModalContainer>
 </template>
@@ -29,15 +37,15 @@ import ModalContainer from "@/components/Modal.vue";
 import SmallButton from "@/components/SmallButton.vue";
 import {AssessmentModel} from "@/api/models/assessment.model";
 import {UserModel} from "@/api/models/user.model";
+import PaginationTable from "@/components/PaginationTable.vue";
 
 export default {
   name: "AssessmentList",
-  components: {SmallButton, ModalContainer},
+  components: {PaginationTable, SmallButton, ModalContainer},
   data() {
     return {
+      loaded: false,
       assessments: [],
-      fullList: [],
-      average: [],
     };
   },
   methods: {
@@ -48,26 +56,39 @@ export default {
       })
       return max;
     },
-    getByGrade() {
-      console.log(this.assessments);
+  },
+  async created() {
+    const assessmentModel = new AssessmentModel();
+    const profession = this.$store.getters.getSelectedProfession;
+    this.assessments = await Promise.all((await assessmentModel.getByProfession(profession.id)).map(async el => {
+      const userModel = new UserModel();
+      const user = await userModel.getOne(el.assessment.user_id);
+      return {
+        ...el,
+        user
+      }
+    }));
+    this.loaded = true;
+  },
+  computed: {
+    average() {
       const maxLength = this.getMaxGrade();
-      console.log(maxLength);
       const assessmentsByGrade = {};
       for (let i = 0; i < maxLength; i++) {
         assessmentsByGrade[i] = this.assessments.map(el => {
           return el.pvk[i];
         })
       }
-      this.average = [];
       const added = [];
-      Object.keys(assessmentsByGrade).map(key => {
+      return Object.keys(assessmentsByGrade).map(key => {
         const el = assessmentsByGrade[key]
         const pvkToCount = {}
         el.map(pvk => {
+          if (!pvk)
+            return;
           if (pvkToCount[pvk.pvk_id]) {
             pvkToCount[pvk.pvk_id].count++;
           } else {
-            console.log(pvk)
             pvkToCount[pvk.pvk_id] = {
               count: 1,
               name: pvk.name
@@ -76,7 +97,7 @@ export default {
         })
 
         let max = {count: 0, id: null, name: null};
-        Object.keys(pvkToCount).map(el => {
+        Object.keys(pvkToCount).forEach(el => {
           if (pvkToCount[el].count > max.count && !added.includes(el)) {
             max.count = pvkToCount[el].count;
             max.id = el;
@@ -86,34 +107,28 @@ export default {
 
         added.push(max.id);
 
-        this.average.push({
+        return {
           name: max.name,
-          percents: Math.round(max.count / Object.keys(pvkToCount).length * 100)
+          percents: Math.round((max.count / Object.keys(pvkToCount).length) / max.count * 100)
+        }
+      })
+    },
+    fullList() {
+      const list = [];
+      this.assessments.map(async el => {
+        list.push({
+          expert: el.user.name,
+          value: ""
+        });
+        el.pvk.forEach(el => {
+          list.push({
+            expert: "",
+            value: el.name
+          })
         })
       })
+      return list;
     }
-  },
-  async created() {
-    const assessmentModel = new AssessmentModel();
-    const profession = this.$store.getters.getSelectedProfession;
-    console.log(profession.id);
-    this.assessments = await assessmentModel.getByProfession(profession.id)
-    this.assessments.map(async el => {
-      const userModel = new UserModel();
-      const user = await userModel.getOne(el.assessment.user_id);
-      console.log(user)
-      this.fullList.push({
-        expert: user.name,
-        value: ""
-      });
-      el.pvk.forEach(el => {
-        this.fullList.push({
-          expert: "",
-          value: el.name
-        })
-      })
-    })
-    this.getByGrade();
   }
 }
 </script>

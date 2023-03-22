@@ -8,4 +8,8 @@ export class UserModel extends BaseModel {
     getCurrent() {
         return this.apiResolver.request('GET', 'cur', null);
     }
+
+    getAllResp() {
+        return this.apiResolver.request('GET', 'all/resp', null);
+    }
 }

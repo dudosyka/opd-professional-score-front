@@ -42,7 +42,7 @@ export default {
   justify-content: center;
   top: 0;
   margin-bottom: 2rem;
-  width: 100%;
+  width: 30rem;
 }
 .popup-box {
   border-radius: 1rem;
@@ -50,7 +50,7 @@ export default {
   box-shadow:  20px 20px 60px #d9d9d9,
   -20px -20px 60px #ffffff;
   margin-top: 1.5rem;
-  padding: 1rem;
+  padding-top: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;

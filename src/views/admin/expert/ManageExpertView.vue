@@ -1,23 +1,26 @@
 <template>
-  <modal-container :show-header="true" :header-title="expertOnEdit ? 'Редактирование эксперта' : 'Добавьте эксперта'">
+  <modal-container
+      :show-header="true"
+      :header-title="expertOnEdit ? 'Редактирование эксперта' : 'Добавьте эксперта'"
+      :show-btn-back="true"
+      :btn-back="back"
+      :show-btn-next="true"
+      :btn-next="save"
+  >
     <div class="content">
       <div class="mainBlock">
-        <img class="img" src="../assets/add_expert.jpg">
-        <div class="inputs">
-          <span class="defaultText">Имя</span>
-          <input v-model="expert.name" type="text" required="required" class="default">
-          <span class="defaultText">Email</span>
-          <input v-model="expert.login" type="text" required="required" class="default">
-          <small-button @click="editPassword = !editPassword" v-if="expertOnEdit">{{ !editPassword ? 'Изменить пароль' : 'Отмена' }}</small-button>
+        <img class="img" src="../../../assets/add_expert.jpg">
+        <div class="inputs form w-50">
+          <span class="defaultText col-form-label">Имя</span>
+          <input v-model="expert.name" type="text" required="required" class="form-control">
+          <span class="defaultText col-form-label">Email</span>
+          <input v-model="expert.login" type="text" required="required" class="form-control">
+          <small-button class="m-3" @click="editPassword = !editPassword" v-if="expertOnEdit">{{ !editPassword ? 'Изменить пароль' : 'Отмена' }}</small-button>
           <template v-if="editPassword || !expertOnEdit">
-            <span class="defaultText">{{ expertOnEdit ? 'Новый пароль' : 'Пароль' }}</span>
-            <input v-model="expert.password" type="password" required="required" class="default">
+            <span class="defaultText col-form-label">{{ expertOnEdit ? 'Новый пароль' : 'Пароль' }}</span>
+            <input v-model="expert.password" type="password" required="required" class="form-control">
           </template>
         </div>
-      </div>
-      <div class="buttons">
-        <small-button @click="back">Назад</small-button>
-        <small-button @click="save">{{ expertOnEdit ? 'Сохранить' : 'Добавить' }}</small-button>
       </div>
     </div>
   </modal-container>
