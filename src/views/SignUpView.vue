@@ -2,6 +2,8 @@
   <ModalContainer
       :show-header="true"
       header-title="Регистрация"
+      :show-btn-back="true"
+      :btn-back="back"
   >
     <div class="form w-25">
       <div class="form-group">
@@ -29,10 +31,10 @@
         <input :class="{'is-invalid': validation.password === false, 'is-valid': validation.login === true}" placeholder="Пароль" class="form-control" v-model="credentials.password" type="password" required="required">
       </div>
       <div class="d-flex row justify-content-center mt-4">
-        <input class="form-control btn btn-outline-primary w-50" @click="auth" type="button" value="Войти">
+        <input class="form-control btn btn-outline-primary w-50" @click="auth" type="button" value="Регистрация">
       </div>
       <div class="d-flex row justify-content-center mt-3">
-        <p class="text-center">Ещё нет аккаунта? <a href="/sign-up" class="link-primary">Зарегестрироваться</a></p>
+        <p class="text-center">Уже есть аккаунт? <a href="/auth" class="link-primary">Войти</a></p>
       </div>
     </div>
   </ModalContainer>
@@ -60,6 +62,9 @@ export default {
     }
   },
   methods: {
+    back() {
+      this.$router.push('/')
+    },
     auth() {
       this.validation = {};
 

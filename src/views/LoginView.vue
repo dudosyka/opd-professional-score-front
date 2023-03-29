@@ -2,6 +2,8 @@
   <ModalContainer
       :show-header="true"
       header-title="Авторизация"
+      :show-btn-back="true"
+      :btn-back="back"
   >
     <div class="form w-25">
       <div class="form-group">
@@ -39,12 +41,15 @@ export default {
     }
   },
   methods: {
+    back() {
+      this.$router.push('/');
+    },
     auth() {
       const authModel = new AuthorizationModel();
       authModel.auth(this.credentials).then(res => {
         localStorage.setItem("role", res.role);
         localStorage.setItem("token", res.token);
-        this.$router.push('/');
+        window.location = '/'
       }).catch(err => {
         console.log(err);
         this.$store.dispatch('showPopUp', { text: "Ошибка! Неверный логин или пароль!", success: false })

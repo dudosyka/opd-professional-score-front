@@ -1,15 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import ProfessionView from "@/views/admin/prof/ProfessionListView.vue";
+import ProfessionView from "@/views/ProfessionListView.vue";
 import LoginView from "@/views/LoginView.vue";
-import MainView from "@/views/admin/MainView.vue";
-import { default as MainViewClient } from "@/views/client/MainView.vue"
 import AddExpertView from "@/views/admin/expert/ManageExpertView.vue";
 import ExpertListView from "@/views/admin/expert/ExpertListView.vue";
 import ChoiseView from "@/views/admin/prof/ChoiseView.vue";
 import ProfessionCreateView from "@/views/admin/prof/ManageProfessionView.vue";
-import AssessmentResult from "@/views/admin/prof/AssessmentResult.vue";
-import AllPvkView from "@/views/admin/prof/AllPvkView.vue";
+import AssessmentResult from "@/views/AssessmentResult.vue";
 import SignUpView from "@/views/SignUpView.vue";
 import TestsView from "@/views/client/TestsView.vue";
 import AvailableTestsView from "@/views/client/AvailableTestsView.vue";
@@ -21,31 +18,46 @@ import AllTestListView from "@/views/admin/test/AllTestListView.vue";
 import PassedTestListView from "@/views/admin/test/PassedTestListView.vue";
 import TestDynamicView from "@/views/admin/test/TestDynamicView.vue";
 import OneTestResultView from "@/views/admin/test/OneTestResultView.vue";
+import HomeView from "@/views/HomeView.vue";
+import SelectPvkView from "@/views/admin/prof/SelectPvkView.vue";
+import AllPvkView from "@/views/AllPvkView.vue";
 
 const routes = [
   {
     path: '/',
     name: 'Main',
-    component: MainView,
-    meta: { needAuth: true, adminPart: true }
+    component: HomeView,
+    meta: { needAuth: false }
   },
   {
     path: '/auth',
     name: 'Login',
     component: LoginView,
-    meta: { needAuth: false }
+    meta: { needAuth: false, blockedForAuthorized: true, hideMenu: true }
   },
   {
     path: '/sign-up',
     name: 'SignUp',
     component: SignUpView,
-    meta: { needAuth: false }
+    meta: { needAuth: false, blockedForAuthorized: true, hideMenu: true }
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: {
+      created() {
+        localStorage.removeItem("token");
+        localStorage.removeItem('role');
+        window.location = '/'
+      }
+    },
+    meta: { needAuth: true }
   },
   {
     path: '/profession',
     name: 'profession',
     component: ProfessionView,
-    meta: { needAuth: true, adminPart: true }
+    meta: { needAuth: false }
   },
   {
     path: '/profession/add',
@@ -116,21 +128,27 @@ const routes = [
   {
     path: '/assessment/choose',
     name: 'Choose pvk',
-    component: AllPvkView,
+    component: SelectPvkView,
     meta: {needAuth: true, adminPart: true }
   },
   {
     path: '/assessment/results',
     name: 'Assessment result',
     component: AssessmentResult,
-    meta: { needAuth: true, adminPart: true }
+    meta: { needAuth: false }
+  },
+  {
+    path: '/pvk',
+    name: 'PVK list',
+    component: AllPvkView,
+    meta: { needAuth: false },
   },
 
     //----------------- Client part -----------------//
   {
-    path: '/client',
+    path: '/',
     name: 'Client main',
-    component: MainViewClient,
+    component: HomeView,
     meta: { needAuth: true, adminPart: false }
   },
   {
@@ -164,8 +182,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to) => {
-  const curRole = parseInt(localStorage.getItem('role'));
+router.beforeEach((to) => {;
   const curToken = localStorage.getItem('token');
   if (to.meta.needAuth && !curToken) {
     return {
@@ -173,24 +190,9 @@ router.beforeEach((to) => {
     }
   }
 
-  if (!to.meta.needAuth && curToken) {
-    return {
-      path: (curRole == 2 || curRole == 1) ? '/' : '/client'
-    }
+  if (to.meta.blockedForAuthorized && curToken) {
+    return '/'
   }
-
-  if (to.meta.adminPart && curRole != 2 && curRole != 1) {
-    return {
-      path: '/client'
-    }
-  }
-
-  if (!to.meta.adminPart && (curRole == 2 || curRole == 1)) {
-    return {
-      path: '/'
-    }
-  }
-
 })
 
 

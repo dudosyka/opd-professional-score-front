@@ -38,30 +38,35 @@ export default {
       curPage: 1,
       itemsOnPage: 2,
       btns: [
-        {
-          click: this.rank,
-          title: "Провести оценку"
-        },
-        {
-          click: this.results,
-          title: "Посмотреть результаты"
-        },
-        {
-          click: this.edit,
-          title: "Изменить"
-        },
-        {
-          click: this.remove,
-          title: "Удалить"
-        },
-        {
-          click: this.add,
-          title: "Добавить профессию"
-        },
       ]
     };
   },
   async created() {
+    this.btns.push({
+      click: this.results,
+      title: "Посмотреть результаты"
+    })
+    const role = localStorage.getItem("role");
+    if (role >= 1) {
+      this.btns.push({
+        click: this.rank,
+        title: "Провести оценку"
+      });
+    }
+    if (role >= 2) {
+      this.btns.push({
+        click: this.edit,
+        title: "Изменить"
+      });
+      this.btns.push({
+        click: this.remove,
+        title: "Удалить"
+      });
+      this.btns.push({
+        click: this.add,
+        title: "Добавить профессию"
+      });
+    }
     this.professionModel = new ProfessionModel();
     await this.syncProfessionsList();
   },
@@ -73,6 +78,7 @@ export default {
     selectFunc(professions) {
       this.selectedProfessionKey = 1;
       this.selectedProfession = professions[0];
+      console.log(this.selectedProfession);
       this.$store.commit('setSelectedProfession', professions[0]);
     },
     unselectFunc() {

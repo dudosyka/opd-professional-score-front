@@ -25,7 +25,7 @@ import ModalContainer from "@/components/Modal.vue";
 
 
 export default {
-  name: "MainPage",
+  name: "MainView",
   components: {ModalContainer},
   data(){
     return{
