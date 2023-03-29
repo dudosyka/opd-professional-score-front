@@ -97,7 +97,7 @@ export default {
   --cornerRad: 15px;
 }
 body {
-  background-color: #DFEDFA;
+  /*background-color: #DFEDFA;*/
 }
 
 </style>
