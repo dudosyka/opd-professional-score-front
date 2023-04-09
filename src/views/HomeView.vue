@@ -1,6 +1,9 @@
 <template>
   <template v-if="!isLogin">
-    <h1>Сервис оценки профессионально важных качеств для профессий</h1>
+      <div class="container container-vis animate__animated animate__fadeIn">
+          <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_2bosh3aj.json"  background="transparent"  speed="1"  style="width: 500px; height: 300px;"  loop  autoplay></lottie-player>
+          <h3 class="main-title">Сервис оценки профессионально важных качеств для профессий</h3>
+      </div>
   </template>
   <template v-else>
     <main-view v-if="role == 2"></main-view>
@@ -37,3 +40,15 @@ export default {
   }
 }
 </script>
+<style>
+.main-title {
+    text-align: center;
+    font-weight: 500;
+    color: #313131!important;
+}
+.container-vis {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+</style>

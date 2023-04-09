@@ -6,4 +6,6 @@ import store from './store'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 
-createApp(App).use(store).use(router).mount('#app')
+import VSkeletonLoader from 'v-skeleton-loader';
+
+createApp(App).use(store).use(router).use(VSkeletonLoader).mount('#app')

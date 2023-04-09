@@ -1,7 +1,7 @@
 <template>
-  <div class="row w-75" :class="{'justify-content-center': btns.length == 0, 'justify-content-between': btns.length}">
-    <main class="col-8">
-      <h3 class="mb-3">{{ table_title }}</h3>
+  <div class="row w-100 row-main" :class="{'justify-content-center': btns.length == 0, 'justify-content-between': btns.length}">
+    <main class="col-8 col-data">
+      <h3 class="page-title">{{ table_title }}</h3>
       <table class="table">
         <thead class="thead-dark">
         <tr>
@@ -218,5 +218,19 @@ export default {
   
   td {
     cursor: pointer;
+  }
+  .row-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%!important;
+  }
+  .col-data {
+      width: 100%;
+  }
+  .page-title {
+      font-size: 1.4rem;
+      text-align: center;
+      color: #313131;
   }
 </style>

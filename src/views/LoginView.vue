@@ -4,8 +4,9 @@
       header-title="Авторизация"
       :show-btn-back="true"
       :btn-back="back"
+      class="modal-container"
   >
-    <div class="form w-25">
+    <div class="form">
       <div class="form-group">
         <label class="col-form-label-lg">Email</label>
         <input placeholder="Email" class="form-control" v-model="credentials.login" type="text" required="required">
@@ -144,5 +145,19 @@ export default {
   background: #FFFFFF;
   border-radius: 20px;
   gap: 20rem;
+}
+.col {
+    display: none;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form-control {
+    text-align: center;
+}
+.col-form-label-lg {
+    font-size: 1rem!important;
 }
 </style>

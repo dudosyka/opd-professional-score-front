@@ -4,8 +4,9 @@
       header-title="Регистрация"
       :show-btn-back="true"
       :btn-back="back"
+      class="register"
   >
-    <div class="form w-25">
+    <div class="form">
       <div class="form-group">
         <label class="col-form-label-lg">ФИО</label>
         <input :class="{'is-invalid': validation.name === false, 'is-valid': validation.name === true}" placeholder="ФИО" class="form-control" v-model="credentials.name" type="text" required="required">
@@ -179,5 +180,19 @@ export default {
   background: #FFFFFF;
   border-radius: 20px;
   gap: 20rem;
+}
+.register {
+    width: 10vw;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form-control {
+    text-align: center;
+}
+.col-form-label-lg {
+    font-size: 1rem!important;
 }
 </style>

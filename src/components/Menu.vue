@@ -24,18 +24,22 @@ export default {
 
 .navbar {
   width: 100%;
+    padding: 0;
 
 }
 
 .nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 62px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90vh;
+    padding: 0;
+    margin: 0;
 }
 
 .navbar .menu-items {
   display: flex;
+    
 }
 
 .navbar .nav-container li {
@@ -47,7 +51,6 @@ export default {
   color: #0e2431;
   font-weight: 500;
   font-size: 1.2rem;
-  padding: 0.7rem;
 }
 
 .navbar .nav-container a:hover{
@@ -55,9 +58,12 @@ export default {
 }
 
 .nav-container {
-  display: block;
-  position: relative;
-  height: 60px;
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
 }
 
 .nav-container .checkbox {
@@ -108,22 +114,11 @@ export default {
 }
 
 .navbar .menu-items {
-  /*padding-top: 120px;*/
-  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
-  height: 70vh;
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-left: -40px;
-  padding-left: 50px;
   transition: transform 0.5s ease-in-out;
   text-align: center;
-}
-
-.navbar .menu-items li {
-  margin-bottom: 1.2rem;
-  font-size: 1.5rem;
-  font-weight: 500;
 }
 
 .logo {
