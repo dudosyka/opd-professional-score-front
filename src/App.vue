@@ -25,9 +25,10 @@
               <hr>
               <router-link to="/client/tests" class="btn  menu-btn btn-primary "><i class="fa-solid fa-clipboard-question"></i> Тесты</router-link>
               <hr>
-              <router-link to="/client/tests/passed" class="btn  menu-btn btn-primary "><i class="fa-solid fa-clipboard-check"></i> Результаты</router-link>
+              <router-link to="/client/tests/passed" class="btn menu-btn btn-primary"><i class="fa-solid fa-clipboard-check"></i> Результаты</router-link>
           </template>
-          <router-link to="/logout" class="btn menu-btn btn-primary "><i class="fa-solid fa-right-from-bracket"></i> Выйти</router-link>
+            <hr>
+            <router-link to="/logout" class="btn menu-btn btn-primary"><i class="fa-solid fa-right-from-bracket"></i> Выйти</router-link>
         </template>
       </Menu>
       <Menu v-else>
@@ -194,4 +195,42 @@ hr {
 h1,h2,h3,h4,h5,h6 {
     margin: 0!important;
 }
+/* Scrollbar */
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #722475 #DFE9EB;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+    width: 0.4rem;
+    width: 0.4rem;
+}
+*::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #DFE9EB;
+}
+
+*::-webkit-scrollbar-track:hover {
+    background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-track:active {
+    background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #512475;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #62A34B;
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background-color: #62A34B;
+}
+
 </style>

@@ -1,12 +1,12 @@
 <template>
   <ModalContainer :show-btn-back="true" :btn-back="() => $router.go(-1)" :show-header="true" header-title="Результаты опроса экспертов">
     <div class="content">
-      <div class="row">
+      <div class="container table-container">
         <template
           v-if="loaded"
         >
           <PaginationTable
-              class="col"
+              class="col left-col"
               :need-pagination="false"
               :keys="['expert', 'value']"
               :elements="fullList"
@@ -17,7 +17,7 @@
           >
           </PaginationTable>
           <PaginationTable
-              class="col"
+              class="col right-col"
               :need-pagination="false"
               :keys="['name', 'percents']"
               :elements="average"
@@ -216,6 +216,18 @@ table{
   border-bottom: 2px gray solid;
 
 }
-
-
+.table-container {
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+}
+.right-col {
+    position: sticky;
+    top: 0;
+    padding: 0!important;
+    border-left: 1px solid rgba(0, 0, 0, 0.16);
+}
+.col-data {
+    padding: 0!important;
+}
 </style>

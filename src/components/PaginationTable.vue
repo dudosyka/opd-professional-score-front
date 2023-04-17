@@ -1,5 +1,5 @@
 <template>
-  <div class="row w-100 row-main" :class="{'justify-content-center': btns.length == 0, 'justify-content-between': btns.length}">
+  <div class="row w-100 row-main" :class="{'justify-content-normal': btns.length == 0, 'justify-content-between': btns.length}">
     <main class="col-8 col-data">
       <h3 class="page-title">{{ table_title }}</h3>
       <table class="table">
@@ -226,7 +226,8 @@ export default {
       width: 100%!important;
   }
   .col-data {
-      width: 100%;
+      width: 90%;
+      padding: 0!important;
   }
   .page-title {
       font-size: 1.4rem;
