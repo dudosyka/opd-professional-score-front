@@ -32,7 +32,6 @@
       </Menu>
       <Menu v-else>
         <template v-slot:first>
-
             <router-link to="/" class="btn menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</router-link>
             <hr>
             <router-link to="/profession" class="btn menu-btn btn-primary "><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
@@ -45,7 +44,7 @@
         </template>
       </Menu>
     </div>
-    <div :class="{'auth-col': !isLogin}" class="col content-col justify-content-center d-flex align-items-center">
+    <div :class="{'auth-col': authCol}" class="col content-col justify-content-center d-flex align-items-center">
       <PopUp></PopUp>
       <router-view />
     </div>
@@ -67,6 +66,7 @@ export default {
       checkLocation: true,
       role: null,
       isLogin: false,
+      authCol: false,
     }
   },
   methods: {
@@ -79,15 +79,20 @@ export default {
   },
   async created() {
     this.isLogin = !!localStorage.getItem('token');
+    this.authCol = this.$route.name == 'Login' || this.$route.name == 'SignUp'
+      // console.log(this.$router, this.$route)
     this.role = parseInt(localStorage.getItem('role'))
-    // this.$watch(
-    //     () => this.$route.params,
-    //     async (toParams) => {
-    //       this.role = await this.$store.dispatch('getUser').then( () => this.$store.getters.getUserSt )
-    //       if (toParams.after === '/auth')
-    //         this.checkLocation = false
-    //     }
-    // )
+    this.$watch(
+        () => this.$route.params,
+        async (toParams) => {
+          this.isLogin = !!localStorage.getItem('token');
+          this.authCol = this.$route.name == 'Login' || this.$route.name == 'SignUp'
+          // console.log(this.$router, this.$route)
+          this.role = parseInt(localStorage.getItem('role'))
+        }
+    )
+  },
+  computed: {
   }
 }
 </script>
