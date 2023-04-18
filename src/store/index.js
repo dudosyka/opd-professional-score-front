@@ -21,7 +21,8 @@ export default createStore({
       text: 'string'
     },
     gameResults: {...gameResultsClear},
-    user: null
+    user: null,
+    onPass: null
   },
   getters: {
     getUserSt(state){
@@ -50,6 +51,9 @@ export default createStore({
     },
     gameResults(state) {
       return state.gameResults;
+    },
+    getTestOnPass(state) {
+      return state.onPass;
     }
   },
   mutations: {
@@ -91,6 +95,9 @@ export default createStore({
       state.gameResults = {
         ...gameResultsClear
       }
+    },
+    setOnPass(state, settings) {
+      state.onPass = { ...settings };
     }
   },
   actions: {

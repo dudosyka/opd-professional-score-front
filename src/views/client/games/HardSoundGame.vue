@@ -93,6 +93,12 @@ export default {
     }
   }),
   created() {
+    const onPass = this.$store.getters.getTestOnPass;
+    console.log(onPass);
+    if (!onPass || !onPass.settings) {
+      window.location = '/'
+    }
+    this.gameSettingsInput = { ...onPass.settings }
     this.createWorld();
     // this.createGUI();
     this.createPrimitive();

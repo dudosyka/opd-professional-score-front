@@ -12,4 +12,8 @@ export class UserTestAvailableModel extends BaseModel {
     getAvailableByUser(userId) {
         return this.apiResolver.request('GET', `user/${userId}`, null);
     }
+    
+    save(data) {
+      return this.apiResolver.request('POST', '', data)
+    }
 }

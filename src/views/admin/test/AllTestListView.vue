@@ -55,7 +55,8 @@ export default {
         this.$store.dispatch('showPopUp', { text: "Ошибка! Вы должны выбрать один из видов тестов!", success: false })
         return;
       }
-      this.$router.push(`/user/${this.user.id}/available/add/sec`)
+      console.log(this.$store.getters.getSelectedUser);
+      this.$router.push(`/user/${this.$store.getters.getSelectedUser.id}/available/add/sec`)
     },
     back() {
       this.$router.go(-1);

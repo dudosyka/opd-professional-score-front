@@ -9,7 +9,7 @@
       v-if="available != null">
       <PaginationTable
         :labels="['Название']"
-        :keys="['testName']"
+        :keys="['name']"
         :elements="available"
         :moveable="true"
         :btns="btns"
@@ -56,11 +56,12 @@ export default {
       tests = await this.userModel.getAvailableByUser(this.selectedUser.id);
     const loaded = tests.map(el => {
       return {
-        id: el.id,
-        serial: el.relative_id,
-        name: el.name
+        id: el.test.id,
+        serial: el.test.relative_id,
+        name: el.test.name
       }
     });
+    console.log(loaded, tests);
     this.available = loaded;
 
   },
