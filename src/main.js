@@ -5,6 +5,7 @@ import store from './store'
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
+import ChartJs from 'expose-loader?exposes=ChartJs!./Chart'
 
 import VSkeletonLoader from 'v-skeleton-loader';
 

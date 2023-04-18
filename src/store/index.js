@@ -2,6 +2,11 @@ import { createStore } from 'vuex'
 import {ProfessionModel} from "@/api/models/profession.model";
 import {UserModel} from "@/api/models/user.model";
 
+const gameResultsClear = {
+  type: null,
+  numbers: []
+}
+
 export default createStore({
   state: {
     selectedProfession: null,
@@ -15,6 +20,7 @@ export default createStore({
       success: true,
       text: 'string'
     },
+    gameResults: {...gameResultsClear},
     user: null
   },
   getters: {
@@ -41,6 +47,9 @@ export default createStore({
     },
     popUp(state) {
       return state.popUp;
+    },
+    gameResults(state) {
+      return state.gameResults;
     }
   },
   mutations: {
@@ -74,6 +83,14 @@ export default createStore({
     },
     closePopUp(state) {
       state.popUp.show = false;
+    },
+    setGameResults(state, results) {
+      state.gameResults = results;
+    },
+    clearGameResults(state) {
+      state.gameResults = {
+        ...gameResultsClear
+      }
     }
   },
   actions: {
