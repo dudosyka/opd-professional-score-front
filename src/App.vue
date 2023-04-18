@@ -6,24 +6,26 @@
           <template
               v-if="role == 2 || role == 1"
           >
-              <router-link to="/" class="btn menu-btn btn-primary"><i class="fa-solid fa-house"></i> Главная</router-link>
+              <a @click="goMain()" class="btn menu-btn btn-primary"><i class="fa-solid fa-house"></i> Главная</a>
               <hr>
               <router-link to="/profession" class="btn  menu-btn btn-primary"><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
               <hr>
               <router-link to="/pvk" class="btn  menu-btn btn-primary"><i class="fa-solid fa-list"></i> ПВК</router-link>
-              <hr>
-              <router-link to="/expert" v-if="role == 2" class="btn  menu-btn btn-primary "><i class="fa-solid fa-user-tie"></i> Эксперты</router-link>
+              <template v-if="role == 2">
+                  <hr>
+                  <router-link to="/expert" class="btn  menu-btn btn-primary "><i class="fa-solid fa-user-tie"></i> Эксперты</router-link>
+              </template>
               <hr>
               <router-link to="/user" class="btn  menu-btn btn-primary "><i class="fa-solid fa-users"></i> Респонденты</router-link>
           </template>
           <template v-else>
-              <router-link to="/" class="btn  menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</router-link>
+              <a @click="goMain" class="btn  menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</a>
               <hr>
               <router-link to="/profession" class="btn  menu-btn btn-primary "><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
               <hr>
               <router-link to="/pvk" class="btn  menu-btn btn-primary "><i class="fa-solid fa-list"></i> Список ПВК</router-link>
               <hr>
-              <router-link to="/client/tests" class="btn  menu-btn btn-primary "><i class="fa-solid fa-clipboard-question"></i> Тесты</router-link>
+              <router-link to="/client/tests" class="btn  menu-btn btn-primary "><i class="fa-solid fa-address-card"></i> Тесты</router-link>
               <hr>
               <router-link to="/client/tests/passed" class="btn menu-btn btn-primary"><i class="fa-solid fa-clipboard-check"></i> Результаты</router-link>
           </template>
@@ -33,7 +35,7 @@
       </Menu>
       <Menu v-else>
         <template v-slot:first>
-            <router-link to="/" class="btn menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</router-link>
+            <a @click="goMain" class="btn menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</a>
             <hr>
             <router-link to="/profession" class="btn menu-btn btn-primary "><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
             <hr>
@@ -75,7 +77,10 @@ export default {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
 
-      this.$router.push('/auth')
+      this.goMain();
+    },
+    goMain() {
+      window.location = '/';
     }
   },
   async created() {
@@ -93,8 +98,6 @@ export default {
         }
     )
   },
-  computed: {
-  }
 }
 </script>
 

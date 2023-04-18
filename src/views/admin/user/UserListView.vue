@@ -2,8 +2,6 @@
   <modal-container
     header-title="Список респондентов"
     show-header="true"
-    :show-btn-back="true"
-    :btn-back="back"
   >
   <template
     v-if="users.length">

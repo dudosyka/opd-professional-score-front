@@ -2,8 +2,6 @@
   <modal-container
     header-title="Список экспертов"
     show-header="true"
-    :show-btn-back="true"
-    :btn-back="back"
   >
   <template
     v-if="experts.length">

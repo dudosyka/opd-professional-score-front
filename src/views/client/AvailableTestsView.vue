@@ -2,8 +2,6 @@
   <modal-container
       header-title="Доступные тесты"
       :show-header="true"
-      :show-btn-back="true"
-      :btn-back="back"
   >
     <template
         v-if="available != null">
