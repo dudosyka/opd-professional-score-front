@@ -1,8 +1,28 @@
 <template>
+    <div class="instruction-static">
+        <div class="col progress-col">
+            <div class="progress">
+                Прогресс {{ gameStatic.iterationPassed }} / {{ gameStatic.iterationCount }}
+            </div>
+            <div class="progress">
+                Правильно {{ results.filter(el => el !== false && el !== null).length }} / {{ gameStatic.iterationCount }}
+            </div>
+        </div>
+        <div class="key-block">
+            <div class="label">
+                Пробел
+            </div>
+            <div class="key">
+                Space
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 // import '@/three';
+
+import {UserTestModel} from "@/api/models/user-test.model";
 
 var scene, camera, renderer, container;
 var _width, _height;
@@ -523,11 +543,12 @@ export default {
     endGame() {
       this.gameStatic.ended = true;
       console.log('GAME ENDED', this.results)
-      this.$store.commit('setGameResults', {
+      this.$store.dispatch('setGameResults', {
         type: 1,
         numbers: [...this.results],
       });
-      console.log(document.getElementsByTagName('canvas')[0].remove());
+      document.getElementsByTagName('canvas')[0].remove();
+      
       this.$router.push('/game/results');
     }
   }
@@ -535,5 +556,42 @@ export default {
 </script>
 
 <style scoped>
+.instruction-static {
+    display: flex;
+    flex-direction: row;
+    width: 70vw;
+    justify-content: space-around;
+    position: absolute;
+    z-index: 9999;
+    left: 1rem;
+    bottom: 1rem;
+}
+.key-block, .progress {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(162, 162, 162, 0.4);
+    padding: 1.75rem;
+}
+.progress {
+    max-width: 200px;
+}
 
+.key-block > .label, .progress {
+    color: #EFEFEF;
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+.key-block > .key {
+    color: #EFEFEF;
+    font-size: 3rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    background-color: #0e2431;
+}
+.progress-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 </style>

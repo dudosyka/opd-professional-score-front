@@ -17,7 +17,7 @@ export class UserTestAvailableModel extends BaseModel {
       return this.apiResolver.request('POST', '', data)
     }
   
-  updateRelatives(userId, data) {
-      return this.apiResolver.request('PATCH', `update-relatives/${userId}`, data)
+  async updateRelatives(userId, data) {
+      return await this.apiResolver.request('PATCH', `update-relatives/${userId}`, data)
     }
 }

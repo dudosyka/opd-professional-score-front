@@ -58,6 +58,9 @@ export default {
       tests = await this.userModel.getAvailableByCurrent();
     else
       tests = await this.userModel.getAvailableByUser(this.selectedUser.id);
+    
+    this.$store.commit('setAvailableTestsCount', tests.length ? tests.sort((a, b) => b.serial - a.serial)[0].relative_id : 0);
+    
     const loaded = tests.map(el => {
       console.log(el);
       return {
@@ -86,6 +89,11 @@ export default {
               testId: el.userTestId,
               relativeId: el.serial
             }
+        })
+      }).then(() => {
+        this.$store.dispatch('showPopUp', {
+          success: true,
+          text: "Порядок сохранен!"
         })
       })
     }

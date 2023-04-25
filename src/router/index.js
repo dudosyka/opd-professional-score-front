@@ -26,6 +26,7 @@ import GameResult from "@/views/client/games/GameResult.vue";
 import SimpleSoundGame from "@/views/client/games/SimpleSoundGame.vue";
 import HardSoundGame from "@/views/client/games/HardSoundGame.vue";
 import HardColorGame from "@/views/client/games/HardColorGame.vue";
+import HardNumberGame from "@/views/client/games/HardNumberGame.vue";
 
 const routes = [
   {
@@ -204,6 +205,12 @@ const routes = [
     path: '/game/4',
     name: "Game 4",
     component: HardSoundGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/5',
+    name: "Game 5",
+    component: HardNumberGame,
     meta: { needAuth: true, adminPart: false, game: true }
   },
   {

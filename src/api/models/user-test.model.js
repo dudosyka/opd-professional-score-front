@@ -4,20 +4,20 @@ export class UserTestModel extends BaseModel {
     constructor() {
         super("user-test");
     }
-
-    resultByUser(userId) {
-        return this.apiResolver.request('GET', `result/${userId}`, null)
+    
+    saveResult(user_available_test, result) {
+      return this.apiResolver.request('POST', '', { user_available_test, result })
     }
 
-    resultByCurrentUser() {
-        return this.apiResolver.request('GET', 'current/result', null)
+    async getTypes() {
+      return await this.apiResolver.request('GET', 'types');
     }
-
-    resultByUserAndTest(userId, testId) {
-        return this.apiResolver.request('GET', `result/${userId}/${testId}`)
+    
+    async getResultByType(test_id) {
+      return await this.apiResolver.request('GET', `result/${test_id}/all`);
     }
-
-    resultByCurrentUserAndTest(testId) {
-        return this.apiResolver.request('GET', `current/result/${testId}`, null);
+    
+    async getOneResult(result_id) {
+      return await this.apiResolver.request('GET', `result/${result_id}`);
     }
 }

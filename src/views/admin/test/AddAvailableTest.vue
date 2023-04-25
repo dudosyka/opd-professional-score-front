@@ -35,6 +35,16 @@
                   <input v-model.number="switchTime" class="form-control form-control-lg" type="text" required="required">
               </div>
           </template>
+          <template v-else>
+              <div class="input-group">
+                  <label class="input-group-text">Минимальное число которое может быть сгененерировано в тесте</label>
+                  <input v-model.number="simplicity.minNum" class="form-control form-control-lg" type="text" required="required">
+              </div>
+              <div class="input-group">
+                  <label class="input-group-text">Максимальное число которое может быть сгененерировано в тесте</label>
+                  <input v-model.number="simplicity.maxNum" class="form-control form-control-lg" type="text" required="required">
+              </div>
+          </template>
       </div>
   </ModalContainer>
 </template>
@@ -59,7 +69,11 @@ export default {
       //min and max time between iterations in ms
       min: 7000,
       max: 8500
-    }
+    },
+    simplicity: {
+      minNum: 1,
+      maxNum: 20
+    },
   }),
   created() {
     console.log(this.testTemplate);
@@ -72,21 +86,25 @@ export default {
   methods: {
     next() {
       const dataToSave = this.processData();
-      console.log(dataToSave);
+      
+      if (!dataToSave)
+        return;
+      
       const model = new UserTestAvailableModel();
       model.save({
         tests: [{
           user_id: this.$store.getters.getSelectedUser.id,
           test_id: this.testTemplate.id,
-          relative_id: 1,
+          relative_id: this.$store.getters.getAvailableTestsCount + 1,
           settings: JSON.stringify(dataToSave)
         }]
       });
+      this.$store.dispatch('showPopUp', { success: true, text: "Тест успешно добавлен!" });
       this.$router.push(`/user/${this.$store.getters.getSelectedUser.id}/available/`)
     },
     processData() {
       if (this.circleTimeRange.min > this.circleTimeRange.max) {
-        this.$store.commit('showPopUp', {
+        this.$store.dispatch('showPopUp', {
           success: false,
           text: "Ошибка минимальное время между повторениями должно быть меньше максимального!"
         })
@@ -94,7 +112,7 @@ export default {
       }
       
       if (this.timeType === 1 && this.repeat <= 0) {
-        this.$store.commit('showPopUp', {
+        this.$store.dispatch('showPopUp', {
           success: false,
           text: "Ошибка кол-во повторений должно быть больше нуля!"
         })
@@ -102,24 +120,36 @@ export default {
       }
       
       if (this.timeType === 2 && this.time <= 0) {
-        this.$store.commit('showPopUp', {
+        this.$store.dispatch('showPopUp', {
           success: false,
           text: "Ошибка время теста должно быть больше нуля!"
         })
         return
       }
       
-      if (!this.circleTimeRange.min || !this.circleTimeRange.max || !this.switchTime || !this.startDelay) {
-        this.$store.commit('showPopUp', {
+      if (!this.circleTimeRange.min || !this.circleTimeRange.max || !this.switchTime || !this.startDelay || !this.simplicity.minNum || !this.simplicity.maxNum) {
+        this.$store.dispatch('showPopUp', {
           success: false,
           text: "Ошибка проверьте правильность данных!"
         })
         return;
       }
       
-      let data = {
+      if (this.simplicity.maxNum < this.simplicity.minNum) {
+        this.$store.dispatch('showPopUp', {
+          success: false,
+          text: "Ошибка минимальное число для генерации должно быть миньше максимального!"
+        })
+        return;
+      }
+        
+        
+        let data = {
         startDelay: this.startDelay,
         switchTime: this.switchTime,
+        simplicity: {
+          ...this.simplicity
+        },
         circleTimeRange: {
           ...this.circleTimeRange
         }

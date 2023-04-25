@@ -47,12 +47,13 @@ export default {
       console.log(el);
       return {
         id: el.test.id,
+        available_test_id: el.id,
         serial: el.relative_id,
         name: el.test.name,
         settings: JSON.parse(JSON.parse(el.settings))
       }
     });
-    this.available = loaded;
+    this.available = loaded.sort((a,b) => a.serial - b.serial);
 
   },
   methods: {
