@@ -98,9 +98,12 @@ export default {
           relative_id: this.$store.getters.getAvailableTestsCount + 1,
           settings: JSON.stringify(dataToSave)
         }]
-      });
-      this.$store.dispatch('showPopUp', { success: true, text: "Тест успешно добавлен!" });
-      this.$router.push(`/user/${this.$store.getters.getSelectedUser.id}/available/`)
+      }).then(() => {
+        this.$store.dispatch('showPopUp', { success: true, text: "Тест успешно добавлен!" });
+        this.$router.push(`/user/${this.$store.getters.getSelectedUser.id}/available/`)
+      }).catch(err => {
+        this.$store.dispatch('showPopUp', { success: false, text: "Произошла ошибка при сохранении данных!"});
+      })
     },
     processData() {
       if (this.circleTimeRange.min > this.circleTimeRange.max) {

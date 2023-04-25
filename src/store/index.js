@@ -127,11 +127,13 @@ export default createStore({
       commit('setGameResults', data);
       
       const points = data.numbers.map(el => el ? el : 0);
+      const nonZeroPoints = points.filter(el => el != 0);
       const model = new UserTestModel();
-      model.saveResult(state.onPass.available_test_id, {
-        points,
-        avg: Math.round(points.reduce((prev, cur) => prev + cur) / points.length)
-      });
+      if (nonZeroPoints.length)
+        model.saveResult(state.onPass.available_test_id, {
+          points,
+          avg: Math.round(nonZeroPoints.reduce((prev, cur) => prev + cur) / nonZeroPoints.length)
+        });
     }
   },
   modules: {

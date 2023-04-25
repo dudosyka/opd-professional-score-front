@@ -13,8 +13,8 @@ export class UserTestAvailableModel extends BaseModel {
         return this.apiResolver.request('GET', `user/${userId}`, null);
     }
     
-    save(data) {
-      return this.apiResolver.request('POST', '', data)
+    async save(data) {
+      return await this.apiResolver.request('POST', '', data)
     }
   
   async updateRelatives(userId, data) {

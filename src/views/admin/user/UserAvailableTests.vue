@@ -13,6 +13,8 @@
         :elements="available"
         :moveable="true"
         :btns="btns"
+        :need-pagination="true"
+        :items-on-page="3"
       >
 
       </PaginationTable>
