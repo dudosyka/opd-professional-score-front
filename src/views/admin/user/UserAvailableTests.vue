@@ -42,6 +42,10 @@ export default {
         {
           click: this.addToAvailable,
           title: "Добавить тест"
+        },
+        {
+          click: this.saveRelations,
+          title: "Сохранить порядок"
         }
       ]
     }
@@ -55,9 +59,11 @@ export default {
     else
       tests = await this.userModel.getAvailableByUser(this.selectedUser.id);
     const loaded = tests.map(el => {
+      console.log(el);
       return {
+        userTestId: el.id,
         id: el.test.id,
-        serial: el.test.relative_id,
+        serial: el.relative_id,
         name: el.test.name
       }
     });
@@ -71,12 +77,26 @@ export default {
     },
     back() {
       this.$router.push('/user');
+    },
+    saveRelations(e, data) {
+      const model = new UserTestAvailableModel();
+      model.updateRelatives(this.user.id, {
+        testToRelative: data.map(el => {
+            return {
+              testId: el.userTestId,
+              relativeId: el.serial
+            }
+        })
+      })
     }
   },
   computed: {
     selectedUser() {
       return this.$store.getters.getSelectedUser;
-    }
+    },
+    // available() {
+    //   return this.availableTests.sort((a,b) => a.serial - b.serial)
+    // }
   }
 }
 </script>

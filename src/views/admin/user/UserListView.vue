@@ -59,6 +59,7 @@ export default {
       this.users = await this.userModel.getAllResp();
     },
     select(selected) {
+      console.log(selected)
       this.selectedModel = selected[0];
       this.$store.commit('setSelectedUser', selected[0]);
     },

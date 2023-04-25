@@ -35,7 +35,7 @@
     </main>
     <aside class="col-3" v-if="btns.length">
       <div class="row mb-3" v-for="btn in btns" >
-        <SmallButton @click="btn.click">{{ btn.title }}</SmallButton>
+        <SmallButton @click="btn.click($event, pagination)">{{ btn.title }}</SmallButton>
       </div>
     </aside>
   </div>
@@ -132,10 +132,12 @@ export default {
           serial: el.serial ? el.serial :  key + 1
         }
     })
+    console.log(this.data);
   },
   computed: {
     pagination() {
       let items = this.data;
+      
       if (this.needPagination)
         items = this.data.slice((this.curPage - 1) * this.itemsOnPage, this.curPage * this.itemsOnPage)
 
@@ -192,6 +194,7 @@ export default {
       const oldItem = this.find(newSerial);
       this.data[oldItem].serial++;
       this.data[index].serial--;
+      this.data = this.data.sort((a, b) => a.serial - b.serial)
     },
     moveDown(key) {
       const index = this.realIndex(key);
@@ -202,6 +205,7 @@ export default {
       const oldItem = this.find(newSerial);
       this.data[oldItem].serial--;
       this.data[index].serial++;
+      this.data = this.data.sort((a, b) => a.serial - b.serial)
     },
   }
 }
