@@ -1,57 +1,67 @@
 <template>
-  <div class="container-fluid main-container row">
-    <div class="col-2 nav-col" v-if="!$route.meta.hideMenu">
-      <Menu v-if="isLogin">
-        <template v-slot:first>
-          <template
-              v-if="role == 2 || role == 1"
-          >
-              <a @click="goMain()" class="btn menu-btn btn-primary"><i class="fa-solid fa-house"></i> Главная</a>
-              <hr>
-              <router-link to="/profession" class="btn  menu-btn btn-primary"><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
-              <hr>
-              <router-link to="/pvk" class="btn  menu-btn btn-primary"><i class="fa-solid fa-list"></i> ПВК</router-link>
-              <template v-if="role == 2">
-                  <hr>
-                  <router-link to="/expert" class="btn  menu-btn btn-primary "><i class="fa-solid fa-user-tie"></i> Эксперты</router-link>
-              </template>
-              <hr>
-              <router-link to="/user" class="btn  menu-btn btn-primary "><i class="fa-solid fa-users"></i> Респонденты</router-link>
-          </template>
-          <template v-else>
-              <a @click="goMain" class="btn  menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</a>
-              <hr>
-              <router-link to="/profession" class="btn  menu-btn btn-primary "><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
-              <hr>
-              <router-link to="/pvk" class="btn  menu-btn btn-primary "><i class="fa-solid fa-list"></i> Список ПВК</router-link>
-              <hr>
-              <router-link to="/client/tests" class="btn  menu-btn btn-primary "><i class="fa-solid fa-address-card"></i> Тесты</router-link>
-              <hr>
-              <router-link to="/client/tests/passed" class="btn menu-btn btn-primary"><i class="fa-solid fa-clipboard-check"></i> Результаты</router-link>
-          </template>
-            <hr>
-            <router-link to="/logout" class="btn menu-btn btn-primary"><i class="fa-solid fa-right-from-bracket"></i> Выйти</router-link>
-        </template>
-      </Menu>
-      <Menu v-else>
-        <template v-slot:first>
-            <a @click="goMain" class="btn menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</a>
-            <hr>
-            <router-link to="/profession" class="btn menu-btn btn-primary "><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
-            <hr>
-            <router-link to="/pvk" class="btn menu-btn btn-primary "><i class="fa-solid fa-list"></i> Список ПВК</router-link>
-            <hr>
-            <router-link to="/auth" class="btn menu-btn btn-primary "><i class="fa-solid fa-right-to-bracket"></i> Авторизация</router-link>
-            <hr>
-            <router-link to="/sign-up" class="btn menu-btn btn-primary "><i class="fa-solid fa-address-card"></i> Регистрация</router-link>
-        </template>
-      </Menu>
-    </div>
-    <div :class="{'auth-col': authCol}" class="col content-col justify-content-center d-flex align-items-center">
-      <PopUp></PopUp>
-      <router-view />
-    </div>
-  </div>
+  <template v-if="$route.meta.game">
+      <div class="container-fluid main-container row" v-if="$route.meta.gameRes">
+          <div class="full-rounded col content-col justify-content-center d-flex align-items-center">
+              <router-view></router-view>
+          </div>
+      </div>
+      <router-view v-else></router-view>
+  </template>
+    <template v-else>
+        <div class="container-fluid main-container row">
+            <div class="col-2 nav-col" v-if="!$route.meta.hideMenu">
+                <Menu v-if="isLogin">
+                    <template v-slot:first>
+                        <template
+                                v-if="role == 2 || role == 1"
+                        >
+                            <a @click="goMain()" class="btn menu-btn btn-primary"><i class="fa-solid fa-house"></i> Главная</a>
+                            <hr>
+                            <router-link to="/profession" class="btn  menu-btn btn-primary"><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
+                            <hr>
+                            <router-link to="/pvk" class="btn  menu-btn btn-primary"><i class="fa-solid fa-list"></i> ПВК</router-link>
+                            <template v-if="role == 2">
+                                <hr>
+                                <router-link to="/expert" class="btn  menu-btn btn-primary "><i class="fa-solid fa-user-tie"></i> Эксперты</router-link>
+                            </template>
+                            <hr>
+                            <router-link to="/user" class="btn  menu-btn btn-primary "><i class="fa-solid fa-users"></i> Респонденты</router-link>
+                        </template>
+                        <template v-else>
+                            <a @click="goMain" class="btn  menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</a>
+                            <hr>
+                            <router-link to="/profession" class="btn  menu-btn btn-primary "><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
+                            <hr>
+                            <router-link to="/pvk" class="btn  menu-btn btn-primary "><i class="fa-solid fa-list"></i> Список ПВК</router-link>
+                            <hr>
+                            <router-link to="/client/tests" class="btn  menu-btn btn-primary "><i class="fa-solid fa-address-card"></i> Тесты</router-link>
+                            <hr>
+                            <router-link to="/client/tests/passed" class="btn menu-btn btn-primary"><i class="fa-solid fa-clipboard-check"></i> Результаты</router-link>
+                        </template>
+                        <hr>
+                        <router-link to="/logout" class="btn menu-btn btn-primary"><i class="fa-solid fa-right-from-bracket"></i> Выйти</router-link>
+                    </template>
+                </Menu>
+                <Menu v-else>
+                    <template v-slot:first>
+                        <a @click="goMain" class="btn menu-btn btn-primary "><i class="fa-solid fa-house"></i> Главная</a>
+                        <hr>
+                        <router-link to="/profession" class="btn menu-btn btn-primary "><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
+                        <hr>
+                        <router-link to="/pvk" class="btn menu-btn btn-primary "><i class="fa-solid fa-list"></i> Список ПВК</router-link>
+                        <hr>
+                        <router-link to="/auth" class="btn menu-btn btn-primary "><i class="fa-solid fa-right-to-bracket"></i> Авторизация</router-link>
+                        <hr>
+                        <router-link to="/sign-up" class="btn menu-btn btn-primary "><i class="fa-solid fa-address-card"></i> Регистрация</router-link>
+                    </template>
+                </Menu>
+            </div>
+            <div :class="{'auth-col': authCol}" class="col content-col justify-content-center d-flex align-items-center">
+                <PopUp></PopUp>
+                <router-view />
+            </div>
+        </div>
+    </template>
 </template>
 
 
@@ -142,6 +152,9 @@ body {
     border: 1px solid rgba(209, 213, 219, 0.3);
     height: 100%;
     min-height: 90vh;
+}
+.full-rounded {
+    border-radius: 1rem !important;
 }
 .nav-col {
     backdrop-filter: blur(16px) saturate(180%);

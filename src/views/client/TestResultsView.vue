@@ -1,5 +1,5 @@
 <template>
-  <TestDynamicView :get-by-current="true"></TestDynamicView>
+
 </template>
 
 <script>

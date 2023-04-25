@@ -21,6 +21,12 @@ import OneTestResultView from "@/views/admin/test/OneTestResultView.vue";
 import HomeView from "@/views/HomeView.vue";
 import SelectPvkView from "@/views/admin/prof/SelectPvkView.vue";
 import AllPvkView from "@/views/AllPvkView.vue";
+import SimpleColourGame from "@/views/client/games/SimpleColorGame.vue";
+import GameResult from "@/views/client/games/GameResult.vue";
+import SimpleSoundGame from "@/views/client/games/SimpleSoundGame.vue";
+import HardSoundGame from "@/views/client/games/HardSoundGame.vue";
+import HardColorGame from "@/views/client/games/HardColorGame.vue";
+import HardNumberGame from "@/views/client/games/HardNumberGame.vue";
 
 const routes = [
   {
@@ -174,6 +180,44 @@ const routes = [
     name: 'stats of one test',
     component: OneTestResultView,
     meta: { needAuth: true, adminPart: false }
+  },
+  
+  //games
+  {
+    path: '/game/1',
+    name: "Game 1",
+    component: SimpleColourGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/2',
+    name: "Game 2",
+    component: SimpleSoundGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/3',
+    name: "Game 3",
+    component: HardColorGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/4',
+    name: "Game 4",
+    component: HardSoundGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/5',
+    name: "Game 5",
+    component: HardNumberGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/results',
+    name: "Unified game results window",
+    component: GameResult,
+    meta: { needAuth: true, adminPart: false, game: true, gameRes: true }
   }
 ]
 

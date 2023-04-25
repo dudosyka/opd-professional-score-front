@@ -9,7 +9,7 @@
       v-if="available != null">
       <PaginationTable
         :labels="['Название']"
-        :keys="['testName']"
+        :keys="['name']"
         :elements="available"
         :moveable="true"
         :btns="btns"
@@ -42,6 +42,10 @@ export default {
         {
           click: this.addToAvailable,
           title: "Добавить тест"
+        },
+        {
+          click: this.saveRelations,
+          title: "Сохранить порядок"
         }
       ]
     }
@@ -54,13 +58,19 @@ export default {
       tests = await this.userModel.getAvailableByCurrent();
     else
       tests = await this.userModel.getAvailableByUser(this.selectedUser.id);
+    
+    this.$store.commit('setAvailableTestsCount', tests.length ? tests.sort((a, b) => b.serial - a.serial)[0].relative_id : 0);
+    
     const loaded = tests.map(el => {
+      console.log(el);
       return {
-        id: el.id,
+        userTestId: el.id,
+        id: el.test.id,
         serial: el.relative_id,
-        name: el.name
+        name: el.test.name
       }
     });
+    console.log(loaded, tests);
     this.available = loaded;
 
   },
@@ -70,12 +80,31 @@ export default {
     },
     back() {
       this.$router.push('/user');
+    },
+    saveRelations(e, data) {
+      const model = new UserTestAvailableModel();
+      model.updateRelatives(this.user.id, {
+        testToRelative: data.map(el => {
+            return {
+              testId: el.userTestId,
+              relativeId: el.serial
+            }
+        })
+      }).then(() => {
+        this.$store.dispatch('showPopUp', {
+          success: true,
+          text: "Порядок сохранен!"
+        })
+      })
     }
   },
   computed: {
     selectedUser() {
       return this.$store.getters.getSelectedUser;
-    }
+    },
+    // available() {
+    //   return this.availableTests.sort((a,b) => a.serial - b.serial)
+    // }
   }
 }
 </script>

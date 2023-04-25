@@ -1,7 +1,7 @@
 <template>
   <ModalContainer
       :show-header="true"
-      header-title="Типы тестов пройденные пользователем"
+      header-title="Тесты пройденные пользователем"
       :show-btn-back="true"
       :btn-back="back"
       :show-btn-next="true"
@@ -59,13 +59,14 @@ export default {
     userTest.map(el => {
       testTypeIds.add(el.test.id)
     });
-    this.tests = tests.filter(el => testTypeIds.includes(el.id))
+    this.tests = tests.filter(el => testTypeIds.has(el.id))
     console.log(this.tests);
   },
   methods: {
     select(selected) {
       this.selected = selected[0];
       this.$store.commit('setSelectedPassedTest', selected[0])
+      
     },
     unselect() {
       this.selected = null

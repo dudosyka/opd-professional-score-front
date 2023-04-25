@@ -1,6 +1,12 @@
 import { createStore } from 'vuex'
 import {ProfessionModel} from "@/api/models/profession.model";
 import {UserModel} from "@/api/models/user.model";
+import {UserTestModel} from "@/api/models/user-test.model";
+
+const gameResultsClear = {
+  type: null,
+  numbers: []
+}
 
 export default createStore({
   state: {
@@ -15,7 +21,10 @@ export default createStore({
       success: true,
       text: 'string'
     },
-    user: null
+    gameResults: {...gameResultsClear},
+    user: null,
+    onPass: null,
+    availableCount: 0
   },
   getters: {
     getUserSt(state){
@@ -41,6 +50,15 @@ export default createStore({
     },
     popUp(state) {
       return state.popUp;
+    },
+    gameResults(state) {
+      return state.gameResults;
+    },
+    getTestOnPass(state) {
+      return state.onPass;
+    },
+    getAvailableTestsCount(state) {
+      return state.availableCount;
     }
   },
   mutations: {
@@ -74,6 +92,20 @@ export default createStore({
     },
     closePopUp(state) {
       state.popUp.show = false;
+    },
+    setGameResults(state, results) {
+      state.gameResults = results;
+    },
+    clearGameResults(state) {
+      state.gameResults = {
+        ...gameResultsClear
+      }
+    },
+    setOnPass(state, settings) {
+      state.onPass = { ...settings };
+    },
+    setAvailableTestsCount(state, count) {
+      state.availableCount = count;
     }
   },
   actions: {
@@ -90,6 +122,16 @@ export default createStore({
     async getUser({commit}){
       const curUser = await (new UserModel()).getCurrent()
       commit('setUser', curUser.role)
+    },
+    async setGameResults({commit, state}, data) {
+      commit('setGameResults', data);
+      
+      const points = data.numbers.map(el => el ? el : 0);
+      const model = new UserTestModel();
+      model.saveResult(state.onPass.available_test_id, {
+        points,
+        avg: Math.round(points.reduce((prev, cur) => prev + cur) / points.length)
+      });
     }
   },
   modules: {

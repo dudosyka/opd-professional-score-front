@@ -7,7 +7,7 @@
         v-if="available != null">
       <PaginationTable
           :labels="['Название']"
-          :keys="['testName']"
+          :keys="['name']"
           :elements="available"
           :moveable="false"
           :inline-btns="btns"
@@ -44,13 +44,16 @@ export default {
     this.userModel = new UserTestAvailableModel();
     const tests = await this.userModel.getAvailableByCurrent();
     const loaded = tests.map(el => {
+      console.log(el);
       return {
-        id: el.id,
+        id: el.test.id,
+        available_test_id: el.id,
         serial: el.relative_id,
-        name: el.name
+        name: el.test.name,
+        settings: JSON.parse(JSON.parse(el.settings))
       }
     });
-    this.available = loaded;
+    this.available = loaded.sort((a,b) => a.serial - b.serial);
 
   },
   methods: {
@@ -59,7 +62,8 @@ export default {
         this.$store.dispatch('showPopUp', { text: "Начните с первого в списке!", success: false })
         return;
       }
-      console.log(this.tests[key])
+      this.$store.commit('setOnPass', this.available[key])
+      this.$router.push('/game/' + this.available[key].id)
       //Start one of the games
     },
     back() {

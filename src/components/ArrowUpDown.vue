@@ -7,7 +7,8 @@
 
 <script>
 export default {
-  name: "ArrowUpDown"
+  name: "ArrowUpDown",
+  
 }
 </script>
 

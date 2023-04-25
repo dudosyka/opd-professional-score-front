@@ -35,7 +35,7 @@
     </main>
     <aside class="col-3" v-if="btns.length">
       <div class="row mb-3" v-for="btn in btns" >
-        <SmallButton @click="btn.click">{{ btn.title }}</SmallButton>
+        <SmallButton @click="btn.click($event, pagination)">{{ btn.title }}</SmallButton>
       </div>
     </aside>
   </div>
@@ -113,7 +113,9 @@ export default {
   data() {
     return {
       curPage: 1,
-      data: []
+      data: [],
+      minimalSerial: 1,
+      maximumSerial: 9999,
     }
   },
   created() {
@@ -132,14 +134,22 @@ export default {
           serial: el.serial ? el.serial :  key + 1
         }
     })
+    console.log(this.data);
   },
   computed: {
     pagination() {
       let items = this.data;
+      
       if (this.needPagination)
         items = this.data.slice((this.curPage - 1) * this.itemsOnPage, this.curPage * this.itemsOnPage)
 
-      return items.sort((a,b) => a.serial - b.serial)
+      const res = items.sort((a,b) => a.serial - b.serial)
+      if (res.length) {
+        this.minimalSerial = res[0].serial;
+        this.maximumSerial = res[res.length - 1].serial;
+      }
+      
+      return res;
     }
   },
   methods: {
@@ -186,22 +196,24 @@ export default {
     moveUp(key) {
       const index = this.realIndex(key);
       const target = this.data[index];
-      if (target.serial == 1)
+      if (target.serial == this.minimalSerial)
         return;
       const newSerial = target.serial - 1;
       const oldItem = this.find(newSerial);
       this.data[oldItem].serial++;
       this.data[index].serial--;
+      this.data = this.data.sort((a, b) => a.serial - b.serial)
     },
     moveDown(key) {
       const index = this.realIndex(key);
       const target = this.data[index];
-      if (target.serial == this.data.length)
+      if (target.serial == this.maximumSerial)
         return;
       const newSerial = target.serial + 1;
       const oldItem = this.find(newSerial);
       this.data[oldItem].serial--;
       this.data[index].serial++;
+      this.data = this.data.sort((a, b) => a.serial - b.serial)
     },
   }
 }

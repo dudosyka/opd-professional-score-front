@@ -59,6 +59,7 @@ export default {
       this.users = await this.userModel.getAllResp();
     },
     select(selected) {
+      console.log(selected)
       this.selectedModel = selected[0];
       this.$store.commit('setSelectedUser', selected[0]);
     },
@@ -74,11 +75,7 @@ export default {
       this.$router.push(`/user/${this.selectedModel}/available`)
     },
     showPassed() {
-      if (this.selectedModel == null) {
-        this.$store.dispatch('showPopUp', { text: "Ошибка! Выберите пользователя!", success: false })
-        return;
-      }
-      this.$router.push(`/user/${this.selectedModel}/passed`)
+      this.$router.push(`/client/tests/passed`)
     },
     back() {
       this.$router.push('/');
