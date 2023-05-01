@@ -73,7 +73,7 @@ export default {
       ended: false,
       pickedColor: 1,
       changeTime: 0,
-      clicked: false,
+      clicked: true,
       iterationCount: 10,
       iterationPassed: 0,
       colors: {
@@ -550,23 +550,25 @@ export default {
       else
         this.results.push(false);
       console.log(this.results, this.gameStatic.iterationPassed);
-      if (this.gameStatic.iterationCount - 1 <= this.gameStatic.iterationPassed)
+      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed + 1)
         this.endGame();
     },
     iteration() {
+      //If user didnt click in this iteration
+      if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
+        this.results.push(null);
+      }
       if (this.gameStatic.ended)
         return;
-      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed)
+      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed) {
         this.endGame();
+        return
+      }
       
       setTimeout(() => {
         this.iteration();
       }, this.generateRandom())
       
-      //If user didnt click in this iteration
-      if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
-        this.results.push(null);
-      }
       
       this.gameStatic.changeTime = Date.now();
       this.gameStatic.clicked = false;

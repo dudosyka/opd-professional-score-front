@@ -126,19 +126,21 @@ export default {
         this.endGame();
     },
     iteration() {
+      //If user didnt click in this iteration
+      if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
+        this.results.push(null);
+      }
       if (this.gameStatic.ended)
         return;
-      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed)
+      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed) {
         this.endGame();
+        return;
+      }
       
       setTimeout(() => {
         this.iteration();
       }, this.generateRandom())
       
-      //If user didnt click in this iteration
-      if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
-        this.results.push(null);
-      }
       
       this.gameStatic.changeTime = Date.now();
       this.gameStatic.iterationPassed++;
@@ -163,7 +165,7 @@ export default {
     },
     endGame() {
       this.gameStatic.ended = true;
-      console.log('GAME ENDED', this.results)
+      console.log('GAME ENDED', this.results, [...this.results]);
       this.$store.dispatch('setGameResults', {
         type: 4,
         numbers: [...this.results],
@@ -207,7 +209,7 @@ export default {
       width: 70vw;
       justify-content: space-around;
       position: absolute;
-      z-index: 9999;
+      z-index: 9999999;
       left: 1rem;
       bottom: 1rem;
   }

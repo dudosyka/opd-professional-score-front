@@ -28,7 +28,12 @@ export default {
   components: {ModalContainer},
   mounted() {
     const labels = this.labels;
-    const data = this.data;
+    const data = this.data.map(el => {
+      if (typeof el == 'object')
+        return el.y ? el : {y: 0}
+      else
+        return el ? el : 0
+    });
     new ChartJs(document.getElementById("line-chart"), {
       type: 'line',
       data: {

@@ -136,6 +136,7 @@ export default {
     });
     this.utterance = new SpeechSynthesisUtterance();
     this.utterance.onend = this.clearIteration;
+    this.gameStatic.clicked = true;
     this.startGame();
   },
   methods: {
@@ -529,19 +530,21 @@ export default {
         this.endGame();
     },
     iteration() {
+      //If user didnt click in this iteration
+      if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
+        this.results.push(null);
+      }
       if (this.gameStatic.ended)
         return;
-      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed)
+      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed) {
         this.endGame();
+        return
+      }
       
       setTimeout(() => {
         this.iteration();
       }, this.generateRandom())
       
-      //If user didnt click in this iteration
-      if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
-        this.results.push(null);
-      }
       
       this.iterationAction();
     },
@@ -553,7 +556,6 @@ export default {
       speechSynthesis.speak(this.utterance);
     },
     clearIteration() {
-      console.log('called');
       this.gameStatic.iterationPassed++;
       this.gameStatic.changeTime = Date.now();
       this.gameStatic.clicked = false;

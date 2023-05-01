@@ -59,7 +59,7 @@ export default {
     else
       tests = await this.userModel.getAvailableByUser(this.selectedUser.id);
     
-    this.$store.commit('setAvailableTestsCount', tests.length ? tests.sort((a, b) => b.serial - a.serial)[0].relative_id : 0);
+    this.$store.commit('setAvailableTestsCount', tests.length ? [...tests].sort((a, b) => b.serial - a.serial)[0].relative_id : 0);
     
     const loaded = tests.map(el => {
       console.log(el);
@@ -71,7 +71,7 @@ export default {
       }
     });
     console.log(loaded, tests);
-    this.available = loaded;
+    this.available = loaded.sort((a, b) => a.serial - b.serial);
 
   },
   methods: {

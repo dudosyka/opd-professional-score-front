@@ -489,6 +489,7 @@ export default {
       this.audio = new Audio();
       this.audio.src = '/audio.mp3';
       console.log(this.gameStatic.iterationCount);
+      this.gameStatic.clicked = true;
       setTimeout(() => {
         this.iteration()
       }, this.gameSettingsInput.startDelay);
@@ -503,19 +504,21 @@ export default {
         this.endGame();
     },
     iteration() {
+      //If user didnt click in this iteration
+      if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
+        this.results.push(null);
+      }
       if (this.gameStatic.ended)
         return;
-      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed)
+      if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed) {
         this.endGame();
+        return
+      }
       
       setTimeout(() => {
         this.iteration();
       }, this.generateRandom())
       
-      //If user didnt click in this iteration
-      if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
-        this.results.push(null);
-      }
       
       setTimeout(() => {
         this.gameStatic.changeTime = Date.now();
