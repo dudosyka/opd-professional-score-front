@@ -6,7 +6,7 @@
     :show-btn-next="true"
   >
       <h4 class="mb-5">Вы можете изменить настройки теста по умолчанию</h4>
-      <div class="container container-fluid">
+      <div class="container container-fluid" v-if="testTemplate.id < 6">
           <div class="input-group" v-if="timeType === 1">
               <label class="input-group-text">Количество повторений</label>
               <input v-model.number="repeat" class="form-control form-control-lg" type="text" required="required">
@@ -46,6 +46,39 @@
               </div>
           </template>
       </div>
+      <div class="container container-fluid" v-else>
+          <div class="input-group">
+              <label class="input-group-text">Время выполнения теста (сек)</label>
+              <input v-model.number="time" class="form-control form-control-lg" type="text" required="required">
+          </div>
+          <div class="input-group">
+              <label class="input-group-text">Задержка перед началом теста (мс.)</label>
+              <input v-model.number="startDelay" class="form-control form-control-lg" type="text" required="required">
+          </div>
+          <div class="input-group">
+              <label class="input-group-text">Показывать время выполнения теста</label>
+              <input v-model="showTime" class="form-check-inline" type="checkbox" required="required">
+          </div>
+          <div class="input-group">
+              <label class="input-group-text">Показывать результат за последнюю минуту</label>
+              <input v-model="showResByMinute" class="form-check-inline" type="checkbox" required="required">
+          </div>
+          <button class="btn btn-primary" @click="changeSpeed = !changeSpeed">{{ changeSpeed ? 'Отмена' : 'Настроить скорость движения' }}</button>
+          <template v-if="changeSpeed">
+              <div class="input-group">
+                  <label class="input-group-text">Промежуток времени на который будет увеличена скорость: (сек)</label>
+                  <input v-model.number="speed.increaseTime" class="form-control form-control-lg" type="text" required="required">
+              </div>
+              <div class="input-group">
+                  <label class="input-group-text">Во сколько раз увеличить скорость (кол-во раз)</label>
+                  <input v-model.number="speed.increaseSize" class="form-control form-control-lg" type="text" required="required">
+              </div>
+              <div class="input-group">
+                  <label class="input-group-text">Как часто увеличивать время (сек.)</label>
+                  <input v-model.number="speed.increaseFrequency" class="form-control form-control-lg" type="text" required="required">
+              </div>
+          </template>
+      </div>
   </ModalContainer>
 </template>
 
@@ -74,6 +107,14 @@ export default {
       minNum: 1,
       maxNum: 20
     },
+    showTime: true,
+    showResByMinute: true,
+    changeSpeed: false,
+    speed: {
+      increaseTime: 1, //seconds
+      increaseSize: 2, //x2
+      increaseFrequency: 10, //seconds
+    }
   }),
   created() {
     console.log(this.testTemplate);
@@ -103,6 +144,11 @@ export default {
       this.$router.push(`/user/${this.$store.getters.getSelectedUser.id}/available/`)
     },
     processData() {
+      if (this.testTemplate.id > 5) {
+        this.timeType = 2
+      }
+      
+      
       if (this.circleTimeRange.min > this.circleTimeRange.max) {
         this.$store.dispatch('showPopUp', {
           success: false,
@@ -143,8 +189,7 @@ export default {
         return;
       }
         
-        
-        let data = {
+      let data = {
         startDelay: this.startDelay,
         switchTime: this.switchTime,
         simplicity: {
@@ -152,13 +197,20 @@ export default {
         },
         circleTimeRange: {
           ...this.circleTimeRange
-        }
+        },
+        speed: {
+          ...this.speed
+        },
+        showResByMinute: this.showResByMinute,
+        showTime: this.showTime,
       }
       if (this.timeType === 1) {
         data.repeat = this.repeat;
       }
-      else {
+      else if (this.testTemplate.id < 6) {
         data.time = this.time * 1000;
+      } else {
+        data.time = this.time
       }
       
       return data;
@@ -174,5 +226,9 @@ export default {
   
   .input-group input {
       max-width: 100px;
+  }
+  
+  .form-check-inline {
+      width: 1.2rem;
   }
 </style>

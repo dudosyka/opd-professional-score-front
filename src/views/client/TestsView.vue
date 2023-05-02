@@ -7,7 +7,7 @@
                      v-if="showGraph"
                 >
                     <TestResult
-                            :data="data"
+                            :datasets="data"
                             :labels="labels"
                             :stretch="true"
                     >
@@ -164,7 +164,24 @@ export default {
     drawGraph(data, labels) {
       this.showGraph = false;
       this.$nextTick(() => {
-        this.data = data;
+        
+        data = data.map(el => {
+          if (typeof el == 'object')
+            return el.y ? el : {y: 0}
+          else
+            return el ? el : 0
+        });
+        
+        this.data = [
+          {
+            data,
+            label: "Время реакции в милисекундах",
+            borderColor: "#90006a",
+            fill: false,
+            backgroundColor: "#ffffff",
+          }
+        ]
+        
         this.labels = labels;
         this.showGraph = true;
       })

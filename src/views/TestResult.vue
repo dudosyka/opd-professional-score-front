@@ -1,7 +1,7 @@
 <!-- Component for results by concrete user for one of the test types -->
 <template>
     <div class="graf" :style="stretch ? 'min-width: 90%' : ''">
-        <canvas id="line-chart"> </canvas>
+        <canvas :id="id"> </canvas>
         <slot></slot>
     </div>
 </template>
@@ -12,7 +12,11 @@ import ModalContainer from "@/components/Modal.vue";
 export default {
   name: "TestResult",
   props: {
-    data: {
+    id: {
+      type: String,
+      default: "line-chart"
+    },
+    datasets: {
       type: Array,
       default: []
     },
@@ -28,23 +32,11 @@ export default {
   components: {ModalContainer},
   mounted() {
     const labels = this.labels;
-    const data = this.data.map(el => {
-      if (typeof el == 'object')
-        return el.y ? el : {y: 0}
-      else
-        return el ? el : 0
-    });
-    new ChartJs(document.getElementById("line-chart"), {
+    new ChartJs(document.getElementById(this.id), {
       type: 'line',
       data: {
         labels,
-        datasets: [{
-          data,
-          label: "Время реакции в милисекундах",
-          borderColor: "#90006a",
-          fill: false,
-          backgroundColor: "#ffffff",
-        }]
+        datasets: this.datasets
       },
     });
   }

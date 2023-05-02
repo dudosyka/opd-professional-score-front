@@ -21,12 +21,15 @@ import OneTestResultView from "@/views/admin/test/OneTestResultView.vue";
 import HomeView from "@/views/HomeView.vue";
 import SelectPvkView from "@/views/admin/prof/SelectPvkView.vue";
 import AllPvkView from "@/views/AllPvkView.vue";
-import SimpleColourGame from "@/views/client/games/SimpleColorGame.vue";
+import SimpleColourGame from "@/views/client/games/Color/SimpleColorGame.vue";
 import GameResult from "@/views/client/games/GameResult.vue";
-import SimpleSoundGame from "@/views/client/games/SimpleSoundGame.vue";
-import HardSoundGame from "@/views/client/games/HardSoundGame.vue";
-import HardColorGame from "@/views/client/games/HardColorGame.vue";
-import HardNumberGame from "@/views/client/games/HardNumberGame.vue";
+import SimpleSoundGame from "@/views/client/games/Sound/SimpleSoundGame.vue";
+import HardSoundGame from "@/views/client/games/Sound/HardSoundGame.vue";
+import HardColorGame from "@/views/client/games/Color/HardColorGame.vue";
+import HardNumberGame from "@/views/client/games/Number/HardNumberGame.vue";
+import SimpleRDO from "@/views/client/games/Rdo/RdoComponent.vue";
+import SimpleRDOGame from "@/views/client/games/Rdo/SimpleRDOGame.vue";
+import HardRDOGame from "@/views/client/games/Rdo/HardRDOGame.vue";
 
 const routes = [
   {
@@ -211,6 +214,18 @@ const routes = [
     path: '/game/5',
     name: "Game 5",
     component: HardNumberGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/6',
+    name: "Game 6",
+    component: SimpleRDOGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/7',
+    name: "Game 7",
+    component: HardRDOGame,
     meta: { needAuth: true, adminPart: false, game: true }
   },
   {

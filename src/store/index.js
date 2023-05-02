@@ -5,7 +5,9 @@ import {UserTestModel} from "@/api/models/user-test.model";
 
 const gameResultsClear = {
   type: null,
-  numbers: []
+  numbers: [],
+  single: true,
+  singleGraf: true,
 }
 
 export default createStore({
@@ -94,7 +96,7 @@ export default createStore({
       state.popUp.show = false;
     },
     setGameResults(state, results) {
-      state.gameResults = results;
+      state.gameResults = { single: true, singleGraf: true, ...results };
     },
     clearGameResults(state) {
       state.gameResults = {
@@ -126,7 +128,16 @@ export default createStore({
     async setGameResults({commit, state}, data) {
       commit('setGameResults', data);
       
-      const points = data.numbers.map(el => el ? el : 0);
+      let points = data.numbers;
+      if (data.combine) {
+        points = [];
+        data.numbers.forEach(el => {
+          el.lines.forEach(el => {
+            points.push(...el.elements)
+          })
+        })
+      }
+      points = points.map(el => el ? Math.round(el) : 0)
       const model = new UserTestModel();
       model.saveResult(state.onPass.available_test_id, {
         points,
