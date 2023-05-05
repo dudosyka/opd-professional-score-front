@@ -30,6 +30,8 @@ import HardNumberGame from "@/views/client/games/Number/HardNumberGame.vue";
 import SimpleRDO from "@/views/client/games/Rdo/RdoComponent.vue";
 import SimpleRDOGame from "@/views/client/games/Rdo/SimpleRDOGame.vue";
 import HardRDOGame from "@/views/client/games/Rdo/HardRDOGame.vue";
+import WatchingPursuitGame from "@/views/client/games/Mouse/WatchingPursuitGame.vue";
+import WatchingAnalogGame from "@/views/client/games/Mouse/WatchingAnalogGame.vue";
 
 const routes = [
   {
@@ -226,6 +228,18 @@ const routes = [
     path: '/game/7',
     name: "Game 7",
     component: HardRDOGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/8',
+    name: "Game 8",
+    component: WatchingPursuitGame,
+    meta: { needAuth: true, adminPart: false, game: true }
+  },
+  {
+    path: '/game/9',
+    name: "Game 9",
+    component: WatchingAnalogGame,
     meta: { needAuth: true, adminPart: false, game: true }
   },
   {
