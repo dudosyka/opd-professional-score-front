@@ -1,6 +1,8 @@
 <template>
     <watching-interface
-      :time-to-end="timeToEnd"
+      :time-to-end="gameSettings.timeOnTest"
+      :show-res="gameSettings.showResByMinute"
+      :show-time="true"
       :results="lastResults"
       @time="endGame()"
     >
@@ -19,8 +21,13 @@ export default {
   name: "WatchingPursuitGame",
   components: {WatchingInterface},
   data: () => ({
+    gameSettings: {
+      timeOnTest: 120,
+      showResByMinute: true,
+      showTime: true
+    },
     timeToEnd: 30,
-    statDumpPeriod: 10,
+    statDumpPeriod: 60,
     seconds: 0,
     delay: {
       start: 800,
@@ -51,6 +58,17 @@ export default {
     intervals: [],
     gameEnded: false,
   }),
+  created() {
+    const onPass = this.$store.getters.getTestOnPass;
+    this.gameSettings = {
+      ...onPass.settings,
+      timeOnTest: onPass.settings.time
+    }
+    this.delay = {
+      start: onPass.settings.circleTimeRange.min,
+      end: onPass.settings.circleTimeRange.max
+    }
+  },
   mounted() {
     const boxElem = document.getElementById('box');
     const pointerElem = document.getElementById('pointer');

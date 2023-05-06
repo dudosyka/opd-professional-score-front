@@ -32,7 +32,7 @@ export default {
       default: 120,
     },
     results: {
-      type: Array,
+      type: Object,
       default: {}
     }
   },

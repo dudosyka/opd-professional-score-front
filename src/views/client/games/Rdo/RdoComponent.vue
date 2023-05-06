@@ -175,11 +175,18 @@ export default {
       this.ctx.fillStyle = "#841a1a"
       this.ctx.fill();
       
+      //Draw check-line
+      this.ctx.beginPath();
+      this.ctx.rect(this.r, 0, 5, 70)
+      this.ctx.fillStyle = "#DDDDDD"
+      this.ctx.fill();
+      
       //Draw ball
       this.ctx.beginPath();
       this.ctx.arc( this.ball.position.x, this.ball.position.y, this.ball.size, 0, 2 * Math.PI );
       this.ctx.fillStyle = this.ball.color;
       this.ctx.fill();
+      
       
       this.circleMovement( this.r );
       

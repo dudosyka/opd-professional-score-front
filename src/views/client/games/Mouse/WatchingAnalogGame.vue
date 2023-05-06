@@ -1,12 +1,14 @@
 <template>
     <watching-interface
-            :time-to-end="timeToEnd"
+            :time-to-end="gameSettings.timeOnTest"
+            :show-res="gameSettings.showResByMinute"
+            :show-time="gameSettings.showTime"
             :results="lastResults"
             @time="endGame()"
     >
         <div class="line" id="box">
-            <div class="target"></div>
-            <div id="pointer" class="ball"></div>
+            <div id="target" class="target"></div>
+            <div id="ball" class="ball"></div>
         </div>
     </watching-interface>
 </template>
@@ -19,104 +21,104 @@ export default {
   name: "WatchingAnalogGame",
   components: {WatchingInterface},
   data: () => ({
+    gameSettings: {
+      timeOnTest: 120,
+      showResByMinute: true,
+      showTime: true,
+    },
+    blocked: true,
     timeToEnd: 30,
-    statDumpPeriod: 10,
+    statDumpPeriod: 60,
     seconds: 0,
     delay: {
       start: 800,
       end: 1200
     },
     ballStep: {
-      start: 100,
-      end: 350
+      start: 200,
+      end: 320
     },
     ball: null,
     ballElement: null,
     crd: null,
     mouseX: 0,
     move: {
+      posX: 0,
       startTime: 0,
       startPoint: 0,
       catched: false,
-      moveTotalDeviation: 0,
-      curBallLeft: 0,
       timeOnMove: null,
-      stopAfterMove: 0, //ms
-      firstConnectAfterMove: 0,
-      wasMovedAfterChange: false,
     },
-    firstConnect: true,
     results: [],
     minuteResults: [],
     intervals: [],
     gameEnded: false,
+    initMouse: false,
   }),
+  created() {
+    const onPass = this.$store.getters.getTestOnPass;
+    this.gameSettings = {
+      ...onPass.settings,
+      timeOnTest: onPass.settings.time
+    }
+    this.delay = {
+      start: onPass.settings.circleTimeRange.min,
+      end: onPass.settings.circleTimeRange.max
+    }
+  },
   mounted() {
-    const boxElem = document.getElementById('box');
-    const pointerElem = document.getElementById('pointer');
     this.ball = document.getElementById('ball').getBoundingClientRect();
     this.ballElement = document.getElementById('ball');
-    this.crd = boxElem.getBoundingClientRect();
-    document.getElementById('target').getBoundingClientRect().left = this.crd.width / 2 + document.getElementById('target').getBoundingClientRect().width / 2;
-    let posX = 0;
+    this.crd = document.getElementById('box').getBoundingClientRect();
+    this.ballElement.style.left = `${this.crd.left + this.crd.width / 2 - this.ball.width / 2}px`;
+    
+    document.getElementById('target').style.transform = `translate3d(${this.crd.width / 2 - document.getElementById('target').getBoundingClientRect().width / 2}px, 0px, 0px`;
     let posY = 0;
     
     let lastCount = Date.now();
     
     window.onmousemove = (event) => {
+      if (this.gameEnded)
+        return;
+      this.ball = document.getElementById('ball').getBoundingClientRect();
+      if (this.initMouse === false) {
+        this.initMouse = event.pageX;
+        this.makeMove()
+      }
       this.mouseX = event.pageX;
       const mouseY = window.innerHeight / 2;
       
-      posX = this.mouseX - this.crd.left;
+      if (this.blocked)
+        return;
+      
+      const deltaPosX = this.mouseX - this.move.startPoint;
+      
+      this.move.startPoint = this.mouseX;
+      this.move.posX = this.ball.left + deltaPosX;
       posY = mouseY - this.crd.top - this.crd.height / 2;
       
-      const ballLeft = Math.abs(this.crd.left - this.ball.left + ((pointerElem.offsetWidth - this.ball.width) / 2) );
-      
-      //If we havent catched the ball yet:
-      if (Math.abs(ballLeft + this.move.curBallLeft - posX) > this.ball.width * 0.75 && !this.move.catched) {
-        if (this.move.startPoint > this.move.curBallLeft) { //Ball is lefter than target
-          if ((this.mouseX - this.move.startPoint) < 0) {
-            if (Math.abs(this.mouseX - this.move.startPoint) > this.move.moveTotalDeviation)
-              this.move.moveTotalDeviation = Math.abs(this.mouseX - this.move.startPoint);
-          }
-        } else {
-          if ((this.move.startPoint - this.mouseX) < 0) {
-            if (Math.abs(this.move.startPoint - this.mouseX) > this.move.moveTotalDeviation)
-              this.move.moveTotalDeviation = Math.abs(this.move.startPoint - this.mouseX);
-          }
-        }
+      if (!(this.move.posX > this.crd.left && this.move.posX < this.crd.left + this.crd.width - this.ball.width)) {
+        this.move.posX -= deltaPosX;
+        return;
       }
       
-      if (Math.abs(ballLeft + this.move.curBallLeft - posX) <= this.ball.width * 0.75) {
-        if (this.move.firstConnectAfterMove == 0) {
-          this.move.firstConnectAfterMove = Date.now();
-          return;
-        }
-        if (!this.move.catched && (Date.now() - this.move.firstConnectAfterMove) > 100) {
-          this.move.catched = true;
-          this.results.push({
-            timeOnMove: Date.now() - this.move.startTime,
-            moveTotalDeviation: Math.abs(this.move.moveTotalDeviation),
-          });
-          console.log(this.results)
-        }
-      } else {
-        this.move.firstConnectAfterMove = 0;
-        this.firstConnect = true;
-        this.move.stopAfterMove = 0;
-      }
-      
-      if (this.mouseX > this.crd.left && this.mouseX < this.crd.right - pointerElem.offsetWidth)
-        pointerElem.style.transform = 'translate3d(' + posX + 'px, ' + posY + 'px, 0px)';
+      this.ballElement.style.left = `${this.move.posX}px`;
     };
     
     this.intervals.push(setInterval(() => {
-      const ballLeft = Math.abs(this.crd.left - this.ball.left + ((pointerElem.offsetWidth - this.ball.width) / 2) );
-      if (Math.abs(ballLeft + this.move.curBallLeft - posX) <= this.ball.width * 0.75) {
+      if (Math.abs(this.move.posX + this.ball.width / 2 - (this.crd.left + this.crd.width / 2)) <= this.ball.width * 0.40) {
         this.ballElement.classList.add(['target-active']);
+        if (!this.move.catched) {
+          this.move.catched = true;
+          this.results.push({
+            timeOnMove: Date.now() - this.move.startTime,
+          });
+          this.blocked = true;
+          this.makeMove();
+        }
         if (Date.now() - lastCount > 1000) {
           this.seconds++;
-          console.log(this.seconds);
+          
           lastCount = Date.now();
         }
       } else {
@@ -125,7 +127,6 @@ export default {
       }
     }, 20));
     this.intervals.push(setInterval(this.dumpStat, this.statDumpPeriod*1000));
-    this.makeMove();
   },
   methods: {
     getRandomDelay() {
@@ -142,40 +143,49 @@ export default {
       let rand = 1 - 0.5 + Math.random() * (2 - 1 + 1);
       return Math.round(rand);
     },
-    setMoveDataNull(curBallLeft) {
+    setMoveDataNull() {
       this.move = {
         ...this.move,
+        posX: this.move.posX,
         catched: false,
         startPoint: this.mouseX,
-        moveTotalDeviation: 0,
         timeOnMove: 0,
         startTime: Date.now(),
-        curBallLeft
       };
     },
     makeMove() {
       if (this.gameEnded)
         return;
+      this.ballElement.classList.remove('ball-static')
+      this.ballElement.style.left = `${this.crd.left + this.crd.width / 2 - this.ball.width / 2}px`;
+      this.move.posX = this.crd.left + this.crd.width / 2 - this.ball.width / 2;
       setTimeout(() => {
         const step = this.getRandomStep();
-        const left = this.getRandomDirection() == 2 ? -1 : 1;
-        this.ballElement.style.transform = 'translate3d(' + (step*left) + 'px, ' + 0 + 'px, 0px)';
+        let left = this.getRandomDirection() == 2 ? -1 : 1;
+        if (left < 0)
+          if (window.innerWidth - this.mouseX <= step + this.ball.width)
+            left = 1;
+        
+        if (left > 0)
+          if (this.mouseX <= step + this.ball.width)
+            left = -1;
+        
+        this.ballElement.style.left = (this.crd.left + (this.crd.width / 2) + (step*left)) + 'px';
         if (this.move.catched == false) {
           this.results.push({
             timeOnMove: 0,
             moveTotalDeviation: 0,
           })
         }
-        this.setMoveDataNull(step * left);
+        this.setMoveDataNull();
+        
+        this.blocked = false;
+        this.move.posX = this.crd.left + (this.crd.width / 2) + (step*left);
         setTimeout(() => {
-          this.ballElement.style.transform = 'translate3d(' + 0 + 'px, ' + 0 + 'px, 0px)';
-          this.results.push({
-            timeOnMove: 0,
-            moveTotalDeviation: 0,
-          })
-          this.setMoveDataNull(0);
-          this.makeMove();
-        }, this.getRandomDelay())
+          this.ballElement.classList.add('ball-static')
+          this.ball = this.ballElement.getBoundingClientRect()
+          console.log('End in', this.ball.left)
+        }, 100);
       }, this.getRandomDelay());
     },
     dumpStat() {
@@ -187,7 +197,6 @@ export default {
       }
       this.minuteResults.push({
         timeOnMove: Math.round(this.results.map(el => el.timeOnMove).filter(el => el < Date.now() / 2).reduce((a, b) => a + b) / this.results.length),
-        moveTotalDeviation: Math.round(this.results.map(el => el.moveTotalDeviation).reduce((a, b) => a + b) / this.results.length),
       });
       this.results = [];
     },
@@ -201,7 +210,7 @@ export default {
         type: 8,
         numbers: [ //multi graf result
           {
-            label: `По результатам теста вам удалось удерживать мишень на круге на протяжении ${Math.round(this.seconds/this.timeToEnd)}% времени. Также, мы измерили скорость вашей реакции и сравним ее с результатами тестов. `,
+            label: `Мы измерили скорость вашей реакции и сравним ее с результатами тестов. `,
             lines: [{
               label: `Среднее время реакции (мс)`,
               elements: [...this.minuteResults.sort((a, b) => a.time - b.time).map(el => el.timeOnMove)]
@@ -209,7 +218,7 @@ export default {
           },
         ],
       });
-      
+
       this.$router.push('/game/results');
     }
   },
@@ -252,7 +261,6 @@ export default {
 }
 .ball {
     margin-top: 15px;
-    left: 47%;
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -260,7 +268,10 @@ export default {
     background-color: rgba(107, 106, 106, 0.42);
     box-shadow: 0 0 10px rgba(125, 124, 124, 0.2);
     backdrop-filter: blur(10px) saturate(150%);
-    transition-duration: 0.5s;
+    transition-duration: 0.2s;
+}
+.ball-static {
+    transition-duration: unset !important;
 }
 .target-active {
     background-color: rgba(193, 81, 81, 0.4);

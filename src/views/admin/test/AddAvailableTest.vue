@@ -63,19 +63,31 @@
               <label class="input-group-text">Показывать результат за последнюю минуту</label>
               <input v-model="showResByMinute" class="form-check-inline" type="checkbox" required="required">
           </div>
-          <button class="btn btn-primary" @click="changeSpeed = !changeSpeed">{{ changeSpeed ? 'Отмена' : 'Настроить скорость движения' }}</button>
-          <template v-if="changeSpeed">
+          <template v-if="testTemplate.id < 8">
+              <button class="btn btn-primary" @click="changeSpeed = !changeSpeed">{{ changeSpeed ? 'Отмена' : 'Настроить скорость движения' }}</button>
+              <template v-if="changeSpeed">
+                  <div class="input-group">
+                      <label class="input-group-text">Промежуток времени на который будет увеличена скорость: (сек)</label>
+                      <input v-model.number="speed.increaseTime" class="form-control form-control-lg" type="text" required="required">
+                  </div>
+                  <div class="input-group">
+                      <label class="input-group-text">Во сколько раз увеличить скорость (кол-во раз)</label>
+                      <input v-model.number="speed.increaseSize" class="form-control form-control-lg" type="text" required="required">
+                  </div>
+                  <div class="input-group">
+                      <label class="input-group-text">Как часто увеличивать время (сек.)</label>
+                      <input v-model.number="speed.increaseFrequency" class="form-control form-control-lg" type="text" required="required">
+                  </div>
+              </template>
+          </template>
+          <template v-else> <!-- for 8 and 9 types-->
               <div class="input-group">
-                  <label class="input-group-text">Промежуток времени на который будет увеличена скорость: (сек)</label>
-                  <input v-model.number="speed.increaseTime" class="form-control form-control-lg" type="text" required="required">
+                  <label class="input-group-text">Максимальое время между повторениями (мс.)</label>
+                  <input v-model.number="circleTimeRange.min" class="form-control form-control-lg" type="text" required="required">
               </div>
               <div class="input-group">
-                  <label class="input-group-text">Во сколько раз увеличить скорость (кол-во раз)</label>
-                  <input v-model.number="speed.increaseSize" class="form-control form-control-lg" type="text" required="required">
-              </div>
-              <div class="input-group">
-                  <label class="input-group-text">Как часто увеличивать время (сек.)</label>
-                  <input v-model.number="speed.increaseFrequency" class="form-control form-control-lg" type="text" required="required">
+                  <label class="input-group-text">Минимальное время между повторениями (мс.)</label>
+                  <input v-model.number="circleTimeRange.max" class="form-control form-control-lg" type="text" required="required">
               </div>
           </template>
       </div>
@@ -100,8 +112,8 @@ export default {
     switchTime: 1000,
     circleTimeRange: {
       //min and max time between iterations in ms
-      min: 7000,
-      max: 8500
+      min: 800,
+      max: 1000
     },
     simplicity: {
       minNum: 1,
