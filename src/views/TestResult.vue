@@ -32,6 +32,7 @@ export default {
   components: {ModalContainer},
   mounted() {
     const labels = this.labels;
+    console.log(this.datasets)
     new ChartJs(document.getElementById(this.id), {
       type: 'line',
       data: {

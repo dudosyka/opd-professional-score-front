@@ -67,7 +67,7 @@ export default {
       this.type = type;
       this.grafData[0] = {
         numbers: [{
-          data: this.numbers.map(el => ({
+          data: numbers.map(el => ({
             y: el === false ? 0 : el
           })),
           label: "Время реакции в милисекундах",

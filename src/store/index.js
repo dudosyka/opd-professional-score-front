@@ -137,11 +137,35 @@ export default createStore({
           })
         })
       }
-      points = points.map(el => el ? Math.round(el) : 0)
+      
+      points = points.map(el => {
+        if (el == false)
+          return 0
+        if (el.y) {
+          if (el.y == false)
+            return { y: 0 }
+        }
+        return el
+      })
+      
+      const avgList = points.filter(el => {
+        if (el == null)
+          return false;
+        if (el == false)
+          return false
+        if (el.y) {
+          if (el.y == null)
+            return false
+          else
+            return el.y != 0
+        }
+        return el != 0
+      })
+      
       const model = new UserTestModel();
       model.saveResult(state.onPass.available_test_id, {
         points,
-        avg: Math.round(points.reduce((prev, cur) => prev + cur) / points.length)
+        avg: Math.round(points.reduce((prev, cur) => prev + cur) / avgList.length)
       });
     }
   },
