@@ -8,7 +8,7 @@
                 </div>
                 <div class="progress" v-if="showRes">
                     <p>Реакция за последнюю минуту (мс) {{ results.timeOnMove }}</p>
-                    <p>Среднее модуля отклонения за минуту (px) {{ results.moveTotalDeviation }}</p>
+                    <p v-if="showMidLength">Среднее модуля отклонения за минуту (px) {{ results.moveTotalDeviation }}</p>
                 </div>
             </div>
         </div>
@@ -19,6 +19,10 @@
 export default {
   name: "WatchingInterface",
   props: {
+    showMidLength: {
+      type: Boolean,
+      default: true
+    },
     showTime: {
       type: Boolean,
       default: true,

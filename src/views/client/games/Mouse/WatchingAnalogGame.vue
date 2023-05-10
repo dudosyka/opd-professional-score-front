@@ -4,6 +4,7 @@
             :show-res="gameSettings.showResByMinute"
             :show-time="gameSettings.showTime"
             :results="lastResults"
+            :show-mid-length="false"
             @time="endGame()"
     >
         <div class="line" id="box">

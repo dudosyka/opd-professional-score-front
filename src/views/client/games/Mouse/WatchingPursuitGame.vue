@@ -164,6 +164,7 @@ export default {
       };
     },
     makeMove() {
+      console.log(this.gameSettings.timeOnTest);
       if (this.gameEnded)
         return;
       setTimeout(() => {
@@ -211,7 +212,7 @@ export default {
         type: 8,
         numbers: [ //multi graf result
           {
-            label: `По результатам теста вам удалось удерживать мишень на круге на протяжении ${Math.round((this.seconds / 1000)/this.timeToEnd*100)}% времени. Также, мы измерили скорость вашей реакции и сравним ее с результатами тестов. `,
+            label: `По результатам теста вам удалось удерживать мишень на круге на протяжении ${Math.round((this.seconds / 1000)/this.gameSettings.timeOnTest*100)}% времени. Также, мы измерили скорость вашей реакции и сравним ее с результатами тестов. `,
             lines: [{
               label: `Среднее время реакции (мс)`,
               elements: [...this.minuteResults.sort((a, b) => a.time - b.time).map(el => el.timeOnMove)]
