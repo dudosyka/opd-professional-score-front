@@ -6,81 +6,22 @@
     :show-btn-next="true"
   >
       <h4 class="mb-5">Вы можете изменить настройки теста по умолчанию</h4>
-      <div class="container container-fluid" v-if="testTemplate.id < 6">
-          <div class="input-group" v-if="timeType === 1">
-              <label class="input-group-text">Количество повторений</label>
-              <input v-model.number="repeat" class="form-control form-control-lg" type="text" required="required">
-              <button class="btn btn-primary" @click="timeType = 2">Использовать время</button>
-          </div>
-          <div class="input-group" v-if="timeType === 2">
-              <label class="input-group-text">Время теста в (сек.)</label>
-              <input v-model.number="time" class="form-control form-control-lg" type="text" required="required">
-              <button class="btn btn-primary" @click="timeType = 1">Использовать кол-во повторений</button>
-          </div>
-          <div class="input-group">
-              <label class="input-group-text">Задержка перед началом теста (мс.)</label>
-              <input v-model.number="startDelay" class="form-control form-control-lg" type="text" required="required">
-          </div>
-          <div class="input-group">
-              <label class="input-group-text">Максимальое время между повторениями (мс.)</label>
-              <input v-model.number="circleTimeRange.min" class="form-control form-control-lg" type="text" required="required">
-          </div>
-          <div class="input-group">
-              <label class="input-group-text">Минимальное время между повторениями (мс.)</label>
-              <input v-model.number="circleTimeRange.max" class="form-control form-control-lg" type="text" required="required">
-          </div>
-          <template v-if="testTemplate.id === 1 || testTemplate.id === 3">
-              <div class="input-group">
-                  <label class="input-group-text">Время на которое будет показана вспышка (мс.)</label>
-                  <input v-model.number="switchTime" class="form-control form-control-lg" type="text" required="required">
+      <template v-if="testTemplate.id < 10">
+          <div class="container container-fluid" v-if="testTemplate.id < 6">
+              <div class="input-group" v-if="timeType === 1">
+                  <label class="input-group-text">Количество повторений</label>
+                  <input v-model.number="repeat" class="form-control form-control-lg" type="text" required="required">
+                  <button class="btn btn-primary" @click="timeType = 2">Использовать время</button>
               </div>
-          </template>
-          <template v-else>
-              <div class="input-group">
-                  <label class="input-group-text">Минимальное число которое может быть сгененерировано в тесте</label>
-                  <input v-model.number="simplicity.minNum" class="form-control form-control-lg" type="text" required="required">
+              <div class="input-group" v-if="timeType === 2">
+                  <label class="input-group-text">Время теста в (сек.)</label>
+                  <input v-model.number="time" class="form-control form-control-lg" type="text" required="required">
+                  <button class="btn btn-primary" @click="timeType = 1">Использовать кол-во повторений</button>
               </div>
               <div class="input-group">
-                  <label class="input-group-text">Максимальное число которое может быть сгененерировано в тесте</label>
-                  <input v-model.number="simplicity.maxNum" class="form-control form-control-lg" type="text" required="required">
+                  <label class="input-group-text">Задержка перед началом теста (мс.)</label>
+                  <input v-model.number="startDelay" class="form-control form-control-lg" type="text" required="required">
               </div>
-          </template>
-      </div>
-      <div class="container container-fluid" v-else>
-          <div class="input-group">
-              <label class="input-group-text">Время выполнения теста (сек)</label>
-              <input v-model.number="time" class="form-control form-control-lg" type="text" required="required">
-          </div>
-          <div class="input-group">
-              <label class="input-group-text">Задержка перед началом теста (мс.)</label>
-              <input v-model.number="startDelay" class="form-control form-control-lg" type="text" required="required">
-          </div>
-          <div class="input-group">
-              <label class="input-group-text">Показывать время выполнения теста</label>
-              <input v-model="showTime" class="form-check-inline" type="checkbox" required="required">
-          </div>
-          <div class="input-group">
-              <label class="input-group-text">Показывать результат за последнюю минуту</label>
-              <input v-model="showResByMinute" class="form-check-inline" type="checkbox" required="required">
-          </div>
-          <template v-if="testTemplate.id < 8">
-              <button class="btn btn-primary" @click="changeSpeed = !changeSpeed">{{ changeSpeed ? 'Отмена' : 'Настроить скорость движения' }}</button>
-              <template v-if="changeSpeed">
-                  <div class="input-group">
-                      <label class="input-group-text">Промежуток времени на который будет увеличена скорость: (сек)</label>
-                      <input v-model.number="speed.increaseTime" class="form-control form-control-lg" type="text" required="required">
-                  </div>
-                  <div class="input-group">
-                      <label class="input-group-text">Во сколько раз увеличить скорость (кол-во раз)</label>
-                      <input v-model.number="speed.increaseSize" class="form-control form-control-lg" type="text" required="required">
-                  </div>
-                  <div class="input-group">
-                      <label class="input-group-text">Как часто увеличивать время (сек.)</label>
-                      <input v-model.number="speed.increaseFrequency" class="form-control form-control-lg" type="text" required="required">
-                  </div>
-              </template>
-          </template>
-          <template v-else> <!-- for 8 and 9 types-->
               <div class="input-group">
                   <label class="input-group-text">Максимальое время между повторениями (мс.)</label>
                   <input v-model.number="circleTimeRange.min" class="form-control form-control-lg" type="text" required="required">
@@ -89,8 +30,75 @@
                   <label class="input-group-text">Минимальное время между повторениями (мс.)</label>
                   <input v-model.number="circleTimeRange.max" class="form-control form-control-lg" type="text" required="required">
               </div>
-          </template>
-      </div>
+              <template v-if="testTemplate.id === 1 || testTemplate.id === 3">
+                  <div class="input-group">
+                      <label class="input-group-text">Время на которое будет показана вспышка (мс.)</label>
+                      <input v-model.number="switchTime" class="form-control form-control-lg" type="text" required="required">
+                  </div>
+              </template>
+              <template v-else>
+                  <div class="input-group">
+                      <label class="input-group-text">Минимальное число которое может быть сгененерировано в тесте</label>
+                      <input v-model.number="simplicity.minNum" class="form-control form-control-lg" type="text" required="required">
+                  </div>
+                  <div class="input-group">
+                      <label class="input-group-text">Максимальное число которое может быть сгененерировано в тесте</label>
+                      <input v-model.number="simplicity.maxNum" class="form-control form-control-lg" type="text" required="required">
+                  </div>
+              </template>
+          </div>
+          <div class="container container-fluid" v-else>
+              <div class="input-group">
+                  <label class="input-group-text">Время выполнения теста (сек)</label>
+                  <input v-model.number="time" class="form-control form-control-lg" type="text" required="required">
+              </div>
+              <div class="input-group">
+                  <label class="input-group-text">Задержка перед началом теста (мс.)</label>
+                  <input v-model.number="startDelay" class="form-control form-control-lg" type="text" required="required">
+              </div>
+              <div class="input-group">
+                  <label class="input-group-text">Показывать время выполнения теста</label>
+                  <input v-model="showTime" class="form-check-inline" type="checkbox" required="required">
+              </div>
+              <div class="input-group">
+                  <label class="input-group-text">Показывать результат за последнюю минуту</label>
+                  <input v-model="showResByMinute" class="form-check-inline" type="checkbox" required="required">
+              </div>
+              <template v-if="testTemplate.id < 8">
+                  <button class="btn btn-primary" @click="changeSpeed = !changeSpeed">{{ changeSpeed ? 'Отмена' : 'Настроить скорость движения' }}</button>
+                  <template v-if="changeSpeed">
+                      <div class="input-group">
+                          <label class="input-group-text">Промежуток времени на который будет увеличена скорость: (сек)</label>
+                          <input v-model.number="speed.increaseTime" class="form-control form-control-lg" type="text" required="required">
+                      </div>
+                      <div class="input-group">
+                          <label class="input-group-text">Во сколько раз увеличить скорость (кол-во раз)</label>
+                          <input v-model.number="speed.increaseSize" class="form-control form-control-lg" type="text" required="required">
+                      </div>
+                      <div class="input-group">
+                          <label class="input-group-text">Как часто увеличивать время (сек.)</label>
+                          <input v-model.number="speed.increaseFrequency" class="form-control form-control-lg" type="text" required="required">
+                      </div>
+                  </template>
+              </template>
+              <template v-else> <!-- for 8 and 9 types-->
+                  <div class="input-group">
+                      <label class="input-group-text">Максимальое время между повторениями (мс.)</label>
+                      <input v-model.number="circleTimeRange.min" class="form-control form-control-lg" type="text" required="required">
+                  </div>
+                  <div class="input-group">
+                      <label class="input-group-text">Минимальное время между повторениями (мс.)</label>
+                      <input v-model.number="circleTimeRange.max" class="form-control form-control-lg" type="text" required="required">
+                  </div>
+              </template>
+          </div>
+      </template>
+      <template v-if="testTemplate.id == 10">
+          <div class="input-group">
+              <label class="input-group-text">Размер матрицы (только чётный)</label>
+              <input v-model.number="matrixSize" class="form-control form-control-lg" type="text" required="required">
+          </div>
+      </template>
   </ModalContainer>
 </template>
 
@@ -126,7 +134,8 @@ export default {
       increaseTime: 1, //seconds
       increaseSize: 2, //x2
       increaseFrequency: 10, //seconds
-    }
+    },
+    matrixSize: 4
   }),
   created() {
     console.log(this.testTemplate);
@@ -200,6 +209,14 @@ export default {
         })
         return;
       }
+      
+      if (this.matrixSize % 2 != 0) {
+        this.$store.dispatch('showPopUp', {
+          success: false,
+          text: "Ошибка! Размер матрицы может быть только четным числом!"
+        })
+        return;
+      }
         
       let data = {
         startDelay: this.startDelay,
@@ -215,6 +232,7 @@ export default {
         },
         showResByMinute: this.showResByMinute,
         showTime: this.showTime,
+        matrixSize: this.matrixSize
       }
       if (this.timeType === 1) {
         data.repeat = this.repeat;

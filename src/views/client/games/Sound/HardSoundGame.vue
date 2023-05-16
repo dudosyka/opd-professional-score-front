@@ -38,7 +38,7 @@ var start = Date.now();
 
 
 export default {
-  name: "SimpleColorGame",
+  name: "HardSoundGame",
   data: () => ({
     theme: {
       primary: 0xFFFFFF,

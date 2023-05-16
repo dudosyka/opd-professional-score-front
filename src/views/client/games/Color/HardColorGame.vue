@@ -36,19 +36,16 @@
 </template>
 
 <script>
-// import '@/three';
 
-import {UserTestModel} from "@/api/models/user-test.model";
-
-var scene, camera, renderer, container;
-var _width, _height;
-var _primitive;
-var shapeGroup = new THREE.Group();
-var start = Date.now();
+let scene, camera, renderer, container;
+let _width, _height;
+let _primitive;
+let shapeGroup = new THREE.Group();
+let start = Date.now();
 
 
 export default {
-  name: "SimpleColorGame",
+  name: "HardColorGame",
   data: () => ({
     theme: {
       primary: 0xFFFFFF,

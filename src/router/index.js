@@ -32,6 +32,7 @@ import SimpleRDOGame from "@/views/client/games/Rdo/SimpleRDOGame.vue";
 import HardRDOGame from "@/views/client/games/Rdo/HardRDOGame.vue";
 import WatchingPursuitGame from "@/views/client/games/Mouse/WatchingPursuitGame.vue";
 import WatchingAnalogGame from "@/views/client/games/Mouse/WatchingAnalogGame.vue";
+import GamesResolver from "@/views/client/games/GamesResolver.vue";
 
 const routes = [
   {
@@ -189,57 +190,9 @@ const routes = [
   
   //games
   {
-    path: '/game/1',
-    name: "Game 1",
-    component: SimpleColourGame,
-    meta: { needAuth: true, adminPart: false, game: true }
-  },
-  {
-    path: '/game/2',
-    name: "Game 2",
-    component: SimpleSoundGame,
-    meta: { needAuth: true, adminPart: false, game: true }
-  },
-  {
-    path: '/game/3',
-    name: "Game 3",
-    component: HardColorGame,
-    meta: { needAuth: true, adminPart: false, game: true }
-  },
-  {
-    path: '/game/4',
-    name: "Game 4",
-    component: HardSoundGame,
-    meta: { needAuth: true, adminPart: false, game: true }
-  },
-  {
-    path: '/game/5',
-    name: "Game 5",
-    component: HardNumberGame,
-    meta: { needAuth: true, adminPart: false, game: true }
-  },
-  {
-    path: '/game/6',
-    name: "Game 6",
-    component: SimpleRDOGame,
-    meta: { needAuth: true, adminPart: false, game: true }
-  },
-  {
-    path: '/game/7',
-    name: "Game 7",
-    component: HardRDOGame,
-    meta: { needAuth: true, adminPart: false, game: true }
-  },
-  {
-    path: '/game/8',
-    name: "Game 8",
-    component: WatchingPursuitGame,
-    meta: { needAuth: true, adminPart: false, game: true }
-  },
-  {
-    path: '/game/9',
-    name: "Game 9",
-    component: WatchingAnalogGame,
+    path: '/game/:id',
+    name: "Unified games view",
+    component: GamesResolver,
     meta: { needAuth: true, adminPart: false, game: true }
   },
   {

@@ -27,8 +27,7 @@
                     :datasets="data.numbers"
                     :labels="data.labels"
             >
-                <p class="small_text">
-                    {{ data.label }}
+                <p class="small_text" v-html="data.label">
                 </p>
             </TestResult>
         </template>

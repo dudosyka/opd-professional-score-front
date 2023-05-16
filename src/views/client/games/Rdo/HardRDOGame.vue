@@ -29,7 +29,7 @@ import SimpleRDO from "@/views/client/games/Rdo/RdoComponent.vue";
 import RdoInterface from "@/views/client/games/Rdo/RdoInterface.vue";
 
 export default {
-  name: "SimpleRDOGame",
+  name: "HardRDOGame",
   components: {RdoInterface, SimpleRDO},
   data: () => ({
     results: [],
