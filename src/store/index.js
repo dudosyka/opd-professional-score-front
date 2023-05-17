@@ -2,6 +2,8 @@ import { createStore } from 'vuex'
 import {ProfessionModel} from "@/api/models/profession.model";
 import {UserModel} from "@/api/models/user.model";
 import {UserTestModel} from "@/api/models/user-test.model";
+import {CriteriaModel} from "@/api/models/criteria.model";
+import {PvkModel} from "@/api/models/pvk.model";
 
 const gameResultsClear = {
   type: null,
@@ -26,7 +28,13 @@ export default createStore({
     gameResults: {...gameResultsClear},
     user: null,
     onPass: null,
-    availableCount: 0
+    availableCount: 0,
+    criteriaOnEdit: null,
+    pvkOnEdit: null,
+    modal: {
+      show: false,
+      next: () => {}
+    }
   },
   getters: {
     getUserSt(state){
@@ -61,6 +69,15 @@ export default createStore({
     },
     getAvailableTestsCount(state) {
       return state.availableCount;
+    },
+    criteriaOnEdit(state) {
+      return state.criteriaOnEdit
+    },
+    pvkOnEdit(state) {
+      return state.pvkOnEdit
+    },
+    modal(state) {
+      return state.modal
     }
   },
   mutations: {
@@ -108,6 +125,19 @@ export default createStore({
     },
     setAvailableTestsCount(state, count) {
       state.availableCount = count;
+    },
+    setCriteriaOnEdit(state, criteria) {
+      state.criteriaOnEdit = criteria
+    },
+    setPvkOnEdit(state, pvk) {
+      state.pvkOnEdit = pvk
+    },
+    showModal(state, next) {
+      state.modal.show = true
+      state.modal.next = next
+    },
+    closeModal(state) {
+      state.modal.show = false
     }
   },
   actions: {
@@ -167,6 +197,32 @@ export default createStore({
         points,
         avg: Math.round(points.reduce((prev, cur) => prev + cur) / avgList.length)
       });
+    },
+    async updateCriteria({commit, state, dispatch}) {
+      const criteriaOnEdit = state.criteriaOnEdit
+      
+      const criteriaModel = new CriteriaModel()
+      await criteriaModel.update(criteriaOnEdit.id, criteriaOnEdit)
+      
+      dispatch("showPopUp", {
+        success: true,
+        text: "Критерий успешно отредактирован!"
+      })
+      
+      commit("setCriteriaOnEdit", null)
+    },
+    async updatePvk({commit, state, dispatch}) {
+      const pvkOnEdit = state.pvkOnEdit
+      console.log(pvkOnEdit)
+      
+      const pvkModel = new PvkModel()
+      await pvkModel.updateCriteria(pvkOnEdit.id, pvkOnEdit.criteria)
+      
+      dispatch('showPopUp', {
+        success: true,
+        text: 'Критерии ПВК успешно отредактированы'
+      })
+      commit('setPvkOnEdit', null)
     }
   },
   modules: {

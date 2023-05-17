@@ -8,6 +8,7 @@
       <router-view v-else></router-view>
   </template>
     <template v-else>
+        <blured-modal></blured-modal>
         <div class="container-fluid main-container row">
             <div class="col-2 nav-col" v-if="!$route.meta.hideMenu">
                 <Menu v-if="isLogin">
@@ -18,6 +19,8 @@
                             <a @click="goMain()" class="btn menu-btn btn-primary"><i class="fa-solid fa-house"></i> Главная</a>
                             <hr>
                             <router-link to="/profession" class="btn  menu-btn btn-primary"><i class="fa-solid fa-helmet-safety"></i> Профессии</router-link>
+                            <hr>
+                            <router-link to="/criteria/list" class="btn  menu-btn btn-primary"><i class="fa-solid fa-address-card"></i> Критерии</router-link>
                             <hr>
                             <router-link to="/pvk" class="btn  menu-btn btn-primary"><i class="fa-solid fa-list"></i> ПВК</router-link>
                             <template v-if="role == 2">
@@ -68,9 +71,11 @@
 <script>
 import PopUp from "@/components/PopUp.vue";
 import Menu from "@/components/Menu.vue";
+import BluredModal from "@/components/BluredModal.vue";
 export default {
   name: "App",
   components: {
+    BluredModal,
     Menu,
     PopUp
   },

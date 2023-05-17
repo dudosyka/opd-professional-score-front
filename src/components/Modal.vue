@@ -8,7 +8,7 @@
         <h1 class="header-title">{{ headerTitle }}</h1>
       </div>
       <div class="col-1">
-        <button v-if="showBtnNext" class="btn btn-outline-dark" @click="btnNext"> Далее </button>
+        <button v-if="showBtnNext" class="btn btn-outline-dark" @click="btnNext"> {{ btnTextTitle }} </button>
       </div>
     </header>
       <hr>
@@ -41,6 +41,10 @@ export default {
     showBtnNext: {
       type: Boolean,
       default: false,
+    },
+    btnTextTitle: {
+      type: String,
+      default: "Далее"
     },
     btnNext: {
       type: Function,

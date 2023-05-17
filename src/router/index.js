@@ -33,6 +33,9 @@ import HardRDOGame from "@/views/client/games/Rdo/HardRDOGame.vue";
 import WatchingPursuitGame from "@/views/client/games/Mouse/WatchingPursuitGame.vue";
 import WatchingAnalogGame from "@/views/client/games/Mouse/WatchingAnalogGame.vue";
 import GamesResolver from "@/views/client/games/GamesResolver.vue";
+import CriteriaList from "@/views/admin/criteria/CriteriaList.vue";
+import CreateCriteria from "@/views/admin/criteria/CreateCriteria.vue";
+import UpdatePvkCriteria from "@/views/admin/pvk/UpdatePvkCriteria.vue";
 
 const routes = [
   {
@@ -155,6 +158,12 @@ const routes = [
     component: AllPvkView,
     meta: { needAuth: false },
   },
+  {
+    path: '/pvk/edit',
+    name: 'PVK update criteria',
+    component: UpdatePvkCriteria,
+    meta: { needAuth: true },
+  },
 
     //----------------- Client part -----------------//
   {
@@ -200,6 +209,20 @@ const routes = [
     name: "Unified game results window",
     component: GameResult,
     meta: { needAuth: true, adminPart: false, game: true, gameRes: true }
+  },
+  
+  //Criteria
+  {
+    path: "/criteria/list",
+    name: "Criteria list",
+    component: CriteriaList,
+    meta: { needAuth: true, adminPart: true }
+  },
+  {
+    path: "/criteria/create",
+    name: "Create criteria",
+    component: CreateCriteria,
+    meta: { needAuth: true, adminPart: true }
   }
 ]
 

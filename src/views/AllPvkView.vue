@@ -9,7 +9,7 @@
       <PaginationTable
           class="col"
           :need-pagination="true"
-          :items-on-page="10"
+          :items-on-page="8"
           :keys="['name']"
           :elements="pvkList"
           :labels="['ПВК']"
@@ -17,6 +17,8 @@
           :selectable="false"
           :multiselect="false"
           :moveable="false"
+          :show-inline-btns="isAdminOrExpert"
+          :inline-btns="[ { click: openPvkCriteria, title: 'Выбранные критерии' } ]"
       >
       </PaginationTable>
     </template>
@@ -47,6 +49,16 @@ export default {
     back() {
       this.$router.go(-1)
     },
+    openPvkCriteria(item) {
+      this.$store.commit('setPvkOnEdit', this.pvkList[item])
+      this.$router.push('/pvk/edit')
+    }
+  },
+  computed: {
+    isAdminOrExpert() {
+      const role = localStorage.getItem("role")
+      return role == 2 || role == 1
+    }
   }
 }
 </script>

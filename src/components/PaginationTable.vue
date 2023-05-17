@@ -8,7 +8,7 @@
           <th v-if="numeration" scope="col">#</th>
           <th v-for="key in labels" scope="col">{{ key }}</th>
           <th v-if="moveable" scope="col">Порядок</th>
-          <th v-if="inlineBtns.length" scope="col">Управление</th>
+          <th v-if="inlineBtns.length && showInlineBtns" scope="col">Управление</th>
         </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
           <td v-if="moveable">
             <ArrowUpDown @up="moveUp(key)" @down="moveDown(key)" />
           </td>
-          <td v-if="inlineBtns.length">
+          <td v-if="inlineBtns.length && showInlineBtns">
             <SmallButton class="m-1" v-for="btn in inlineBtns" @click="btn.click(realIndex(key))">{{ btn.title }}</SmallButton>
           </td>
         </tr>
@@ -104,6 +104,10 @@ export default {
     moveable: {
       type: Boolean,
       default: false,
+    },
+    showInlineBtns: {
+      type: Boolean,
+      default: true
     },
     inlineBtns: {
       type: Array,
