@@ -138,6 +138,11 @@ export default {
     matrixSize: 4
   }),
   created() {
+    if (this.testTemplate.id < 6)
+      this.circleTimeRange = {
+        min: 4000,
+        max: 5000
+      }
     console.log(this.testTemplate);
   },
   computed: {

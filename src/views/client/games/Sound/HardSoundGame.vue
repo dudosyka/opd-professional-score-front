@@ -52,8 +52,8 @@ export default {
       // time: 1000*60*1 // 1 minute in ms
       time: 1000*60*0.5,
       simplicity: {
-        minNum: 1,
-        maxNum: 20
+        minNum: 18,
+        maxNum: 18
       },
       circleTimeRange: {
         //min and max time between iterations in ms
@@ -69,6 +69,7 @@ export default {
       clicked: false,
       iterationCount: 10,
       iterationPassed: 0,
+      lastIterationClicked: 0,
       answer: 0,
       keyToDivisionReminder: {
         'KeyS': 0,
@@ -134,12 +135,16 @@ export default {
         this.keyDown(e.code);
       }
     });
-    this.utterance = new SpeechSynthesisUtterance();
+    this.utterance = (new SpeechSynthesisUtterance());
+    this.utterance.lang = "ru"
     this.utterance.onend = this.clearIteration;
     this.gameStatic.clicked = true;
     this.startGame();
   },
   methods: {
+    test() {
+      console.log(123)
+    },
     createWorld() {
       _width = window.innerWidth;
       _height= window.innerHeight;
@@ -552,10 +557,12 @@ export default {
       const firstNum = this.generateRandomNumber();
       const secondNum = this.generateRandomNumber();
       this.gameStatic.answer = (firstNum + secondNum) % 2;
+      console.log(`${firstNum} + ${secondNum} = ${firstNum + secondNum} (=${(firstNum + secondNum) % 2})`)
       this.utterance.text = `мм ${firstNum} + ${secondNum}`
       speechSynthesis.speak(this.utterance);
     },
     clearIteration() {
+      console.log("END!")
       this.gameStatic.iterationPassed++;
       this.gameStatic.changeTime = Date.now();
       this.gameStatic.clicked = false;
