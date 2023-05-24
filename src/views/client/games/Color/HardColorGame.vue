@@ -545,7 +545,7 @@ export default {
       if (this.gameStatic.pickedColorToKey[this.gameStatic.pickedColor] === code)
         this.results.push(clickTime);
       else
-        this.results.push(false);
+        this.results.push(0);
       console.log(this.results, this.gameStatic.iterationPassed);
       if (this.gameStatic.iterationCount <= this.gameStatic.iterationPassed + 1)
         this.endGame();
@@ -553,7 +553,7 @@ export default {
     iteration() {
       //If user didnt click in this iteration
       if (this.gameStatic.clicked === false && this.gameStatic.iterationPassed > 0) {
-        this.results.push(null);
+        this.results.push(0);
       }
       if (this.gameStatic.ended)
         return;

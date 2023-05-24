@@ -58,7 +58,7 @@ export default {
             lines: [
               {
                 label: "Модуль отклонения (мс)",
-                elements: [...this.results.sort((a, b) => a.time - b.time).map(el => el.timeD)]
+                elements: [...this.results.sort((a, b) => a.time - b.time).map(el => Math.round(el.timeD))]
               }
             ]
           }

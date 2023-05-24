@@ -95,7 +95,7 @@ export default {
             lines: this.rdos.map(el => (
               {
                 label: `Модуль отклонения на круге ${el.id} (мс)`,
-                elements: el.results.length ? [...el.results.sort((a, b) => a.time - b.time).map(el => el.timeD)] : []
+                elements: el.results.length ? [...el.results.sort((a, b) => a.time - b.time).map(el => Math.round(el.timeD))] : []
               }
             )),
             // lines: [

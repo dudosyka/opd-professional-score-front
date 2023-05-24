@@ -156,6 +156,7 @@ export default createStore({
       commit('setUser', curUser.role)
     },
     async setGameResults({commit, state}, data) {
+      commit('setGameResults', data);
       let points = data.numbers;
       if (data.combine) {
         points = [];
@@ -165,6 +166,8 @@ export default createStore({
           })
         })
       }
+      
+      console.log(points)
       
       points = points.map(el => {
         if (el == false)
@@ -178,8 +181,7 @@ export default createStore({
         return el
       })
       
-      data.numbers = [...points]
-      commit('setGameResults', data);
+      // data.numbers = [...points]
       
       const avgList = points.filter(el => {
         if (el == null)

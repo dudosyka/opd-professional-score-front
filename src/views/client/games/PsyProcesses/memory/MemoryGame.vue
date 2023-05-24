@@ -46,7 +46,8 @@ export default {
   components: {TableBox, PsyProcessInterface},
   data: () => ({
     gameInit: {
-      matrixSize: 3
+      matrixSize: 3,
+      startGameDelay: 10000
     },
     matrix: [],
     timer: 0,
@@ -72,24 +73,39 @@ export default {
   created() {
     const onPass = this.$store.getters.getTestOnPass;
     this.gameInit.matrixSize = (onPass.settings.matrixSize ? onPass.settings.matrixSize : 3) + 1
+    this.gameInit.startGameDelay = onPass.settings.startGameDelay ? onPass.settings.startGameDelay : 10000
     this.init()
-    document.addEventListener("keydown", e => {
-      if (!e)
-        return
-      
-      if (e.code == this.keyToPress[this.curKeyOnPress].code) {
-        this.passPhrase += this.keyToPress[this.curKeyOnPress].letter
-        console.log(this.passPhrase)
-        this.curKeyOnPress++
-        if (this.curKeyOnPress == this.keyToPress.length) {
-          console.log("Поздравляем режим 'Башка' разблокирован!")
-          this.init(true)
-        }
-      } else {
-        console.log("Ошибка ввода пароля!")
-        this.passPhrase = ""
+    for (let i = 0; i < this.gameInit.matrixSize - 1; i++) {
+      for (let j = 0; j < this.gameInit.matrixSize - 1; j++) {
+        this.matrix[i][j].showNumber = true
+        this.matrix[i][j].showIcon = false
       }
-    })
+    }
+    setTimeout(() => {
+      for (let i = 0; i < this.gameInit.matrixSize - 1; i++) {
+        for (let j = 0; j < this.gameInit.matrixSize - 1; j++) {
+          this.matrix[i][j].showNumber = false
+          this.matrix[i][j].showIcon = true
+        }
+      }
+      document.addEventListener("keydown", e => {
+        if (!e)
+          return
+        
+        if (e.code == this.keyToPress[this.curKeyOnPress].code) {
+          this.passPhrase += this.keyToPress[this.curKeyOnPress].letter
+          console.log(this.passPhrase)
+          this.curKeyOnPress++
+          if (this.curKeyOnPress == this.keyToPress.length) {
+            console.log("Поздравляем режим 'Башка' разблокирован!")
+            this.init(true)
+          }
+        } else {
+          console.log("Ошибка ввода пароля!")
+          this.passPhrase = ""
+        }
+      })
+    }, this.gameInit.startGameDelay)
   },
   methods: {
     init(iq69) {

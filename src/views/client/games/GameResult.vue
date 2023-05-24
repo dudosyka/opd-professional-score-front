@@ -84,6 +84,7 @@ export default {
       console.log(numbers);
       for (let index in numbers) {
         const graf = numbers[index];
+        console.log(graf)
         this.grafData.push({
           label: graf.label,
           labels: graf.lines[0].elements.map((v, i) => i + 1),

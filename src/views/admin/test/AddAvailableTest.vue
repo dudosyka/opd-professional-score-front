@@ -98,6 +98,10 @@
               <label class="input-group-text">Размер матрицы (только чётный)</label>
               <input v-model.number="matrixSize" class="form-control form-control-lg" type="text" required="required">
           </div>
+          <div class="input-group">
+              <label class="input-group-text">Задержка перед началом (для показа матрицы) мс.</label>
+              <input v-model.number="startGameDelay" class="form-control form-control-lg" type="text" required="required">
+          </div>
       </template>
   </ModalContainer>
 </template>
@@ -117,6 +121,7 @@ export default {
     // time: 60*1 // 1 minute in seconds
     time: 60*0.25,
     startDelay: 2000,
+    startGameDelay: 10000,
     switchTime: 1000,
     circleTimeRange: {
       //min and max time between iterations in ms
@@ -237,7 +242,8 @@ export default {
         },
         showResByMinute: this.showResByMinute,
         showTime: this.showTime,
-        matrixSize: this.matrixSize
+        matrixSize: this.matrixSize,
+        startGameDelay: this.startGameDelay
       }
       if (this.timeType === 1) {
         data.repeat = this.repeat;
