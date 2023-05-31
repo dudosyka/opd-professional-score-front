@@ -181,7 +181,11 @@ export default {
             Мы измерили время вашего теста и сравним его с результатами тестов. `,
             lines: [{
               label: `Время на нахождение пары (мс)`,
-              elements: [...this.results.map(el => el.time)]
+              elements: [...this.results.map(el => el.time)],
+              addition: {
+                avTimeOnMove: Math.round(this.results.map(el => el.time).reduce((a, b) => a+b ) / this.results.length),
+                attempts: this.tryCount
+              }
             }],
           },
         ],

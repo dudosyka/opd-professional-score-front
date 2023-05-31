@@ -216,6 +216,10 @@ export default {
             lines: [{
               label: `Среднее время реакции (мс)`,
               elements: [...this.minuteResults.sort((a, b) => a.time - b.time).map(el => el.timeOnMove)]
+              addition: {
+                onTargetTimePercent: Math.round((this.seconds / 1000)/this.gameSettings.timeOnTest*100),
+                fails: this.results.filter(el => el == 0).length
+              }
             }],
           },
         ],

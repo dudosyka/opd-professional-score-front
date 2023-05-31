@@ -68,7 +68,11 @@ export default {
             Мы измерили время вашего теста и сравним его с результатами тестов. `,
             lines: [{
               label: `Время на нахождение задания (с)`,
-              elements: [...this.results.map(el => Math.round(el.time / 1000))]
+              elements: [...this.results.map(el => Math.round(el.time / 1000))],
+              addition: {
+                timeOnTest: Math.round(this.timer / 1000),
+                fails: this.mistakes
+              }
             }],
           },
         ],

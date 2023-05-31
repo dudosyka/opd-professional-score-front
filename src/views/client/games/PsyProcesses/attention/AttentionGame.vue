@@ -131,11 +131,15 @@ export default {
             label: `
             Общее время теста: ${Math.round(this.timer / 1000)} секунд<br>
             В ходе теста вы допустили следующее кол-во ошибок: ${this.mistakesCount}<br>
-            В среднем на каждый клик вы тратили: ${Math.round(this.results.map(el => el.time).reduce((a, b) => a+b ) / this.results.length)} мс<br>
+            В среднем на нахождение одного числа вы тратите: ${Math.round(this.results.map(el => el.time).reduce((a, b) => a+b ) / this.results.length)} мс<br>
             Мы измерили время вашего теста и сравним его с результатами тестов. `,
             lines: [{
               label: `Время на клик (мс)`,
-              elements: [...this.results.map(el => el.time)]
+              elements: [...this.results.map(el => el.time)],
+              addition: {
+                avTimeOnMove: Math.round(this.results.map(el => el.time).reduce((a, b) => a+b ) / this.results.length),
+                fails: this.mistakesCount
+              }
             }],
           },
         ],

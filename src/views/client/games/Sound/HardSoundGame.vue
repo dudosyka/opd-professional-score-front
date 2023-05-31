@@ -585,6 +585,9 @@ export default {
       this.$store.dispatch('setGameResults', {
         type: 4,
         numbers: [...this.results],
+        addition: {
+          fails: this.results.filter(el => el == 0).length
+        }
       });
       document.getElementsByTagName('canvas')[0].remove();
       this.$router.push('/game/results');

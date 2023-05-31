@@ -200,7 +200,8 @@ export default createStore({
       const model = new UserTestModel();
       model.saveResult(state.onPass.available_test_id, {
         points,
-        avg: Math.round(points.reduce((prev, cur) => prev + cur) / avgList.length)
+        avg: Math.round(points.reduce((prev, cur) => prev + cur) / avgList.length),
+        ...data.addition
       });
     },
     async updateCriteria({commit, state, dispatch}) {
