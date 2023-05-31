@@ -75,21 +75,42 @@ export default {
     selectedParam: null
   }),
   async created() {
+    console.log(this.blocked)
     const blockedTests = Object.keys(this.blocked)
     console.log(blockedTests)
-    this.list = (await testModel.getAll()).filter(el => {
-      return !(blockedTests.includes(String(el.id)))
-    })
+    this.list = (await Promise.all((await testModel.getAll()).map(async el => {
+      const test = (await testModel.getParams(el.id))
+      const paramsIds = test.params.map(el => String(el.id))
+      
+      if ((blockedTests.includes(String(el.id)))) {
+        test.params = test.params.filter(param => {
+          if (el.id == 1) {
+            console.log("LOOK HERE", blockedTests, String(el.id))
+            console.log(param)
+          }
+          return !(this.blocked[String(el.id)].includes(String(param.id)))
+        })
+        return el
+      }
+      else return el
+    })))
     
     console.log(this.list)
   },
   methods: {
     async select(item) {
+      console.log(item)
       this.params = []
       this.selectedParam = null
       console.log(item)
       const testData = await testModel.getParams(item[0].id)
-      this.params = testData.params
+      this.params = testData.params.filter(el => {
+        if (this.blocked[item[0].id]) {
+          console.log(el.id, this.blocked[item[0].id])
+          return !this.blocked[item[0].id].includes(el.id)
+        }
+        return true
+      })
       this.item.test_name = testData.name
       this.item.test_id = testData.id
       console.log(this.params)

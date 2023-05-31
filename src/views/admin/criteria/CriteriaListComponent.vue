@@ -2,7 +2,7 @@
     <div class="criteria-list">
         <div class="overflow-scroll col">
             <div v-for="criteria in criteriaList" class="criteria">
-                <CriteriaItem :show-controls="showControls" @manage="$emit('manage', $event)" @edit="$emit('edit', $event)" @remove="$emit('remove', $event)" :criteria="criteria" :show-manage-btn="showManageBtn" :manage-btn-text="manageBtnText"></CriteriaItem>
+                <CriteriaItem :show-weight="showWeight" :show-controls="showControls" @manage="$emit('manage', $event)" @edit="$emit('edit', $event)" @remove="$emit('remove', $event)" :criteria="criteria" :show-manage-btn="showManageBtn" :manage-btn-text="manageBtnText"></CriteriaItem>
             </div>
         </div>
         <div class="col btn-container menu-btn" v-if="showControls">
@@ -22,8 +22,14 @@ export default {
     criteriaList: [],
     showControls: true,
     showManageBtn: false,
-    manageBtnText: ""
+    manageBtnText: "",
+    showWeight: false
   },
+  methods: {
+    createCriteria() {
+      this.$router.push("/criteria/create")
+    }
+  }
 }
 </script>
 

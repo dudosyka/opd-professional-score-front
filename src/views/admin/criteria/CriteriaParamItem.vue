@@ -12,7 +12,7 @@
       <main class="row">
         <p>
             <span>
-              <b>Вес:</b> {{ weight }}
+              <b>Вес параметра:</b> {{ weight }}
             </span>
             <span>
               <b>Срез:</b> {{ slice }}

@@ -52,7 +52,7 @@ export default {
     name: "",
     params: [],
     addProcessing: false,
-    onEdit: true
+    onEdit: false
   }),
   async created() {
     const storage = this.$store.getters.criteriaOnEdit;
@@ -80,6 +80,7 @@ export default {
       this.addProcessing = true
     },
     paramAdded(data) {
+      console.log(data.item)
       this.addProcessing = false
       this.params.push(data.item)
       localStorage.setItem("buffer", JSON.stringify({params: this.params, name: this.name}))
@@ -117,10 +118,11 @@ export default {
     blocked() {
       const res = {}
       this.params.forEach(el => {
+        console.log(el)
         if (res[el.test_id])
-          res[el.test_id].push(el.id)
+          res[el.test_id].push(el.param_id)
         else
-          res[el.test_id] = [el.id]
+          res[el.test_id] = [el.param_id]
       })
       console.log(res);
       return res;

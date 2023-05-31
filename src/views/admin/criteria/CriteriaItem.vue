@@ -4,6 +4,7 @@
             <h2 class="mb-3">
                 {{ criteria.name }}
             </h2>
+            {{ weight }}
         </div>
         <div class="col btn-container">
             <button class="btn btn-primary" v-if="showControls" @click="$emit('edit', criteria)">Редактировать</button>
@@ -16,6 +17,7 @@
         <CriteriaParamItem
                 :id="param.id"
                 :num="key"
+                :index="key"
                 :test="param.test_name"
                 :param="param.name"
                 :description="param.description"
@@ -36,7 +38,17 @@ export default {
     criteria: null,
     showControls: true,
     showManageBtn: false,
-    manageBtnText: ""
+    manageBtnText: "",
+    showWeight: false
+  },
+  computed: {
+    weight() {
+      if (this.showWeight) {
+        return `Вес критерия: ${this.criteria.weight}`
+      } else {
+        return ""
+      }
+    }
   }
 }
 </script>

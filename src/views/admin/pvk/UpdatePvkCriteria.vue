@@ -21,7 +21,7 @@
               <h4 class="m-3">Нет доступных критериев</h4>
           </div>
           
-          <criteria-list-component v-if="criteria.length" :criteria-list="criteria" :show-manage-btn="true" :manage-btn-text="'Убрать'" @manage="onRemove">
+          <criteria-list-component :show-weight="true" v-if="criteria.length" :criteria-list="criteria" :show-manage-btn="true" :manage-btn-text="'Убрать'" @manage="onRemove">
 
           </criteria-list-component>
           <div class="d-flex justify-content-center flex-column" v-else>
