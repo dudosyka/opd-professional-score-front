@@ -45,7 +45,11 @@ export default {
         {
           click: this.showPassed,
           title: "Список пройденных тестов"
-        }
+        },
+        {
+          click: this.rank,
+          title: "Провести рейтинговую оценку"
+        },
       ]
     }
   },
@@ -73,6 +77,13 @@ export default {
         return;
       }
       this.$router.push(`/user/${this.selectedModel}/available`)
+    },
+    rank() {
+      if (this.selectedModel == null) {
+        this.$store.dispatch('showPopUp', { text: "Ошибка! Выберите пользователя!", success: false })
+        return;
+      }
+      this.$router.push(`/user/${this.selectedModel.id}/rate`)
     },
     showPassed() {
       this.$router.push(`/client/tests/passed`)

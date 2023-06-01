@@ -39,7 +39,9 @@
                             <hr>
                             <router-link to="/client/tests" class="btn  menu-btn btn-primary "><i class="fa-solid fa-address-card"></i> Тесты</router-link>
                             <hr>
-                            <router-link to="/client/tests/passed" class="btn menu-btn btn-primary"><i class="fa-solid fa-clipboard-check"></i> Результаты</router-link>
+                            <router-link to="/client/tests/passed" class="btn menu-btn btn-primary"><i class="fa-solid fa-clipboard-check"></i> Результаты тестов</router-link>
+                            <hr>
+                            <router-link to="/client/results/analysis" class="btn menu-btn btn-primary"><i class="fa-solid fa-clipboard-check"></i> Анализ результатов</router-link>
                         </template>
                         <hr>
                         <router-link to="/logout" class="btn menu-btn btn-primary"><i class="fa-solid fa-right-from-bracket"></i> Выйти</router-link>

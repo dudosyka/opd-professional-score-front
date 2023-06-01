@@ -36,6 +36,8 @@ import GamesResolver from "@/views/client/games/GamesResolver.vue";
 import CriteriaList from "@/views/admin/criteria/CriteriaList.vue";
 import CreateCriteria from "@/views/admin/criteria/CreateCriteria.vue";
 import UpdatePvkCriteria from "@/views/admin/pvk/UpdatePvkCriteria.vue";
+import RateUserView from "@/views/admin/user/RateUserView.vue";
+import ResultAnalysisView from "@/views/client/ResultAnalysisView.vue";
 
 const routes = [
   {
@@ -96,6 +98,12 @@ const routes = [
     path: '/user',
     name: "Simple users list",
     component: UserListView,
+    meta: {needAuth: true, adminPart: true}
+  },
+  {
+    path: '/user/:userId/rate',
+    name: 'User rate component',
+    component: RateUserView,
     meta: {needAuth: true, adminPart: true}
   },
   {
@@ -170,6 +178,12 @@ const routes = [
     path: '/',
     name: 'Client main',
     component: HomeView,
+    meta: { needAuth: true, adminPart: false }
+  },
+  {
+    path: '/client/results/analysis',
+    name: 'Client main',
+    component: ResultAnalysisView,
     meta: { needAuth: true, adminPart: false }
   },
   {

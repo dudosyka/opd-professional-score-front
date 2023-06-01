@@ -38,6 +38,7 @@ import SmallButton from "@/components/SmallButton.vue";
 import {AssessmentModel} from "@/api/models/assessment.model";
 import {UserModel} from "@/api/models/user.model";
 import PaginationTable from "@/components/PaginationTable.vue";
+import {ProfessionModel} from "@/api/models/profession.model";
 
 export default {
   name: "AssessmentList",
@@ -72,6 +73,7 @@ export default {
   },
   computed: {
     average() {
+      const profession = this.$store.getters.getSelectedProfession;
       const maxLength = this.getMaxGrade();
       const assessmentsByGrade = {};
       for (let i = 0; i < maxLength; i++) {
@@ -80,7 +82,8 @@ export default {
         })
       }
       const added = [];
-      return Object.keys(assessmentsByGrade).map(key => {
+      const gradedList = [];
+      const data = Object.keys(assessmentsByGrade).map(key => {
         const el = assessmentsByGrade[key]
         const pvkToCount = {}
         el.map(pvk => {
@@ -106,12 +109,22 @@ export default {
         })
 
         added.push(max.id);
+        gradedList.push({
+          pvk_id: parseInt(max.id),
+          weight: (max.count / Object.keys(pvkToCount).length) / max.count
+        })
 
+        
         return {
           name: max.name,
           percents: Math.round((max.count / Object.keys(pvkToCount).length) / max.count * 100)
         }
       })
+      
+      const model = new ProfessionModel()
+      model.updatePvk(profession.id, gradedList)
+      
+      return data
     },
     fullList() {
       const list = [];

@@ -12,4 +12,14 @@ export class UserModel extends BaseModel {
     getAllResp() {
         return this.apiResolver.request('GET', 'all/resp', null);
     }
+    
+    rate(id, answerData) {
+      return this.apiResolver.request('POST', `profile/rate/${id}`, {
+        answer: answerData.answer
+      })
+    }
+    
+    rateSelf() {
+      return this.apiResolver.request('GET', `profile/rate`, null)
+    }
 }

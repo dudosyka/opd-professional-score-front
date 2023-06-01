@@ -9,6 +9,7 @@
           <th v-for="key in labels" scope="col">{{ key }}</th>
           <th v-if="moveable" scope="col">Порядок</th>
           <th v-if="inlineBtns.length && showInlineBtns" scope="col">Управление</th>
+          <th v-if="showInput" scope="col">Управление</th>
         </tr>
         </thead>
         <tbody>
@@ -24,6 +25,10 @@
           </td>
           <td v-if="inlineBtns.length && showInlineBtns">
             <SmallButton class="m-1" v-for="btn in inlineBtns" @click="btn.click(realIndex(key))">{{ btn.title }}</SmallButton>
+          </td>
+          <td v-if="showInput">
+              <input v-for="input in inputData" class="form-control" :placeholder="input.placeholder" @change="input.onChange(key, $event)">
+<!--              <SmallButton class="m-1" v-for="btn in inlineBtns" @click="btn.click(realIndex(key))">{{ btn.title }}</SmallButton>-->
           </td>
         </tr>
         </tbody>
@@ -110,6 +115,14 @@ export default {
       default: true
     },
     inlineBtns: {
+      type: Array,
+      default: []
+    },
+    showInput: {
+      type: Boolean,
+      default: false
+    },
+    inputData: {
       type: Array,
       default: []
     }
