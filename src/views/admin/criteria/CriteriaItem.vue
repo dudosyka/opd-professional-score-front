@@ -13,19 +13,21 @@
         </div>
     </div>
     <template v-for="(param, key) in criteria.params">
-        <hr>
-        <CriteriaParamItem
-                :id="param.id"
-                :num="key"
-                :index="key"
-                :test="param.test_name"
-                :param="param.name"
-                :description="param.description"
-                :weight="param.weight"
-                :direction="param.direction"
-                :slice="param.slice"
-                @remove="onRemove"
-        ></CriteriaParamItem>
+        <template v-if="graterTenth(param.weight)">
+            <hr>
+            <CriteriaParamItem
+                    :id="param.id"
+                    :num="key"
+                    :index="key"
+                    :test="param.test_name"
+                    :param="param.name"
+                    :description="param.description"
+                    :weight="param.weight"
+                    :direction="param.direction"
+                    :slice="param.slice"
+                    @remove="onRemove"
+            ></CriteriaParamItem>
+        </template>
     </template></template>
 
 <script>
@@ -41,6 +43,12 @@ export default {
     manageBtnText: "",
     showWeight: false
   },
+  methods: {
+    graterTenth(weight) {
+      console.log(weight)
+      return (Math.abs(weight) > 0.1)
+    }
+  },
   computed: {
     weight() {
       if (this.showWeight) {
@@ -48,7 +56,7 @@ export default {
       } else {
         return ""
       }
-    }
+    },
   }
 }
 </script>

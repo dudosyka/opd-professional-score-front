@@ -86,7 +86,7 @@ export default {
           id: this.id,
           criteria: this.criteria.map(el => ({
             criteria_id: parseInt(el.id),
-            weight: parseInt(el.weight)
+            weight: parseFloat(el.weight)
           }))
         })
         

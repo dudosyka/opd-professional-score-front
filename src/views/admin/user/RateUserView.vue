@@ -107,6 +107,8 @@ export default {
       }).then(() => {
         this.$router.go(-1)
         this.$store.dispatch('showPopUp', { text: "Веса критериев успешно обновленны!", success: true })
+      }).catch(err => {
+        this.$store.dispatch('showPopUp', { text: "Недостаточно данных для оценки!", success: false })
       })
       console.log(this.selectedProfessions, this.selectedPvk)
     }
