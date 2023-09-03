@@ -106,6 +106,10 @@ export default {
       type: Object,
       default: {}
     },
+    filter: {
+      type: Function,
+      default: el => { }
+    },
     moveable: {
       type: Boolean,
       default: false,
@@ -150,7 +154,7 @@ export default {
           selected: false,
           serial: el.serial ? el.serial :  key + 1
         }
-    })
+    }).filter(this.filter)
     console.log(this.data);
   },
   computed: {

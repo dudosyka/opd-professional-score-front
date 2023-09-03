@@ -15,6 +15,7 @@
     :elements="pvk"
     :keys="['name']"
     :selectable="false"
+    :filter="filterItems"
   >
 
   </PaginationTable>
@@ -55,6 +56,9 @@ export default {
     });
   },
   methods: {
+    filterItems(el) {
+      return el.id == 1
+    },
     save() {
       const profession_id = this.$store.getters.getSelectedProfession.id;
       const pvk = this.pvk.map(el => {
